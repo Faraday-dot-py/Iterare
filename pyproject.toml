@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "iterare"
+version = "0.1.0"
+description = "Agent-native applied AI research platform"
+requires-python = ">=3.11"
+dependencies = [
+    "langgraph>=0.2",
+    "langgraph-checkpoint-postgres>=2.0",
+    "langchain-anthropic>=0.3",
+    "langchain-core>=0.3",
+    "anthropic>=0.40",
+    "lancedb>=0.14",
+    "psycopg[binary]>=3.1",
+    "pydantic>=2.0",
+    "python-dotenv>=1.0",
+    "pyyaml>=6.0",
+    "rich>=13.0",
+]
+
+[project.scripts]
+iterare = "iterare.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/iterare"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
