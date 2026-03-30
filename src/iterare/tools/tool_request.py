@@ -1,7 +1,8 @@
-"""Tool request queue mechanism.
+"""Tool request queue.
 
-Agents write YAML request files to tools/requests/.
-The Master polls this directory and approves, rejects, or assigns builds.
+Agents submit YAML request files to tools/requests/.
+The Master (Interface Agent acting as Master) reviews the queue and approves,
+rejects, or assigns builds.
 """
 
 import os
@@ -10,13 +11,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import yaml
-from langchain_core.tools import tool
 
-_ROOT = Path(os.getenv("ITERARE_ROOT", ".")).resolve()
+_ROOT = Path(os.getenv("ITERARE_ROOT", Path(__file__).resolve().parents[4])).resolve()
 _REQUESTS_DIR = _ROOT / "tools" / "requests"
 
 
-@tool
 def submit_tool_request(
     name: str,
     purpose: str,
@@ -24,26 +23,18 @@ def submit_tool_request(
     inputs: str,
     outputs: str,
     scope: str,
-    **kwargs,
+    requester: str = "unknown",
+    task_context: str = "unknown",
 ) -> str:
     """
     Submit a request to build or approve a new tool.
-    The Master will review all pending requests in tools/requests/.
-
-    name: proposed tool name
-    purpose: what it does (one sentence)
-    why_existing_insufficient: specific gap not covered by existing tools
-    inputs: what data the tool takes
-    outputs: what the tool returns
     scope: narrow | moderate | broad
+    Returns the request ID.
     """
     if scope not in ("narrow", "moderate", "broad"):
         return "ERROR: scope must be narrow | moderate | broad"
 
-    requester = kwargs.get("_worker_id") or kwargs.get("_agent_id") or "unknown"
-    task_context = kwargs.get("_task_id") or "unknown"
     request_id = f"req-{uuid.uuid4().hex[:8]}"
-
     payload = {
         "request_id": request_id,
         "submitted_at": datetime.now(timezone.utc).isoformat(),
@@ -61,5 +52,29 @@ def submit_tool_request(
     _REQUESTS_DIR.mkdir(parents=True, exist_ok=True)
     out_path = _REQUESTS_DIR / f"{request_id}.yaml"
     out_path.write_text(yaml.dump(payload, sort_keys=False))
+    return f"Tool request submitted: {request_id}"
 
-    return f"Tool request submitted: {request_id} ({out_path.name})"
+
+def list_pending_requests() -> list[dict]:
+    """Return all pending tool requests from the queue."""
+    if not _REQUESTS_DIR.exists():
+        return []
+    requests = []
+    for f in sorted(_REQUESTS_DIR.glob("*.yaml")):
+        data = yaml.safe_load(f.read_text())
+        if data.get("status") == "pending":
+            requests.append(data)
+    return requests
+
+
+def update_request_status(request_id: str, status: str, note: str = "") -> str:
+    """Update a tool request status (approved | rejected | building | complete)."""
+    path = _REQUESTS_DIR / f"{request_id}.yaml"
+    if not path.exists():
+        return f"Request not found: {request_id}"
+    data = yaml.safe_load(path.read_text())
+    data["status"] = status
+    if note:
+        data["note"] = note
+    path.write_text(yaml.dump(data, sort_keys=False))
+    return f"Updated {request_id} → {status}"

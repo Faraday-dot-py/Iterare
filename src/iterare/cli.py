@@ -1,193 +1,108 @@
-"""Iterare CLI — Interface Agent entry point.
+"""Iterare CLI — task and tool request inspection utility.
+
+This is NOT the agent interface. Agent interaction happens through Claude Code.
+This CLI provides visibility into task state, logs, and tool request queues.
 
 Usage:
-    iterare              Start a new session
-    iterare --thread ID  Resume a saved session by thread ID
+    iterare tasks               List all tasks
+    iterare tasks <id>          Show task state and log
+    iterare requests            List pending tool requests
+    iterare requests approve <id>
+    iterare requests reject <id> [reason]
 """
 
-import json
-import os
 import sys
-import uuid
-from pathlib import Path
-
-from dotenv import load_dotenv
 from rich.console import Console
-from rich.markdown import Markdown
-from rich.prompt import Prompt, Confirm
-from rich.rule import Rule
-
-from langgraph.errors import GraphInterrupt
-from langgraph.types import Command
-
-# Load .env from repo root
-_ROOT = Path(__file__).resolve().parent.parent.parent
-load_dotenv(_ROOT / ".env")
-os.environ.setdefault("ITERARE_ROOT", str(_ROOT))
-
-from iterare.graph import build_graph, initial_state
-from iterare.checkpointer import get_checkpointer
+from rich.table import Table
+from rich.syntax import Syntax
 
 console = Console()
 
-_BANNER = """
-[bold]Iterare[/bold] — agent-native research platform
-Type your research idea or question. Type [bold]exit[/bold] to quit.
-"""
 
-_SESSION_FILE = _ROOT / ".iterare_session"
+def cmd_tasks(args: list[str]) -> None:
+    from iterare.utils.task import list_tasks, read_task
+    from iterare.utils.log import summarize_log
 
-
-def _load_session() -> str | None:
-    if _SESSION_FILE.exists():
-        return _SESSION_FILE.read_text().strip() or None
-    return None
-
-
-def _save_session(thread_id: str) -> None:
-    _SESSION_FILE.write_text(thread_id)
-
-
-def _clear_session() -> None:
-    if _SESSION_FILE.exists():
-        _SESSION_FILE.unlink()
-
-
-def _handle_interrupt(interrupt_data: dict, graph, config: dict) -> dict:
-    """Present an interrupt to the user and return the resume payload."""
-    if interrupt_data.get("type") == "spawn_approval":
+    if args:
+        task_id = args[0]
+        state = read_task(task_id)
+        if not state:
+            console.print(f"[red]Task not found: {task_id}[/red]")
+            return
+        import yaml
+        console.print(Syntax(yaml.dump(state, sort_keys=False), "yaml"))
         console.print()
-        console.print(Rule("Agent Spawn Proposal", style="yellow"))
-        console.print(Markdown(interrupt_data["proposal"]))
-        console.print()
-        approved = Confirm.ask("[yellow]Proceed?[/yellow]", default=True)
-        return {"approved": approved}
+        console.print(summarize_log(task_id))
+        return
 
-    # Generic interrupt fallback
-    console.print()
-    console.print(Rule("Input Required", style="yellow"))
-    console.print(interrupt_data)
-    response = Prompt.ask("> ")
-    return {"response": response}
+    tasks = list_tasks()
+    if not tasks:
+        console.print("[dim]No tasks found.[/dim]")
+        return
 
+    table = Table(show_header=True)
+    table.add_column("ID", style="dim")
+    table.add_column("Status")
+    table.add_column("Description")
+    table.add_column("Created")
 
-def _run_turn(graph, user_input: str, config: dict) -> None:
-    """Run one conversation turn, handling interrupts and streaming output."""
-    state = initial_state(user_input)
-
-    try:
-        for chunk in graph.stream(state, config=config, stream_mode="updates"):
-            _print_updates(chunk)
-
-    except GraphInterrupt as exc:
-        interrupt_data = exc.args[0] if exc.args else {}
-        resume_payload = _handle_interrupt(interrupt_data, graph, config)
-
-        # Resume the graph
-        try:
-            for chunk in graph.stream(Command(resume=resume_payload), config=config, stream_mode="updates"):
-                _print_updates(chunk)
-        except GraphInterrupt as inner_exc:
-            # Nested interrupt (e.g. human approval gates during task execution)
-            inner_data = inner_exc.args[0] if inner_exc.args else {}
-            inner_resume = _handle_interrupt(inner_data, graph, config)
-            for chunk in graph.stream(Command(resume=inner_resume), config=config, stream_mode="updates"):
-                _print_updates(chunk)
+    status_style = {"active": "green", "complete": "blue", "failed": "red"}
+    for t in tasks:
+        style = status_style.get(t.get("status", ""), "white")
+        table.add_row(
+            t.get("task_id", "?"),
+            f"[{style}]{t.get('status', '?')}[/{style}]",
+            (t.get("description") or "")[:60],
+            (t.get("created_at") or "")[:19],
+        )
+    console.print(table)
 
 
-def _print_updates(chunk: dict) -> None:
-    """Print meaningful agent updates; suppress noise."""
-    for node_name, updates in chunk.items():
-        if node_name in ("__interrupt__",):
-            continue
+def cmd_requests(args: list[str]) -> None:
+    from iterare.tools.tool_request import list_pending_requests, update_request_status
+    import yaml
 
-        msgs = updates.get("messages", [])
-        for msg in msgs:
-            if hasattr(msg, "type") and msg.type == "ai":
-                content = msg.content
-                if content and not content.startswith("["):
-                    console.print()
-                    console.print(f"[dim]{node_name}[/dim]")
-                    console.print(Markdown(str(content)))
+    if args and args[0] in ("approve", "reject"):
+        action = args[0]
+        if len(args) < 2:
+            console.print(f"[red]Usage: iterare requests {action} <request_id>[/red]")
+            return
+        request_id = args[1]
+        note = " ".join(args[2:]) if len(args) > 2 else ""
+        status = "approved" if action == "approve" else "rejected"
+        result = update_request_status(request_id, status, note)
+        console.print(result)
+        return
 
-        # Show log events at decision/result level only
-        for entry in updates.get("log", []):
-            if entry["event"] in ("result", "failure"):
-                icon = "✓" if entry["event"] == "result" else "✗"
-                console.print(f"  [dim]{icon} {entry['agent']}: {entry['detail']}[/dim]")
+    pending = list_pending_requests()
+    if not pending:
+        console.print("[dim]No pending tool requests.[/dim]")
+        return
 
-
-def _resume_turn(graph, config: dict) -> None:
-    """Resume an interrupted graph (e.g. after process restart mid-task)."""
-    console.print("[dim]Resuming previous session...[/dim]")
-    state = graph.get_state(config)
-    if state and state.next:
-        try:
-            for chunk in graph.stream(None, config=config, stream_mode="updates"):
-                _print_updates(chunk)
-        except GraphInterrupt as exc:
-            interrupt_data = exc.args[0] if exc.args else {}
-            resume_payload = _handle_interrupt(interrupt_data, graph, config)
-            for chunk in graph.stream(Command(resume=resume_payload), config=config, stream_mode="updates"):
-                _print_updates(chunk)
+    for req in pending:
+        console.print(f"\n[bold]{req['request_id']}[/bold] — {req['name']}")
+        console.print(f"  Purpose: {req['purpose']}")
+        console.print(f"  Scope:   {req['scope']}")
+        console.print(f"  From:    {req['requester']} (task: {req['task_context']})")
+        console.print(f"  Gap:     {req['why_existing_insufficient']}")
 
 
-def main():
-    import argparse
-    parser = argparse.ArgumentParser(description="Iterare Interface Agent")
-    parser.add_argument("--thread", help="Resume a specific thread ID")
-    parser.add_argument("--clear", action="store_true", help="Clear saved session and start fresh")
-    parser.add_argument("--list-threads", action="store_true", help="List saved thread IDs")
-    args = parser.parse_args()
+def main() -> None:
+    args = sys.argv[1:]
+    if not args:
+        console.print(__doc__)
+        return
 
-    if args.clear:
-        _clear_session()
-        console.print("[dim]Session cleared.[/dim]")
+    cmd = args[0]
+    rest = args[1:]
 
-    console.print(_BANNER)
-
-    # Determine thread ID
-    if args.thread:
-        thread_id = args.thread
-        console.print(f"[dim]Thread: {thread_id}[/dim]")
+    if cmd == "tasks":
+        cmd_tasks(rest)
+    elif cmd == "requests":
+        cmd_requests(rest)
     else:
-        saved = _load_session()
-        if saved:
-            use_saved = Confirm.ask(f"[dim]Resume previous session ({saved[:12]}...)?[/dim]", default=True)
-            thread_id = saved if use_saved else str(uuid.uuid4())
-        else:
-            thread_id = str(uuid.uuid4())
-
-    _save_session(thread_id)
-    config = {"configurable": {"thread_id": thread_id}}
-
-    with get_checkpointer() as checkpointer:
-        graph = build_graph(checkpointer=checkpointer)
-
-        # If resuming a thread with pending state, try to continue
-        try:
-            state = graph.get_state(config)
-            if state and state.next:
-                _resume_turn(graph, config)
-        except Exception:
-            pass  # New thread or no pending state
-
-        # Main interaction loop
-        while True:
-            try:
-                console.print()
-                user_input = Prompt.ask("[bold green]>[/bold green]")
-            except (EOFError, KeyboardInterrupt):
-                console.print("\n[dim]Session saved. Run 'iterare' to resume.[/dim]")
-                break
-
-            if not user_input.strip():
-                continue
-            if user_input.strip().lower() in ("exit", "quit", "q"):
-                console.print("[dim]Session saved. Run 'iterare' to resume.[/dim]")
-                break
-
-            _run_turn(graph, user_input, config)
+        console.print(f"[red]Unknown command: {cmd}[/red]")
+        console.print(__doc__)
 
 
 if __name__ == "__main__":
