@@ -8,6 +8,7 @@ version = "0.1.0"
 description = "Agent-native applied AI research platform"
 requires-python = ">=3.11"
 dependencies = [
+    "kubernetes>=28.0",
     "lancedb>=0.14",
     "pydantic>=2.0",
     "python-dotenv>=1.0",
@@ -17,9 +18,10 @@ dependencies = [
 
 [project.scripts]
 iterare = "iterare.cli:main"
+tide = "tide.cli:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/iterare"]
+packages = ["src/iterare", "code/tools/tide"]
 
 [tool.hatch.metadata]
 allow-direct-references = true

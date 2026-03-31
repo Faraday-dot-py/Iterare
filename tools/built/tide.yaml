@@ -1,0 +1,33 @@
+name: tide
+version: "1.0"
+status: active
+registered_at: "2026-03-30"
+description: Submit and manage batch jobs on the CSU/NRP Nautilus TIDE supercomputer cluster
+code_path: code/tools/tide/
+entry_point: tide.cli:main
+cli_command: tide
+
+capabilities:
+  - submit GPU and CPU Python batch jobs
+  - submit raw Kubernetes Job YAML manifests
+  - monitor job status
+  - retrieve job logs
+  - list active jobs in namespace
+  - cancel jobs
+  - block-wait for job completion
+
+configuration:
+  required_env:
+    TIDE_NAMESPACE: Your NRP/TIDE namespace (e.g. my-lab)
+  optional_env:
+    TIDE_API_KEY: Service account token or NRP portal API key (if no kubeconfig)
+    TIDE_API_SERVER: Kubernetes API server URL (default https://nautilus.optiputer.net)
+  auth_priority:
+    1: kubeconfig (~/.kube/config or $KUBECONFIG)
+    2: TIDE_API_KEY + TIDE_API_SERVER environment variables
+
+dependencies:
+  - kubernetes>=28.0
+  - python-dotenv>=1.0
+  - pyyaml>=6.0
+  - rich>=13.0
