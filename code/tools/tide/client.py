@@ -1,84 +1,180 @@
-"""TIDEClient — authenticated Kubernetes client for the NRP Nautilus / TIDE cluster.
+"""TIDEClient — JupyterHub + Jupyter Server API client for TIDE.
 
-Auth priority:
-1. kubeconfig (~/.kube/config or KUBECONFIG env var)
-2. TIDE_API_KEY + TIDE_API_SERVER environment variables
+Authentication: JupyterHub token (TIDE_API_KEY in .env).
 
-The TIDE_API_KEY can be either:
-- A Kubernetes service account token (long JWT string)
-- A short hex token issued by the NRP portal (32 chars)
+Two API surfaces:
+  JupyterHub API  — https://<hub>/hub/api/       — server management
+  Jupyter Server  — https://<hub>/user/<name>/api/ — kernels, files, execution
 """
 
 import os
 from pathlib import Path
 
-import kubernetes
-from kubernetes import client as k8s_client
-from kubernetes.client import ApiClient, Configuration
+import requests
+from dotenv import load_dotenv
 
+load_dotenv(Path(os.getenv("ITERARE_ROOT", Path(__file__).resolve().parents[3])) / ".env")
 
-NRP_DEFAULT_SERVER = "https://nautilus.optiputer.net"
+HUB_BASE = "https://csu-tide-jupyterhub.nrp-nautilus.io"
 
 
 class TIDEClient:
     def __init__(
         self,
-        api_key: str | None = None,
-        api_server: str | None = None,
-        namespace: str | None = None,
-        kubeconfig: str | None = None,
+        token: str | None = None,
+        username: str | None = None,
+        hub_base: str = HUB_BASE,
     ):
-        self.namespace = namespace or os.getenv("TIDE_NAMESPACE") or self._required("TIDE_NAMESPACE")
-        self._api_client = self._build_client(api_key, api_server, kubeconfig)
+        self.token = token or os.getenv("TIDE_API_KEY") or _required("TIDE_API_KEY")
+        self.username = username or os.getenv("TIDE_USERNAME") or _required("TIDE_USERNAME")
+        self.hub_base = hub_base.rstrip("/")
+        self._session = requests.Session()
+        self._session.headers.update({"Authorization": f"token {self.token}"})
 
-    # ── Public API objects ───────────────────────────────────────────────────
+    # ── URL helpers ───────────────────────────────────────────────────────────
 
     @property
-    def batch(self) -> k8s_client.BatchV1Api:
-        return k8s_client.BatchV1Api(self._api_client)
+    def hub_api(self) -> str:
+        return f"{self.hub_base}/hub/api"
 
     @property
-    def core(self) -> k8s_client.CoreV1Api:
-        return k8s_client.CoreV1Api(self._api_client)
+    def server_api(self) -> str:
+        return f"{self.hub_base}/user/{self.username}/api"
 
-    # ── Auth ─────────────────────────────────────────────────────────────────
+    @property
+    def server_ws(self) -> str:
+        base = self.hub_base.replace("https://", "wss://").replace("http://", "ws://")
+        return f"{base}/user/{self.username}/api"
 
-    def _build_client(
-        self,
-        api_key: str | None,
-        api_server: str | None,
-        kubeconfig: str | None,
-    ) -> ApiClient:
-        # Try kubeconfig first
-        kubeconfig_path = kubeconfig or os.getenv("KUBECONFIG") or str(Path.home() / ".kube" / "config")
-        if Path(kubeconfig_path).exists():
-            kubernetes.config.load_kube_config(config_file=kubeconfig_path)
-            return ApiClient()
+    # ── JupyterHub server management ──────────────────────────────────────────
 
-        # Fall back to API key
-        key = api_key or os.getenv("TIDE_API_KEY") or self._required("TIDE_API_KEY")
-        server = api_server or os.getenv("TIDE_API_SERVER") or NRP_DEFAULT_SERVER
+    def server_status(self) -> dict:
+        """Return info about the user's JupyterHub server."""
+        r = self._session.get(f"{self.hub_api}/users/{self.username}")
+        r.raise_for_status()
+        data = r.json()
+        servers = data.get("servers", {})
+        default = servers.get("", {})
+        return {
+            "ready": default.get("ready", False),
+            "stopped": default.get("stopped", True),
+            "pending": default.get("pending"),
+            "started": default.get("started"),
+            "last_activity": default.get("last_activity"),
+            "profile": default.get("user_options", {}),
+            "url": default.get("url"),
+        }
 
-        cfg = Configuration()
-        cfg.host = server
-        cfg.verify_ssl = True
+    def start_server(self, wait: bool = True, timeout: int = 120) -> dict:
+        """Start the JupyterHub server if it is not running."""
+        import time
+        status = self.server_status()
+        if status["ready"]:
+            return status
 
-        # K8s service account tokens are long JWTs; short hex keys use a
-        # different prefix but we try Bearer for both since NRP accepts it.
-        cfg.api_key["authorization"] = key
-        cfg.api_key_prefix["authorization"] = "Bearer"
+        r = self._session.post(f"{self.hub_api}/users/{self.username}/server")
+        if r.status_code not in (200, 201, 202):
+            r.raise_for_status()
 
-        return ApiClient(configuration=cfg)
+        if not wait:
+            return self.server_status()
 
-    @staticmethod
-    def _required(var: str) -> str:
-        raise EnvironmentError(
-            f"Required env var '{var}' is not set. "
-            f"Add it to .env or export it in your shell."
+        elapsed = 0
+        while elapsed < timeout:
+            time.sleep(3)
+            elapsed += 3
+            status = self.server_status()
+            if status["ready"]:
+                return status
+        raise TimeoutError(f"Server did not start within {timeout}s.")
+
+    def stop_server(self) -> None:
+        """Stop the JupyterHub server."""
+        r = self._session.delete(f"{self.hub_api}/users/{self.username}/server")
+        if r.status_code not in (200, 202, 204):
+            r.raise_for_status()
+
+    # ── Kernel management ─────────────────────────────────────────────────────
+
+    def create_kernel(self, kernel_name: str = "python3") -> str:
+        """Create a new kernel and return its ID."""
+        r = self._session.post(
+            f"{self.server_api}/kernels",
+            json={"name": kernel_name},
         )
+        r.raise_for_status()
+        return r.json()["id"]
+
+    def list_kernels(self) -> list[dict]:
+        """Return all running kernels."""
+        r = self._session.get(f"{self.server_api}/kernels")
+        r.raise_for_status()
+        return r.json()
+
+    def delete_kernel(self, kernel_id: str) -> None:
+        """Delete a kernel."""
+        r = self._session.delete(f"{self.server_api}/kernels/{kernel_id}")
+        if r.status_code not in (200, 204):
+            r.raise_for_status()
+
+    # ── Contents (file) API ───────────────────────────────────────────────────
+
+    def upload_file(self, local_path: str, remote_path: str) -> None:
+        """Upload a local file to the Jupyter server."""
+        import base64
+        content = Path(local_path).read_bytes()
+        payload = {
+            "type": "file",
+            "format": "base64",
+            "content": base64.b64encode(content).decode(),
+        }
+        r = self._session.put(
+            f"{self.server_api}/contents/{remote_path.lstrip('/')}",
+            json=payload,
+        )
+        r.raise_for_status()
+
+    def download_file(self, remote_path: str, local_path: str) -> None:
+        """Download a file from the Jupyter server."""
+        import base64
+        r = self._session.get(
+            f"{self.server_api}/contents/{remote_path.lstrip('/')}",
+            params={"format": "base64"},
+        )
+        r.raise_for_status()
+        data = r.json()
+        content = base64.b64decode(data["content"])
+        Path(local_path).parent.mkdir(parents=True, exist_ok=True)
+        Path(local_path).write_bytes(content)
+
+    def list_files(self, remote_path: str = "") -> list[dict]:
+        """List files/directories at a remote path."""
+        r = self._session.get(
+            f"{self.server_api}/contents/{remote_path.lstrip('/')}",
+        )
+        r.raise_for_status()
+        data = r.json()
+        if data.get("type") == "directory":
+            return [
+                {"name": item["name"], "type": item["type"], "size": item.get("size")}
+                for item in data.get("content", [])
+            ]
+        return [{"name": data["name"], "type": data["type"], "size": data.get("size")}]
+
+    def delete_file(self, remote_path: str) -> None:
+        """Delete a file on the Jupyter server."""
+        r = self._session.delete(
+            f"{self.server_api}/contents/{remote_path.lstrip('/')}",
+        )
+        if r.status_code not in (200, 204):
+            r.raise_for_status()
 
     def verify_connection(self) -> dict:
-        """Attempt a lightweight API call and return server version info."""
-        version_api = k8s_client.VersionApi(self._api_client)
-        v = version_api.get_code()
-        return {"git_version": v.git_version, "platform": v.platform}
+        """Quick health check — returns server status."""
+        return self.server_status()
+
+
+def _required(var: str) -> str:
+    raise EnvironmentError(
+        f"Required env var '{var}' is not set. Add it to .env or export it."
+    )

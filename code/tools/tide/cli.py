@@ -1,17 +1,19 @@
-"""TIDE CLI — submit and manage batch jobs on the CSU/NRP Nautilus cluster.
+"""TIDE CLI — run batch jobs on the CSU TIDE cluster via JupyterHub.
 
 Usage:
-    tide verify                          Test connection to the cluster
-    tide submit <script.py> [options]    Submit a Python job
-    tide status <job-name>               Get job status
-    tide logs <job-name> [--tail N]      Fetch job logs
-    tide list [--label key=val]          List jobs in namespace
-    tide cancel <job-name>               Delete a job and its pods
-    tide wait <job-name> [--timeout N]   Block until job finishes
-    tide yaml <manifest.yaml>            Submit a raw Kubernetes Job YAML
+    tide verify                          Test connection and show server status
+    tide gpuinfo                         Show nvidia-smi from the TIDE server
+    tide run <script.py> [--timeout N]   Upload and execute a Python script
+    tide exec "<code>"  [--timeout N]    Execute an inline code string
+    tide status                          Show JupyterHub server status
+    tide start                           Start the JupyterHub server
+    tide stop                            Stop the JupyterHub server
+    tide ls [remote/path]                List files on the TIDE server
+    tide upload <local> <remote>         Upload a file
+    tide download <remote> <local>       Download a file
+    tide kernels                         List running kernels
 """
 
-import json
 import os
 import sys
 from pathlib import Path
@@ -20,13 +22,11 @@ from dotenv import load_dotenv
 from rich.console import Console
 from rich.table import Table
 
-# Load .env from iterare root
 _ITERARE_ROOT = Path(os.getenv("ITERARE_ROOT", Path(__file__).resolve().parents[3]))
 load_dotenv(_ITERARE_ROOT / ".env")
 
 from .client import TIDEClient
-from .jobs import submit_job, job_status, job_logs, list_jobs, delete_job, wait_for_job
-from .manifests import gpu_python_job, cpu_python_job, shell_job, from_yaml
+from .jobs import run_script, run_code, gpu_info
 
 console = Console()
 
@@ -37,171 +37,176 @@ def _client() -> TIDEClient:
 
 def cmd_verify(_args: list[str]) -> None:
     try:
-        info = _client().verify_connection()
-        console.print(f"[green]Connected.[/green] Cluster: {info['git_version']} / {info['platform']}")
-        console.print(f"Namespace: {os.getenv('TIDE_NAMESPACE', '(not set)')}")
+        c = _client()
+        status = c.verify_connection()
+        ready = status["ready"]
+        icon = "[green]✓[/green]" if ready else "[yellow]○[/yellow]"
+        console.print(f"{icon} Connected as [bold]{c.username}[/bold]")
+        console.print(f"  Server ready: {ready}")
+        if status.get("started"):
+            console.print(f"  Started:      {status['started'][:19]}")
+        if status.get("profile"):
+            p = status["profile"]
+            console.print(f"  GPU:          {p.get('gpu', 'none')}")
+            console.print(f"  CPU:          {p.get('cpu', '?')}")
+            console.print(f"  RAM:          {p.get('ram', '?')}")
+            console.print(f"  Image:        {p.get('image', '?')}")
     except Exception as e:
         console.print(f"[red]Connection failed:[/red] {e}")
         sys.exit(1)
 
 
-def cmd_submit(args: list[str]) -> None:
+def cmd_gpuinfo(_args: list[str]) -> None:
+    try:
+        info = gpu_info(_client())
+        console.print(info)
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
+
+
+def cmd_run(args: list[str]) -> None:
     import argparse
-    p = argparse.ArgumentParser(prog="tide submit")
-    p.add_argument("script", help="Path to Python script inside the container")
-    p.add_argument("--image", default="ghcr.io/csu-tide/hello-csu:main")
-    p.add_argument("--gpu", type=int, default=0, help="Number of GPUs (0 = CPU job)")
-    p.add_argument("--cpu", type=int, default=4, help="CPU cores")
-    p.add_argument("--memory", default="8Gi")
-    p.add_argument("--name", default=None)
-    p.add_argument("--pvc", action="append", metavar="CLAIM:MOUNT", default=[],
-                   help="Mount a PVC: --pvc my-claim:/data")
-    p.add_argument("--env", action="append", metavar="KEY=VAL", default=[],
-                   help="Set env var: --env SEED=42")
+    p = argparse.ArgumentParser(prog="tide run")
+    p.add_argument("script", help="Local Python script to upload and execute")
+    p.add_argument("--timeout", type=int, default=3600, help="Max seconds (default 3600)")
+    p.add_argument("--no-stream", action="store_true", help="Suppress live output")
     opts = p.parse_args(args)
 
-    pvc_mounts = {}
-    for pvc in opts.pvc:
-        if ":" not in pvc:
-            console.print(f"[red]Invalid --pvc format '{pvc}'. Use CLAIM:MOUNT_PATH.[/red]")
-            sys.exit(1)
-        claim, mount = pvc.split(":", 1)
-        pvc_mounts[claim] = mount
+    def on_output(text):
+        if not opts.no_stream:
+            console.print(text, end="")
 
-    env = {}
-    for e in opts.env:
-        if "=" not in e:
-            console.print(f"[red]Invalid --env format '{e}'. Use KEY=VALUE.[/red]")
-            sys.exit(1)
-        k, v = e.split("=", 1)
-        env[k] = v
+    console.print(f"[dim]Submitting {opts.script} to TIDE...[/dim]")
+    try:
+        result = run_script(_client(), opts.script, timeout=opts.timeout, on_output=on_output)
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
 
-    if opts.gpu > 0:
-        spec = gpu_python_job(
-            opts.script, image=opts.image, gpu_count=opts.gpu,
-            memory=opts.memory, name=opts.name, pvc_mounts=pvc_mounts, env=env,
-        )
+    console.print()
+    if result.status == "complete":
+        console.print(f"[green]Complete[/green] in {result.elapsed_seconds}s")
     else:
-        spec = cpu_python_job(
-            opts.script, image=opts.image, cpu_cores=opts.cpu,
-            memory=opts.memory, name=opts.name, pvc_mounts=pvc_mounts, env=env,
-        )
+        console.print(f"[red]Failed[/red] after {result.elapsed_seconds}s")
+        if result.error:
+            console.print(f"[red]{result.error}[/red]")
+        sys.exit(1)
+
+
+def cmd_exec(args: list[str]) -> None:
+    import argparse
+    p = argparse.ArgumentParser(prog="tide exec")
+    p.add_argument("code", help="Python code string to execute")
+    p.add_argument("--timeout", type=int, default=60)
+    opts = p.parse_args(args)
+
+    def on_output(text):
+        console.print(text, end="")
 
     try:
-        name = submit_job(_client(), spec)
-        console.print(f"[green]Submitted:[/green] {name}")
+        result = run_code(_client(), opts.code, timeout=opts.timeout, on_output=on_output)
     except Exception as e:
-        console.print(f"[red]Submit failed:[/red] {e}")
+        console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
+
+    console.print()
+    if result.error:
+        console.print(f"[red]{result.error}[/red]")
         sys.exit(1)
 
 
-def cmd_status(args: list[str]) -> None:
-    if not args:
-        console.print("[red]Usage: tide status <job-name>[/red]")
+def cmd_status(_args: list[str]) -> None:
+    cmd_verify(_args)
+
+
+def cmd_start(_args: list[str]) -> None:
+    console.print("[dim]Starting server...[/dim]")
+    try:
+        status = _client().start_server(wait=True)
+        console.print(f"[green]Server ready.[/green] Started: {status.get('started', '?')[:19]}")
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
         sys.exit(1)
-    status = job_status(_client(), args[0])
-    _print_status(status)
 
 
-def cmd_logs(args: list[str]) -> None:
-    import argparse
-    p = argparse.ArgumentParser(prog="tide logs")
-    p.add_argument("job_name")
-    p.add_argument("--tail", type=int, default=100)
-    opts = p.parse_args(args)
-    logs = job_logs(_client(), opts.job_name, tail_lines=opts.tail)
-    console.print(logs)
+def cmd_stop(_args: list[str]) -> None:
+    try:
+        _client().stop_server()
+        console.print("[yellow]Server stopped.[/yellow]")
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
 
 
-def cmd_list(args: list[str]) -> None:
-    import argparse
-    p = argparse.ArgumentParser(prog="tide list")
-    p.add_argument("--label", default="", help="Label selector e.g. managed-by=iterare")
-    opts = p.parse_args(args)
-    jobs = list_jobs(_client(), label_selector=opts.label)
-    if not jobs:
-        console.print("[dim]No jobs found.[/dim]")
-        return
-    table = Table(show_header=True)
+def cmd_ls(args: list[str]) -> None:
+    path = args[0] if args else ""
+    try:
+        files = _client().list_files(path)
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
+
+    table = Table(show_header=True, header_style="bold")
+    table.add_column("Type", width=6)
     table.add_column("Name")
-    table.add_column("Status")
-    table.add_column("Active")
-    table.add_column("Succeeded")
-    table.add_column("Failed")
-    table.add_column("Started")
-    style_map = {"complete": "green", "failed": "red", "running": "yellow", "pending": "dim"}
-    for j in jobs:
-        s = j["status"]
-        table.add_row(
-            j["name"],
-            f"[{style_map.get(s, 'white')}]{s}[/{style_map.get(s, 'white')}]",
-            str(j["active"]),
-            str(j["succeeded"]),
-            str(j["failed"]),
-            (j["start_time"] or "")[:19],
-        )
+    table.add_column("Size", justify="right")
+    for f in files:
+        size = f"{f['size']:,}" if f.get("size") else "-"
+        icon = "[blue]dir[/blue]" if f["type"] == "directory" else "file"
+        table.add_row(icon, f["name"], size)
     console.print(table)
 
 
-def cmd_cancel(args: list[str]) -> None:
-    if not args:
-        console.print("[red]Usage: tide cancel <job-name>[/red]")
+def cmd_upload(args: list[str]) -> None:
+    if len(args) < 2:
+        console.print("[red]Usage: tide upload <local_path> <remote_path>[/red]")
         sys.exit(1)
-    result = delete_job(_client(), args[0])
-    console.print(result)
-
-
-def cmd_wait(args: list[str]) -> None:
-    import argparse
-    p = argparse.ArgumentParser(prog="tide wait")
-    p.add_argument("job_name")
-    p.add_argument("--timeout", type=int, default=3600)
-    opts = p.parse_args(args)
-
-    def on_poll(status):
-        console.print(f"  [dim]{status['name']}: {status['status']}[/dim]")
-
     try:
-        final = wait_for_job(_client(), opts.job_name, timeout=opts.timeout, on_poll=on_poll)
-        _print_status(final)
-    except TimeoutError as e:
-        console.print(f"[red]{e}[/red]")
-        sys.exit(1)
-
-
-def cmd_yaml(args: list[str]) -> None:
-    if not args:
-        console.print("[red]Usage: tide yaml <manifest.yaml>[/red]")
-        sys.exit(1)
-    c = _client()
-    manifest = from_yaml(args[0])
-    ns = manifest.get("metadata", {}).get("namespace") or c.namespace
-    try:
-        result = c.batch.create_namespaced_job(namespace=ns, body=manifest)
-        console.print(f"[green]Submitted:[/green] {result.metadata.name}")
+        _client().upload_file(args[0], args[1])
+        console.print(f"[green]Uploaded:[/green] {args[0]} → {args[1]}")
     except Exception as e:
-        console.print(f"[red]Submit failed:[/red] {e}")
+        console.print(f"[red]Error:[/red] {e}")
         sys.exit(1)
 
 
-def _print_status(status: dict) -> None:
-    style_map = {"complete": "green", "failed": "red", "running": "yellow", "pending": "dim"}
-    s = status["status"]
-    console.print(f"[bold]{status['name']}[/bold]  [{style_map.get(s, 'white')}]{s}[/{style_map.get(s, 'white')}]")
-    for k in ("active", "succeeded", "failed", "start_time", "completion_time"):
-        if status.get(k) is not None:
-            console.print(f"  {k}: {status[k]}")
+def cmd_download(args: list[str]) -> None:
+    if len(args) < 2:
+        console.print("[red]Usage: tide download <remote_path> <local_path>[/red]")
+        sys.exit(1)
+    try:
+        _client().download_file(args[0], args[1])
+        console.print(f"[green]Downloaded:[/green] {args[1]}")
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
+
+
+def cmd_kernels(_args: list[str]) -> None:
+    try:
+        kernels = _client().list_kernels()
+    except Exception as e:
+        console.print(f"[red]Error:[/red] {e}")
+        sys.exit(1)
+    if not kernels:
+        console.print("[dim]No running kernels.[/dim]")
+        return
+    for k in kernels:
+        console.print(f"  {k['id']}  {k.get('name', '?')}  last_activity={k.get('last_activity', '?')[:19]}")
 
 
 _COMMANDS = {
     "verify": cmd_verify,
-    "submit": cmd_submit,
+    "gpuinfo": cmd_gpuinfo,
+    "run": cmd_run,
+    "exec": cmd_exec,
     "status": cmd_status,
-    "logs": cmd_logs,
-    "list": cmd_list,
-    "cancel": cmd_cancel,
-    "wait": cmd_wait,
-    "yaml": cmd_yaml,
+    "start": cmd_start,
+    "stop": cmd_stop,
+    "ls": cmd_ls,
+    "upload": cmd_upload,
+    "download": cmd_download,
+    "kernels": cmd_kernels,
 }
 
 

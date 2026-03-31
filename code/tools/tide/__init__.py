@@ -1,6 +1,6 @@
-"""TIDE batch job tool for the CSU / NRP Nautilus Kubernetes cluster."""
+"""TIDE batch job tool — CSU TIDE cluster via JupyterHub + Jupyter Server API."""
 
 from .client import TIDEClient
-from .jobs import JobSpec
+from .jobs import run_script, run_code, gpu_info, JobResult
 
-__all__ = ["TIDEClient", "JobSpec"]
+__all__ = ["TIDEClient", "run_script", "run_code", "gpu_info", "JobResult"]

@@ -8,12 +8,13 @@ version = "0.1.0"
 description = "Agent-native applied AI research platform"
 requires-python = ">=3.11"
 dependencies = [
-    "kubernetes>=28.0",
     "lancedb>=0.14",
     "pydantic>=2.0",
     "python-dotenv>=1.0",
     "pyyaml>=6.0",
+    "requests>=2.31",
     "rich>=13.0",
+    "websocket-client>=1.7",
 ]
 
 [project.scripts]
