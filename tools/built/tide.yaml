@@ -1,33 +1,51 @@
 name: tide
-version: "1.0"
+version: "1.1"
 status: active
 registered_at: "2026-03-30"
-description: Submit and manage batch jobs on the CSU/NRP Nautilus TIDE supercomputer cluster
+iterare_integrated: true
+description: Submit and manage batch jobs on the CSU TIDE cluster via JupyterHub API
 code_path: code/tools/tide/
 entry_point: tide.cli:main
 cli_command: tide
+iterare_module: iterare.tools.tide_runner
 
 capabilities:
-  - submit GPU and CPU Python batch jobs
-  - submit raw Kubernetes Job YAML manifests
-  - monitor job status
-  - retrieve job logs
-  - list active jobs in namespace
-  - cancel jobs
-  - block-wait for job completion
+  - run Python scripts on TIDE GPU cluster (2x NVIDIA L40, 46GB each)
+  - execute inline Python code on TIDE
+  - stream stdout in real time
+  - upload and download files to/from TIDE server
+  - manage JupyterHub server (start, stop, status)
+  - list running kernels
+
+iterare_usage:
+  when_to_use:
+    - ML training or fine-tuning
+    - large-scale inference or embedding generation
+    - data processing >1GB
+    - any workload the host machine cannot handle
+  do_not_use_for:
+    - research, web search, file edits
+    - small scripts or quick transforms
+    - anything that runs fine on the host
+  agent_templates:
+    standard_compute: templates/worker-tide.yaml
+    routing_guidance: see system_prompt in templates/worker.yaml
+
+hardware:
+  gpus: "2x NVIDIA L40, 46GB VRAM each"
+  pytorch: "2.11.0+cu130"
+  cuda: "13.1"
+  image: pytorch-notebook
 
 configuration:
   required_env:
-    TIDE_NAMESPACE: Your NRP/TIDE namespace (e.g. my-lab)
+    TIDE_API_KEY: JupyterHub API token
+    TIDE_USERNAME: JupyterHub username (e.g. adamwebb@cpp.edu)
   optional_env:
-    TIDE_API_KEY: Service account token or NRP portal API key (if no kubeconfig)
-    TIDE_API_SERVER: Kubernetes API server URL (default https://nautilus.optiputer.net)
-  auth_priority:
-    1: kubeconfig (~/.kube/config or $KUBECONFIG)
-    2: TIDE_API_KEY + TIDE_API_SERVER environment variables
+    TIDE_HUB: JupyterHub base URL (default https://csu-tide-jupyterhub.nrp-nautilus.io)
 
 dependencies:
-  - kubernetes>=28.0
+  - requests>=2.31
+  - websocket-client>=1.7
   - python-dotenv>=1.0
-  - pyyaml>=6.0
   - rich>=13.0

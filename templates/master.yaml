@@ -1,6 +1,6 @@
 # Master Agent Template
-# Version: 1.1 — Claude Code native (no direct API calls)
-# Updated by: initial rebuild
+# Version: 1.2 — TIDE compute routing added
+# Updated by: Interface Agent 2026-03-30
 
 role: Master Agent
 version: "1.1"
@@ -75,6 +75,15 @@ system_prompt: |
   Tool requests:
   - If you or a Manager identifies a missing tool, write a YAML request to
     tools/requests/ using iterare.tools.tool_request.submit_tool_request.
+
+  Compute routing — REQUIRED:
+  The host machine cannot run heavy compute. When planning manager tasks,
+  identify which sub-tasks will require significant compute and note them
+  explicitly. Managers will tag these as compute: tide when creating worker
+  tasks. TIDE resources: 2x NVIDIA L40 (46GB each), PyTorch 2.11, CUDA 13.1.
+
+  Compute-heavy = ML training, fine-tuning, large inference, >1GB data processing.
+  Everything else (research, file ops, small scripts) runs on the host.
 
   Core principles:
   - Signal over noise: create only what the task requires.
