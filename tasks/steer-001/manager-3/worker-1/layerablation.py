@@ -207,16 +207,18 @@ def compute_ce_from_ids(token_ids_1d, suffix_texts, ref_completions):
 def hotflip_step(current_ids, ref_ids_set, suffix_texts, ref_completions):
     embed_fn = model.get_input_embeddings()
     prefix_embeds = embed_fn(current_ids.unsqueeze(0).to(DEVICE).long()).detach().requires_grad_(True)
-    total_loss = torch.tensor(0.0, device=DEVICE, requires_grad=True)
+    # Accumulate gradients one suffix at a time to avoid OOM from holding all graphs in memory
     for suffix, ref_comp in zip(suffix_texts, ref_completions):
         full_embeds, comp_start, comp_ids = build_full_input_embeds(prefix_embeds, suffix, ref_comp)
         logits = model(inputs_embeds=full_embeds).logits
         comp_len = comp_ids.shape[1]
         logits_comp = logits[0, comp_start-1:comp_start-1+comp_len, :]
+        suffix_loss = torch.tensor(0.0, device=DEVICE, requires_grad=True)
         for i in range(min(comp_len, EARLY_K)):
             ce = F.cross_entropy(logits_comp[i:i+1], comp_ids[0, i:i+1].long())
-            total_loss = total_loss + EARLY_WEIGHT * ce
-    total_loss.backward()
+            suffix_loss = suffix_loss + EARLY_WEIGHT * ce
+        suffix_loss.backward()  # frees graph immediately; grad accumulates into prefix_embeds.grad
+        del logits, full_embeds, suffix_loss
     grad = prefix_embeds.grad
     emb_matrix = embed_fn.weight
 
