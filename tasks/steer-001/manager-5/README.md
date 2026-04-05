@@ -1,6 +1,6 @@
 # Manager 5: Exp 5 — Prefix-Length Ablation
 
-**Task:** steer-001 | **Status:** Running
+**Task:** steer-001 | **Status:** Complete
 
 ---
 
@@ -33,7 +33,9 @@ don't help proportionally.
 
 ## Results
 
-*(Running — Exp 5 running on TIDE GPU 0)*
+Projection CE stays ~1.4-1.5 regardless of prefix length (4-16 tokens) while
+soft CE drops 0.227→0.038. Confirms projection is the fundamental bottleneck.
+See `worker-1/README.md` for full analysis.
 
 ---
 

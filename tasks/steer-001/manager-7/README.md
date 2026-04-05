@@ -1,6 +1,6 @@
 # Manager 7: Exp 7 — Gumbel-Softmax End-to-End Discrete Training
 
-**Task:** steer-001 | **Status:** Running
+**Task:** steer-001 | **Status:** Complete
 
 ---
 
@@ -39,7 +39,8 @@ fundamental to the representation mismatch rather than an optimization artifact.
 
 ## Results
 
-*(Running — Exp 7 running on TIDE GPU 1)*
+Gumbel + HotFlip CE = **1.272** vs Exp 1 baseline 0.740. Negative result.
+See `worker-1/README.md` for full analysis.
 
 ---
 

@@ -28,7 +28,8 @@ This task systematically investigates the gap and possible methods to close it.
 | 4 | manager-4/worker-1 | Naturalness penalty: CE vs. readability tradeoff? | ✅ Complete |
 | 5 | manager-5/worker-1 | Prefix length: does more capacity close the gap? | 🔄 Running |
 | 6 | manager-6/worker-1 | Iterative soft-project: does repeating help? | ⏳ Queued |
-| 7 | manager-7/worker-1 | Gumbel-Softmax: end-to-end discrete training? | 🔄 Running |
+| 7 | manager-7/worker-1 | Gumbel-Softmax: end-to-end discrete training? | ✅ Complete |
+| 8 | manager-8/worker-1 | Multi-seed restarts: variance of the pipeline? | 🔄 Running |
 
 ---
 
