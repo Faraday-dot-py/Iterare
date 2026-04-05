@@ -1,6 +1,6 @@
 # Manager 5: Exp 5 — Prefix-Length Ablation
 
-**Task:** steer-001 | **Status:** Planned
+**Task:** steer-001 | **Status:** Running
 
 ---
 
@@ -33,7 +33,7 @@ don't help proportionally.
 
 ## Results
 
-*(Pending — will run after Exp 3/4 complete)*
+*(Running — Exp 5 running on TIDE GPU 0)*
 
 ---
 

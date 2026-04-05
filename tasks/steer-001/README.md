@@ -24,11 +24,11 @@ This task systematically investigates the gap and possible methods to close it.
 |-----|---------|------------------|--------|
 | 1 | manager-1/worker-1 | Baseline: reproduce soft→project→HotFlip | ✅ Complete |
 | 2 | manager-1/worker-1,2 | Multi-prefix: is the gap prefix-specific? | ✅ Complete |
-| 3 | manager-3/worker-1 | Layer-depth: does earlier projection layer help? | 🔄 Running |
-| 4 | manager-4/worker-1 | Naturalness penalty: CE vs. readability tradeoff? | 🔄 Running |
-| 5 | manager-5/worker-1 | Prefix length: does more capacity close the gap? | ⏳ Planned |
-| 6 | manager-6/worker-1 | Iterative soft-project: does repeating help? | ⏳ Planned |
-| 7 | manager-7/worker-1 | Gumbel-Softmax: end-to-end discrete training? | ⏳ Planned |
+| 3 | manager-3/worker-1 | Layer-depth: does earlier projection layer help? | ✅ Complete |
+| 4 | manager-4/worker-1 | Naturalness penalty: CE vs. readability tradeoff? | ✅ Complete |
+| 5 | manager-5/worker-1 | Prefix length: does more capacity close the gap? | 🔄 Running |
+| 6 | manager-6/worker-1 | Iterative soft-project: does repeating help? | ⏳ Queued |
+| 7 | manager-7/worker-1 | Gumbel-Softmax: end-to-end discrete training? | 🔄 Running |
 
 ---
 
@@ -44,6 +44,17 @@ This task systematically investigates the gap and possible methods to close it.
 | **Format-type behaviors have ~2× smaller gaps than persona-type** | [M] Exp 2 results |
 | Final prefixes contain semantic anchors (e.g., "Cats", "numbered", "Pirate") | [M] Exp 2 qualitative |
 | Soft CE is consistently similar (0.18–0.28) — bottleneck is projection, not opt | [H] Exp 1-2 results |
+
+### Established (Exp 3-4)
+
+| Finding | Evidence |
+|---------|---------|
+| State-matching soft opt does NOT outperform CE soft opt for HotFlip CE | [H] Exp 3: best HotFlip CE 0.965 vs baseline 0.740 |
+| Layer 16 (62% depth) gives best projection CE (1.233) with state-matching | [M] Exp 3 layer ablation |
+| Layer 4 (15% depth) gives best HotFlip recovery from state-match start | [M] Exp 3: CE 0.965 |
+| State-matching produces more natural prefixes ("Cats", "feline", "Bounty") | [L] Exp 3 qualitative |
+| GPT2 NLL penalty strictly worsens both CE and word-level naturalness | [H] Exp 4: all λ>0 increase CE |
+| GPT2 fluency ≠ word-level English naturalness (misaligned metrics) | [M] Exp 4 analysis |
 
 ### Open Questions
 

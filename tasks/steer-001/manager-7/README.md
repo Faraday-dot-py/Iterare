@@ -1,6 +1,6 @@
 # Manager 7: Exp 7 — Gumbel-Softmax End-to-End Discrete Training
 
-**Task:** steer-001 | **Status:** Planned
+**Task:** steer-001 | **Status:** Running
 
 ---
 
@@ -39,7 +39,7 @@ fundamental to the representation mismatch rather than an optimization artifact.
 
 ## Results
 
-*(Pending — will run after Exp 5/6 complete)*
+*(Running — Exp 7 running on TIDE GPU 1)*
 
 ---
 

@@ -233,38 +233,47 @@ for step in range(N_STEPS):
     optimizer.zero_grad()
     tau = get_tau(step)
 
-    # Get Gumbel-Softmax prefix embeddings
-    prefix_embeds = gumbel_softmax_prefix_embeds(logits, tau, embed_fn, hard=False)
-    # prefix_embeds: [1, PREFIX_LEN, D]
+    # Gumbel-Softmax prefix embeddings (attached to logits for backprop)
+    prefix_embeds_gs = gumbel_softmax_prefix_embeds(logits, tau, embed_fn, hard=False)
 
-    # Compute CE loss, accumulating per suffix to avoid OOM
-    total_loss = torch.tensor(0.0, device=DEVICE, requires_grad=True)
+    # Detach from Gumbel graph; use as leaf to accumulate suffix gradients.
+    # This lets us call backward() per suffix (freeing each suffix graph immediately)
+    # then propagate the accumulated gradient back through the Gumbel graph in one shot.
+    prefix_embeds_leaf = prefix_embeds_gs.detach().requires_grad_(True)
+
+    # Per-suffix backward into prefix_embeds_leaf.grad
+    total_logged_loss = 0.0
     total_weight = 0.0
     for suffix, ref_comp in zip(batch_suffixes, ref_completions):
-        full_embeds, comp_start, comp_ids = build_full_input_embeds(prefix_embeds, suffix, ref_comp)
+        full_embeds, comp_start, comp_ids = build_full_input_embeds(prefix_embeds_leaf, suffix, ref_comp)
         model_logits = model(inputs_embeds=full_embeds).logits
         comp_len = comp_ids.shape[1]
         logits_comp = model_logits[0, comp_start-1:comp_start-1+comp_len, :]
         suffix_loss = torch.tensor(0.0, device=DEVICE, requires_grad=True)
+        suffix_weight = 0.0
         for i in range(comp_len):
             w = EARLY_WEIGHT if i < EARLY_K else 1.0
             ce = F.cross_entropy(logits_comp[i:i+1], comp_ids[0, i:i+1].long())
             suffix_loss = suffix_loss + w * ce
-            total_weight += w
-        total_loss = total_loss + suffix_loss
-        del model_logits, full_embeds
+            suffix_weight += w
+        (suffix_loss / suffix_weight).backward()  # frees suffix graph; accumulates into .grad
+        total_logged_loss += suffix_loss.item()
+        total_weight += suffix_weight
+        del model_logits, full_embeds, suffix_loss
 
-    loss = total_loss / total_weight
-    loss.backward()
+    # Propagate accumulated gradient through the Gumbel computation graph to logits
+    prefix_embeds_gs.backward(gradient=prefix_embeds_leaf.grad)
     optimizer.step()
-    gumbel_log.append(loss.item())
+
+    loss_val = total_logged_loss / total_weight if total_weight > 0 else 0.0
+    gumbel_log.append(loss_val)
 
     if step % 50 == 0 or step == N_STEPS - 1:
         # Show current argmax prefix
         with torch.no_grad():
             current_ids = logits.argmax(dim=-1)
         current_text = "".join([tokenizer.decode([t.item()]) for t in current_ids])
-        print(f"  Step {step:4d}: CE={loss.item():.5f} τ={tau:.4f} | {current_text!r}")
+        print(f"  Step {step:4d}: CE={loss_val:.5f} τ={tau:.4f} | {current_text!r}")
 
 t_gumbel = time.time() - t0
 print(f"Gumbel training done in {t_gumbel:.1f}s")

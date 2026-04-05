@@ -126,22 +126,28 @@ def compute_ce_soft(soft_prefix_embeds, suffix_texts, ref_completions):
     return total_loss / total_weight if total_weight > 0 else total_loss
 
 
-def compute_ce_soft_for_backward(soft_prefix_embeds, suffix_texts, ref_completions):
-    """Version that keeps gradient graph, accumulates per suffix to save memory."""
-    total_loss = torch.tensor(0.0, device=DEVICE, requires_grad=True)
+def soft_opt_step_backward(soft_prefix_embeds, suffix_texts, ref_completions):
+    """Compute CE loss and call backward per suffix to avoid OOM from accumulating all graphs."""
+    total_logged_loss = 0.0
     total_weight = 0.0
     for suffix, ref_comp in zip(suffix_texts, ref_completions):
         full_embeds, comp_start, comp_ids = build_full_input_embeds(soft_prefix_embeds, suffix, ref_comp)
         logits = model(inputs_embeds=full_embeds).logits
         comp_len = comp_ids.shape[1]
         logits_comp = logits[0, comp_start-1:comp_start-1+comp_len, :]
+        suffix_loss = torch.tensor(0.0, device=DEVICE, requires_grad=True)
+        suffix_weight = 0.0
         for i in range(comp_len):
             w = EARLY_WEIGHT if i < EARLY_K else 1.0
             ce = F.cross_entropy(logits_comp[i:i+1], comp_ids[0, i:i+1].long())
-            total_loss = total_loss + w * ce
-            total_weight += w
-        del logits, full_embeds
-    return total_loss / total_weight if total_weight > 0 else total_loss
+            suffix_loss = suffix_loss + w * ce
+            suffix_weight += w
+        # Backward per-suffix: releases computation graph immediately
+        (suffix_loss / suffix_weight).backward()
+        total_logged_loss += suffix_loss.item()
+        total_weight += suffix_weight
+        del logits, full_embeds, suffix_loss
+    return total_logged_loss / total_weight if total_weight > 0 else 0.0
 
 
 def compute_ce_from_ids(token_ids_1d, suffix_texts, ref_completions):
@@ -238,12 +244,11 @@ for prefix_len in PREFIX_LENGTHS:
     t0 = time.time()
     for step in range(N_SOFT_STEPS):
         optimizer.zero_grad()
-        loss = compute_ce_soft_for_backward(soft_prefix, batch_suffixes, ref_completions)
-        loss.backward()
+        loss_val = soft_opt_step_backward(soft_prefix, batch_suffixes, ref_completions)
         optimizer.step()
-        log_soft.append(loss.item())
+        log_soft.append(loss_val)
         if step % 100 == 0 or step == N_SOFT_STEPS - 1:
-            print(f"  Step {step:4d}: CE = {loss.item():.5f}")
+            print(f"  Step {step:4d}: CE = {loss_val:.5f}")
     t_soft = time.time() - t0
     soft_ce = log_soft[-1]
     print(f"  Soft CE = {soft_ce:.5f} ({t_soft:.1f}s)")

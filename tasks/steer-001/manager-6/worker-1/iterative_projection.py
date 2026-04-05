@@ -137,7 +137,7 @@ def soft_opt(init_embeds, n_steps, suffix_texts, ref_completions):
     log = []
     for step in range(n_steps):
         optimizer.zero_grad()
-        total_loss = torch.tensor(0.0, device=DEVICE, requires_grad=True)
+        total_logged_loss = 0.0
         total_weight = 0.0
         for suffix, ref_comp in zip(suffix_texts, ref_completions):
             full_embeds, comp_start, comp_ids = build_full_input_embeds(soft_prefix, suffix, ref_comp)
@@ -145,18 +145,22 @@ def soft_opt(init_embeds, n_steps, suffix_texts, ref_completions):
             comp_len = comp_ids.shape[1]
             logits_comp = logits[0, comp_start-1:comp_start-1+comp_len, :]
             suffix_loss = torch.tensor(0.0, device=DEVICE, requires_grad=True)
+            suffix_weight = 0.0
             for i in range(comp_len):
                 w = EARLY_WEIGHT if i < EARLY_K else 1.0
                 ce = F.cross_entropy(logits_comp[i:i+1], comp_ids[0, i:i+1].long())
                 suffix_loss = suffix_loss + w * ce
-                total_weight += w
-            total_loss = total_loss + suffix_loss
-            del logits, full_embeds
-        (total_loss / total_weight).backward()
+                suffix_weight += w
+            # Per-suffix backward: frees the computation graph immediately
+            (suffix_loss / suffix_weight).backward()
+            total_logged_loss += suffix_loss.item()
+            total_weight += suffix_weight
+            del logits, full_embeds, suffix_loss
         optimizer.step()
-        log.append((total_loss / total_weight).item())
+        loss_val = total_logged_loss / total_weight if total_weight > 0 else 0.0
+        log.append(loss_val)
         if step % 100 == 0 or step == n_steps - 1:
-            print(f"    Step {step:4d}: CE = {log[-1]:.5f}")
+            print(f"    Step {step:4d}: CE = {loss_val:.5f}")
     return soft_prefix.detach(), log
 
 
