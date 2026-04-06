@@ -40,6 +40,7 @@ This task systematically investigates the gap and possible methods to close it.
 | 16 | manager-16/worker-1 | ST + Voronoi margin regularization (3 λ values): explicit boundary avoidance | 🔄 Running |
 | 17 | manager-17/worker-1 | Multi-seed (5×) ST+anneal+best-prefix + HotFlip TOPK=50: characterize reliability | 📋 Planned (GPU 0 after Exp15) |
 | 18 | manager-18/worker-1 | TOPK escalation (50→100→200) from Exp11 best: is 0.689 escapable? | 📋 Planned (GPU 1 after Exp16) |
+| 19 | manager-19/worker-1 | ST + cosine annealing + best-prefix, PREFIX_LEN=16: more discrete capacity | 📋 Planned (GPU 0 after Exp17) |
 
 ---
 

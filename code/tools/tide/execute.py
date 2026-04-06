@@ -1,8 +1,8 @@
 """Kernel code execution via Jupyter messaging protocol over WebSocket.
 
-JupyterHub proxied WebSocket connections require:
-  1. An initial HTTP request to establish the session + XSRF cookie
-  2. The XSRF cookie + Authorization header carried through to the WS upgrade
+Auth: JupyterHub token passed as Authorization header and ?token= query param.
+No XSRF cookie dance needed — the token in the query string is sufficient for
+JupyterHub-proxied WebSocket upgrades.
 
 Protocol reference: https://jupyter-client.readthedocs.io/en/stable/messaging.html
 """
@@ -10,11 +10,10 @@ Protocol reference: https://jupyter-client.readthedocs.io/en/stable/messaging.ht
 import json
 import time
 import uuid
-import urllib.parse
 from dataclasses import dataclass
 from typing import Optional
+from urllib.parse import quote
 
-import requests
 import websocket  # websocket-client
 
 
@@ -54,25 +53,8 @@ def execute(
     kernel_id: kernel UUID
     token:     JupyterHub API token
     """
-    # ── Step 1: establish HTTP session to collect XSRF + session cookies ─────
-    session = requests.Session()
-    session.headers.update({"Authorization": f"token {token}"})
-    r = session.get(f"{http_base}/kernels/{kernel_id}")
-    r.raise_for_status()
-
-    # Build cookie header from everything the session collected
-    cookie_header = "; ".join(f"{c.name}={c.value}" for c in session.cookies)
-    xsrf = session.cookies.get("_xsrf", "")
-
+    ws_url = f"{ws_base}/kernels/{quote(kernel_id)}/channels?token={quote(token, safe='')}"
     ws_headers = [f"Authorization: token {token}"]
-    if cookie_header:
-        ws_headers.append(f"Cookie: {cookie_header}")
-    if xsrf:
-        ws_headers.append(f"X-XSRFToken: {xsrf}")
-
-    # ── Step 2: open WebSocket channel ────────────────────────────────────────
-    # URL-encode username component (handles @ in email addresses)
-    ws_url = f"{ws_base}/kernels/{kernel_id}/channels?token={urllib.parse.quote(token, safe='')}"
 
     result = ExecutionResult()
     start = time.time()
@@ -91,10 +73,15 @@ def execute(
             try:
                 raw = ws.recv()
             except websocket.WebSocketTimeoutException:
+                # Send a keepalive ping to prevent proxy from closing idle connections
+                try:
+                    ws.ping()
+                except Exception:
+                    pass
                 continue
 
             msg = json.loads(raw)
-            msg_type = msg.get("msg_type", "")
+            msg_type = msg.get("msg_type") or msg.get("header", {}).get("msg_type", "")
             parent_id = msg.get("parent_header", {}).get("msg_id", "")
             content = msg.get("content", {})
 
