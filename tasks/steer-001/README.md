@@ -36,6 +36,7 @@ This task systematically investigates the gap and possible methods to close it.
 | 12 | manager-12/worker-1 | Mixed objective: α*CE(soft) + (1-α)*ST projection CE | 🔄 Running |
 | 13 | manager-13/worker-1 | Random restarts: escape HotFlip local minima via perturbation | 🔄 Running |
 | 14 | manager-14/worker-1 | Alternating ST+HotFlip: cycle continuous↔discrete to escape basins | 📋 Planned |
+| 15 | manager-15/worker-1 | ST + cosine LR annealing + best-prefix tracking: fix Voronoi variance | 📋 Planned |
 
 ---
 
