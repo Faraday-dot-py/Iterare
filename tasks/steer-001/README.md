@@ -34,6 +34,8 @@ This task systematically investigates the gap and possible methods to close it.
 | 10 | manager-10/worker-1 | Exact Exp1 repro on GPU 1: confirm hyperparams explain Exp9 gap | ✅ Complete |
 | 11 | manager-11/worker-1 | Straight-through estimator: optimize CE(project(soft)) directly | ✅ Complete |
 | 12 | manager-12/worker-1 | Mixed objective: α*CE(soft) + (1-α)*ST projection CE | 🔄 Running |
+| 13 | manager-13/worker-1 | Random restarts: escape HotFlip local minima via perturbation | 🔄 Running |
+| 14 | manager-14/worker-1 | Alternating ST+HotFlip: cycle continuous↔discrete to escape basins | 📋 Planned |
 
 ---
 
