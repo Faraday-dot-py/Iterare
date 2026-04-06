@@ -34,9 +34,10 @@ This task systematically investigates the gap and possible methods to close it.
 | 10 | manager-10/worker-1 | Exact Exp1 repro on GPU 1: confirm hyperparams explain Exp9 gap | ✅ Complete |
 | 11 | manager-11/worker-1 | Straight-through estimator: optimize CE(project(soft)) directly | ✅ Complete |
 | 12 | manager-12/worker-1 | Mixed objective: α*CE(soft) + (1-α)*ST projection CE | ✅ Complete |
-| 13 | manager-13/worker-1 | Random restarts: escape HotFlip local minima via perturbation | 🔄 Running |
-| 14 | manager-14/worker-1 | Alternating ST+HotFlip: cycle continuous↔discrete to escape basins | 📋 Planned |
+| 13 | manager-13/worker-1 | Random restarts: escape HotFlip local minima via perturbation | ✅ Complete |
+| 14 | manager-14/worker-1 | Alternating ST+HotFlip: cycle continuous↔discrete to escape basins | 🔄 Running |
 | 15 | manager-15/worker-1 | ST + cosine LR annealing + best-prefix tracking: fix Voronoi variance | 📋 Planned |
+| 16 | manager-16/worker-1 | ST + Voronoi margin regularization (3 λ values): explicit boundary avoidance | 📋 Planned |
 
 ---
 
@@ -77,7 +78,7 @@ This task systematically investigates the gap and possible methods to close it.
 | Gradient checkpointing alone does NOT reproduce Exp1's 0.740 | [H] Exp 9: CE=1.277 with wrong hyperparams |
 | Exp1's 0.740 likely due to BATCH_SIZE=12 + TOPK=30 (not gradient method) | [M] Exp 9 analysis vs Exp 1 config |
 
-### Established (Exp 10-12)
+### Established (Exp 10-13)
 
 | Finding | Evidence |
 |---------|---------|
@@ -86,20 +87,21 @@ This task systematically investigates the gap and possible methods to close it.
 | Both Exp10 and Exp11 converge at HotFlip step 10/80 — deep local minimum | [H] Exp 10+11 |
 | ST training causes Voronoi oscillation: final proj-CE varies widely (0.762 vs 1.129) | [M] Exp 11 vs 13 |
 | Mixed objective (α=0.5) is STRICTLY WORSE than pure ST — soft CE gradient fights ST | [H] Exp 12: hotflip=0.746 |
-| α=0.5 gives proj-CE=1.124 vs pure ST's 0.762; lower α (more ST) is always better | [H] Exp 12 analysis |
+| Random restarts escape local minimum: 0.752→0.710 (3/10 improved) | [M] Exp 13 |
+| **Starting point dominates**: Exp13 restarts from 1.129→0.752, can't reach Exp11's 0.689 from 0.762 | [H] Exp 13 vs 11 |
 
 ### Open Questions
 
-1. **Can random restarts escape the HotFlip local minimum?** Both Exp10 and Exp11 converge
-   at step 10 with no further improvement. Exp13 tests this with perturbation+mini-HotFlip.
-   Early results show restarts help: CE improved 0.752→0.742→0.732 across first 6 restarts.
+1. **Can better initialization + restarts beat 0.689?** Exp13 started from proj-CE=1.129 (bad).
+   If we apply random restarts to an Exp11-quality start (proj-CE=0.762, hotflip=0.689), we
+   might go lower. Exp14 (alternating) effectively does this for subsequent rounds.
 
-2. **Can alternating ST+HotFlip escape basins neither can alone?** After HotFlip converges,
-   warm-starting ST from the discrete result explores continuous neighborhoods. Exp14 tests this.
+2. **Can alternating ST+HotFlip beat 0.689?** Exp14 (running) cycles ST→HotFlip→ST→HotFlip.
+   Round 0 gave 0.701 (slightly above Exp11's 0.689). Rounds 1-4 will test if warm-starting
+   ST from the discrete result finds better Voronoi cells.
 
-3. **Does Voronoi oscillation explain the ST variance?** Exp11 and Exp13 (same algorithm)
-   got proj-CE 0.762 vs 1.129. Cosine LR annealing + best-prefix tracking may stabilize
-   results. Exp15 tests this hypothesis.
+3. **Does Voronoi oscillation explain the 0.762 vs 1.129 variance?** LR annealing +
+   best-prefix tracking (Exp15) and explicit margin regularization (Exp16) directly test this.
 
 ---
 
