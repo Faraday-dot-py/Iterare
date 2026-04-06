@@ -1,6 +1,6 @@
 # Manager 11: Exp 11 — Straight-Through Estimator Soft Opt
 
-**Task:** steer-001 | **Status:** Planned
+**Task:** steer-001 | **Status:** Complete
 
 ---
 
@@ -65,7 +65,18 @@ Comparison with standard approach:
 
 ## Results
 
-*(Pending)*
+| Stage | ST estimator (Exp11) | Standard (Exp10) |
+|-------|---------------------|------------------|
+| Soft CE (direct) | 0.998 | 0.180 |
+| Cosine projection CE | **0.762** | **1.398** |
+| HotFlip CE | **0.689** | **0.740** |
+
+**Key result:** ST estimator reduces projection CE by 46% (1.398→0.762) and achieves
+final CE of 0.689 vs standard 0.740 — beating the previous best by 7%.
+
+ST-CE ≈ proj-CE within 1.4%: the training objective accurately tracks projection quality.
+
+See `worker-1/README.md` for full analysis.
 
 ---
 
@@ -73,4 +84,4 @@ Comparison with standard approach:
 
 | Worker | Script | Output |
 |--------|--------|--------|
-| worker-1 | `st_estimator.py` | `st_estimator_results.json` (pending) |
+| worker-1 | `st_estimator.py` | `st_estimator_results.json` |

@@ -1,6 +1,6 @@
 # Manager 10: Exp 10 — Exact Exp1 Reproduction on GPU 1
 
-**Task:** steer-001 | **Status:** Planned
+**Task:** steer-001 | **Status:** Complete
 
 ---
 
@@ -45,7 +45,16 @@ If it does not, some other factor (random seeds, environment, etc.) explains the
 
 ## Results
 
-*(Pending)*
+| Stage | This run (Exp10) | Exp1 (original) |
+|-------|-----------------|-----------------|
+| Soft opt | 0.180 | 0.191 |
+| Cosine projection | 1.398 | 1.436 |
+| HotFlip | **0.740** | **0.740** |
+
+Exp1's result is fully reproduced. Hyperparameters (BATCH_SIZE=12, HF_TOPK=30,
+PLACEHOLDER="SOFTPREFIX") are confirmed as the key factors (not gradient method).
+
+See `worker-1/README.md` for full analysis.
 
 ---
 
@@ -53,4 +62,4 @@ If it does not, some other factor (random seeds, environment, etc.) explains the
 
 | Worker | Script | Output |
 |--------|--------|--------|
-| worker-1 | `exact_repro.py` | `exact_repro_results.json` (pending) |
+| worker-1 | `exact_repro.py` | `exact_repro_results.json` |
