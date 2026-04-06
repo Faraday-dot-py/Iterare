@@ -270,11 +270,20 @@ def run_hotflip(start_ids, n_steps, ref_completions):
             log(f"    [{step:3d}/{n_steps}] CE={current_ce:.5f}  {'↓' if improved else '–'}  {toks!r}  {gpu_mem_str()}")
     return current_ids, current_ce, hf_log, time.time() - t0
 
-def run_st_opt(init_emb_LD, n_steps, ref_completions, round_idx):
-    """Run ST soft opt for n_steps. init_emb_LD is the starting embedding (not trained)."""
+def run_st_opt(init_emb_LD, n_steps, ref_completions, round_idx, lr=None):
+    """Run ST soft opt for n_steps. init_emb_LD is the starting embedding (not trained).
+
+    Tracks the BEST soft prefix (lowest ST-CE) to avoid Voronoi oscillation artifacts:
+    the final step may land at a worse projection than an earlier step. Using the best
+    observed prefix for projection gives more reproducible results.
+    """
+    if lr is None:
+        lr = LR
     soft_prefix = init_emb_LD.detach().float().requires_grad_(True)
-    optimizer = torch.optim.Adam([soft_prefix], lr=LR)
+    optimizer = torch.optim.Adam([soft_prefix], lr=lr)
     st_log = []
+    best_ce_seen = float('inf')
+    best_soft_snapshot = soft_prefix.data.clone()
     t0 = time.time()
     for step in range(n_steps):
         optimizer.zero_grad()
@@ -284,10 +293,17 @@ def run_st_opt(init_emb_LD, n_steps, ref_completions, round_idx):
         optimizer.step()
         ce_val = loss.item()
         st_log.append(ce_val)
+        # Track best to handle Voronoi oscillation
+        if ce_val < best_ce_seen:
+            best_ce_seen = ce_val
+            best_soft_snapshot = soft_prefix.data.clone()
         if step % 50 == 0 or step == n_steps - 1:
             elapsed = time.time() - t0
-            log(f"  [R{round_idx} ST {step:4d}/{n_steps}] ST-CE={ce_val:.5f}  elapsed={elapsed:.0f}s  {gpu_mem_str()}")
-    return soft_prefix, st_log, time.time() - t0
+            log(f"  [R{round_idx} ST {step:4d}/{n_steps}] ST-CE={ce_val:.5f}  best={best_ce_seen:.5f}  elapsed={elapsed:.0f}s  {gpu_mem_str()}")
+    # Return best soft prefix (lowest ST-CE seen), not necessarily the final one
+    log(f"  [R{round_idx}] ST opt done. Final ST-CE={ce_val:.5f}, best ST-CE={best_ce_seen:.5f}")
+    best_soft = best_soft_snapshot.requires_grad_(False)
+    return best_soft, st_log, time.time() - t0
 
 # ── Reference completions ────────────────────────────────────────────────────
 log(f"Generating reference completions for {REF_PREFIX!r}...")
@@ -335,16 +351,18 @@ for round_idx in range(N_ROUNDS):
 
     # ── ST soft opt ──────────────────────────────────────────────────────────
     n_steps = SOFT_STEPS if round_idx == 0 else RESTART_STEPS
+    # Use smaller LR for warm-start rounds to stay near the discrete attractor
+    lr = LR if round_idx == 0 else LR * 0.1
     if round_idx == 0:
         init_emb = init_noise.clone()
-        log(f"Round 0: ST soft opt from random init ({n_steps} steps)")
+        log(f"Round 0: ST soft opt from random init ({n_steps} steps, lr={lr})")
     else:
         # Warm-start from the best HotFlip result's discrete embedding
         init_emb = embed_fn(best_ids.to(EMB_DEV)).detach()
-        log(f"Round {round_idx}: ST soft opt warm-started from best discrete prefix ({n_steps} steps)")
+        log(f"Round {round_idx}: ST soft opt warm-started from best discrete prefix ({n_steps} steps, lr={lr})")
         log(f"  Best CE so far: {best_ce:.5f}")
 
-    soft_prefix, st_log, t_st = run_st_opt(init_emb, n_steps, ref_completions, round_idx)
+    soft_prefix, st_log, t_st = run_st_opt(init_emb, n_steps, ref_completions, round_idx, lr=lr)
 
     # ── Cosine projection ─────────────────────────────────────────────────────
     projected_ids  = project_to_tokens(soft_prefix.detach().to(DTYPE))
