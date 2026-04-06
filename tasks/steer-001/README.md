@@ -33,7 +33,7 @@ This task systematically investigates the gap and possible methods to close it.
 | 9 | manager-9/worker-1 | Gradient checkpointing: reproduce Exp 1 (0.740) without OOM? | ✅ Complete |
 | 10 | manager-10/worker-1 | Exact Exp1 repro on GPU 1: confirm hyperparams explain Exp9 gap | ✅ Complete |
 | 11 | manager-11/worker-1 | Straight-through estimator: optimize CE(project(soft)) directly | ✅ Complete |
-| 12 | manager-12/worker-1 | Mixed objective: α*CE(soft) + (1-α)*ST projection CE | 🔄 Running |
+| 12 | manager-12/worker-1 | Mixed objective: α*CE(soft) + (1-α)*ST projection CE | ✅ Complete |
 | 13 | manager-13/worker-1 | Random restarts: escape HotFlip local minima via perturbation | 🔄 Running |
 | 14 | manager-14/worker-1 | Alternating ST+HotFlip: cycle continuous↔discrete to escape basins | 📋 Planned |
 | 15 | manager-15/worker-1 | ST + cosine LR annealing + best-prefix tracking: fix Voronoi variance | 📋 Planned |
@@ -77,18 +77,29 @@ This task systematically investigates the gap and possible methods to close it.
 | Gradient checkpointing alone does NOT reproduce Exp1's 0.740 | [H] Exp 9: CE=1.277 with wrong hyperparams |
 | Exp1's 0.740 likely due to BATCH_SIZE=12 + TOPK=30 (not gradient method) | [M] Exp 9 analysis vs Exp 1 config |
 
+### Established (Exp 10-12)
+
+| Finding | Evidence |
+|---------|---------|
+| Exp1's 0.740 exactly reproducible with correct hyperparams (B=12, topk=30) | [H] Exp 10 |
+| **ST estimator reduces proj CE by 46%: 1.398 → 0.762, new HotFlip SOTA: 0.689** | [H] Exp 11 |
+| Both Exp10 and Exp11 converge at HotFlip step 10/80 — deep local minimum | [H] Exp 10+11 |
+| ST training causes Voronoi oscillation: final proj-CE varies widely (0.762 vs 1.129) | [M] Exp 11 vs 13 |
+| Mixed objective (α=0.5) is STRICTLY WORSE than pure ST — soft CE gradient fights ST | [H] Exp 12: hotflip=0.746 |
+| α=0.5 gives proj-CE=1.124 vs pure ST's 0.762; lower α (more ST) is always better | [H] Exp 12 analysis |
+
 ### Open Questions
 
-1. **What exactly explains Exp1's 0.740?** BATCH_SIZE=12, TOPK=30, and PLACEHOLDER="SOFTPREFIX"
-   all differ from subsequent experiments. Exp10 tests exact reproduction.
+1. **Can random restarts escape the HotFlip local minimum?** Both Exp10 and Exp11 converge
+   at step 10 with no further improvement. Exp13 tests this with perturbation+mini-HotFlip.
+   Early results show restarts help: CE improved 0.752→0.742→0.732 across first 6 restarts.
 
-2. **Can the projection gap be directly attacked?** The projection is a discrete bottleneck
-   that standard gradient-based methods can't differentiate through. Exp11 tests straight-through
-   estimators that train the soft prefix to minimize post-projection CE directly.
+2. **Can alternating ST+HotFlip escape basins neither can alone?** After HotFlip converges,
+   warm-starting ST from the discrete result explores continuous neighborhoods. Exp14 tests this.
 
-3. **Is the projection gap fundamentally geometric?** The soft prefix converges to a region of
-   embedding space with no nearby high-quality discrete token. Could alternative projection
-   metrics (Euclidean, learned similarity) do better?
+3. **Does Voronoi oscillation explain the ST variance?** Exp11 and Exp13 (same algorithm)
+   got proj-CE 0.762 vs 1.129. Cosine LR annealing + best-prefix tracking may stabilize
+   results. Exp15 tests this hypothesis.
 
 ---
 
