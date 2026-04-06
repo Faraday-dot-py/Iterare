@@ -31,8 +31,9 @@ This task systematically investigates the gap and possible methods to close it.
 | 7 | manager-7/worker-1 | Gumbel-Softmax: end-to-end discrete training? | ✅ Complete |
 | 8 | manager-8/worker-1 | Multi-seed restarts: variance of the pipeline? | ✅ Complete |
 | 9 | manager-9/worker-1 | Gradient checkpointing: reproduce Exp 1 (0.740) without OOM? | ✅ Complete |
-| 10 | manager-10/worker-1 | Exact Exp1 repro on GPU 1: confirm hyperparams explain Exp9 gap | 🔄 Running |
-| 11 | manager-11/worker-1 | Straight-through estimator: optimize CE(project(soft)) directly | 🔄 Running |
+| 10 | manager-10/worker-1 | Exact Exp1 repro on GPU 1: confirm hyperparams explain Exp9 gap | ✅ Complete |
+| 11 | manager-11/worker-1 | Straight-through estimator: optimize CE(project(soft)) directly | ✅ Complete |
+| 12 | manager-12/worker-1 | Mixed objective: α*CE(soft) + (1-α)*ST projection CE | 🔄 Running |
 
 ---
 
