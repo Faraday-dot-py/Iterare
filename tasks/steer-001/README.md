@@ -1,6 +1,6 @@
 # steer-001: Steering Prefix Research (MATS-10.0)
 
-**Status:** In progress | **Compute:** TIDE (2× NVIDIA L40 44GB)
+**Status:** In progress | **Compute:** TIDE (2× NVIDIA A100 80GB)
 
 ---
 
@@ -35,9 +35,11 @@ This task systematically investigates the gap and possible methods to close it.
 | 11 | manager-11/worker-1 | Straight-through estimator: optimize CE(project(soft)) directly | ✅ Complete |
 | 12 | manager-12/worker-1 | Mixed objective: α*CE(soft) + (1-α)*ST projection CE | ✅ Complete |
 | 13 | manager-13/worker-1 | Random restarts: escape HotFlip local minima via perturbation | ✅ Complete |
-| 14 | manager-14/worker-1 | Alternating ST+HotFlip: cycle continuous↔discrete to escape basins | 🔄 Running |
-| 15 | manager-15/worker-1 | ST + cosine LR annealing + best-prefix tracking: fix Voronoi variance | 📋 Planned |
-| 16 | manager-16/worker-1 | ST + Voronoi margin regularization (3 λ values): explicit boundary avoidance | 📋 Planned |
+| 14 | manager-14/worker-1 | Alternating ST+HotFlip: cycle continuous↔discrete to escape basins | ✅ Complete |
+| 15 | manager-15/worker-1 | ST + cosine LR annealing + best-prefix tracking: fix Voronoi variance | 🔄 Running |
+| 16 | manager-16/worker-1 | ST + Voronoi margin regularization (3 λ values): explicit boundary avoidance | 🔄 Running |
+| 17 | manager-17/worker-1 | Multi-seed (5×) ST+anneal+best-prefix + HotFlip TOPK=50: characterize reliability | 📋 Planned (GPU 0 after Exp15) |
+| 18 | manager-18/worker-1 | TOPK escalation (50→100→200) from Exp11 best: is 0.689 escapable? | 📋 Planned (GPU 1 after Exp16) |
 
 ---
 
@@ -89,6 +91,7 @@ This task systematically investigates the gap and possible methods to close it.
 | Mixed objective (α=0.5) is STRICTLY WORSE than pure ST — soft CE gradient fights ST | [H] Exp 12: hotflip=0.746 |
 | Random restarts escape local minimum: 0.752→0.710 (3/10 improved) | [M] Exp 13 |
 | **Starting point dominates**: Exp13 restarts from 1.129→0.752, can't reach Exp11's 0.689 from 0.762 | [H] Exp 13 vs 11 |
+| Alternating ST+HotFlip fails: ST warm-started from discrete result has zero gradient (fixed point). Best CE=0.701 | [H] Exp 14 |
 
 ### Open Questions
 
@@ -119,8 +122,8 @@ Model: `google/gemma-2-2b-it` | Prefix len: 8 tokens | Batch: 8 suffixes
 
 ## Hardware & Compute
 
-- TIDE CSU JupyterHub: 2–3× NVIDIA L40 44GB
-- Wallclock cap: 3.3h per session (12000s timeout)
+- TIDE CSU JupyterHub: 2× NVIDIA A100 80GB (upgraded from L40 44GB on 2026-04-06)
+- Wallclock cap: 4h per submission (14400s timeout)
 - RunPod credits: exhausted — TIDE only
 - Per-experiment cost: 1-3h depending on prefix length and HotFlip steps
 
