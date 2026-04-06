@@ -288,29 +288,34 @@ t0 = time.time()
 for step in range(SOFT_STEPS):
     optimizer.zero_grad()
 
-    # Soft CE component (standard)
+    # Soft CE component (standard) — separate backward to avoid holding both graphs in memory
     soft_ce_loss = compute_ce_soft_batched(soft_prefix, SUFFIXES[:BATCH_SIZE], ref_completions[:BATCH_SIZE])
+    (ALPHA * soft_ce_loss).backward()  # accumulates into soft_prefix.grad, frees graph
 
     # ST-CE component (discrete-equivalent forward, ST backward)
     st_emb, _ = st_project(soft_prefix)
     st_ce_loss = compute_ce_soft_batched(st_emb, SUFFIXES[:BATCH_SIZE], ref_completions[:BATCH_SIZE])
+    ((1 - ALPHA) * st_ce_loss).backward()  # adds to soft_prefix.grad, frees graph
 
-    loss = ALPHA * soft_ce_loss + (1 - ALPHA) * st_ce_loss
-    loss.backward()
     optimizer.step()
+    loss = ALPHA * soft_ce_loss.item() + (1 - ALPHA) * st_ce_loss.item()  # for logging only
 
-    log_mixed.append(loss.item())
+    log_mixed.append(loss)
     log_soft.append(soft_ce_loss.item())
     log_st_ce.append(st_ce_loss.item())
 
     if step % 50 == 0 or step == SOFT_STEPS - 1:
         elapsed = time.time() - t0
-        log(f"  [{step:4d}/{SOFT_STEPS}] mixed={loss.item():.5f}  "
+        log(f"  [{step:4d}/{SOFT_STEPS}] mixed={loss:.5f}  "
             f"soft={soft_ce_loss.item():.5f}  ST={st_ce_loss.item():.5f}  "
             f"elapsed={elapsed:.0f}s  {gpu_mem_str()}")
 
 t_soft = time.time() - t0
-log(f"Mixed opt done. Final: mixed={log_mixed[-1]:.5f}  soft={log_soft[-1]:.5f}  ST={log_st_ce[-1]:.5f}")
+final_soft_ce = log_soft[-1]
+final_st_ce = log_st_ce[-1]
+final_mixed = log_mixed[-1]
+log(f"Mixed opt done. Final: mixed={final_mixed:.5f}  soft={final_soft_ce:.5f}  ST={final_st_ce:.5f}")
+log(f"  Final prefix (projected): {tokenizer.decode(project_to_tokens(soft_prefix.detach().to(DTYPE)).cpu().tolist())!r}")
 log(f"Time: {t_soft:.1f}s")
 
 # ── Cosine projection ─────────────────────────────────────────────────────────
@@ -347,7 +352,7 @@ log(f"HotFlip done. Final CE={hotflip_ce:.5f}  time={t_hf:.1f}s")
 log("\n=== SUMMARY ===")
 log(f"  Exp1 (standard, seed=42):     soft=0.191, proj=1.436, hotflip=0.740")
 log(f"  Exp11 (pure ST, seed=42):     soft=???,   proj=???,   hotflip=???")
-log(f"  This run (mixed α={ALPHA}): soft={log_soft[-1]:.3f}, proj={proj_ce:.3f}, hotflip={hotflip_ce:.3f}")
+log(f"  This run (mixed α={ALPHA}): soft={final_soft_ce:.3f}, proj={proj_ce:.3f}, hotflip={hotflip_ce:.3f}")
 log(f"  Final prefix: {final_text!r}")
 
 results = {
@@ -363,8 +368,8 @@ results = {
     "alpha": ALPHA,
     "method": "mixed_objective_soft_plus_st",
     "metrics": {
-        "soft_ce_final": log_soft[-1],
-        "st_ce_final": log_st_ce[-1],
+        "soft_ce_final": final_soft_ce,
+        "st_ce_final": final_st_ce,
         "projection_ce": proj_ce,
         "hotflip_ce": hotflip_ce,
         "exp1_baseline_soft": 0.1908,
