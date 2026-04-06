@@ -26,11 +26,13 @@ This task systematically investigates the gap and possible methods to close it.
 | 2 | manager-1/worker-1,2 | Multi-prefix: is the gap prefix-specific? | ✅ Complete |
 | 3 | manager-3/worker-1 | Layer-depth: does earlier projection layer help? | ✅ Complete |
 | 4 | manager-4/worker-1 | Naturalness penalty: CE vs. readability tradeoff? | ✅ Complete |
-| 5 | manager-5/worker-1 | Prefix length: does more capacity close the gap? | 🔄 Running |
-| 6 | manager-6/worker-1 | Iterative soft-project: does repeating help? | ⏳ Queued |
+| 5 | manager-5/worker-1 | Prefix length: does more capacity close the gap? | ✅ Complete |
+| 6 | manager-6/worker-1 | Iterative soft-project: does repeating help? | ✅ Complete |
 | 7 | manager-7/worker-1 | Gumbel-Softmax: end-to-end discrete training? | ✅ Complete |
 | 8 | manager-8/worker-1 | Multi-seed restarts: variance of the pipeline? | ✅ Complete |
-| 9 | manager-9/worker-1 | Gradient checkpointing: reproduce Exp 1 (0.740) without OOM? | 🔄 Running |
+| 9 | manager-9/worker-1 | Gradient checkpointing: reproduce Exp 1 (0.740) without OOM? | ✅ Complete |
+| 10 | manager-10/worker-1 | Exact Exp1 repro on GPU 1: confirm hyperparams explain Exp9 gap | 🔄 Running |
+| 11 | manager-11/worker-1 | Straight-through estimator: optimize CE(project(soft)) directly | 🔄 Running |
 
 ---
 
@@ -58,21 +60,31 @@ This task systematically investigates the gap and possible methods to close it.
 | GPT2 NLL penalty strictly worsens both CE and word-level naturalness | [H] Exp 4: all λ>0 increase CE |
 | GPT2 fluency ≠ word-level English naturalness (misaligned metrics) | [M] Exp 4 analysis |
 
+### Established (Exp 5-9)
+
+| Finding | Evidence |
+|---------|---------|
+| **Projection bottleneck is independent of prefix length** — proj CE ≈1.4-1.5 at ALL lengths | [H] Exp 5: len=4→16, proj CE never drops below 1.41 |
+| Even soft CE=0.038 (len=16) projects to CE=1.456 | [H] Exp 5: capacity is not the bottleneck |
+| Iterative projection hits a stable discrete attractor — all 5 rounds identical | [H] Exp 6: rounds 1-4 all CE=1.240 |
+| Gumbel-Softmax significantly worse than standard pipeline (1.272 vs 0.740) | [H] Exp 7 |
+| Multi-seed restarts show LOW variance (std=0.025) — not a randomness problem | [H] Exp 8: 5 seeds, CE=1.24±0.025 |
+| Per-suffix backward (OOM fix) produces systematically worse results than batched | [H] Exp 8 vs Exp 1: 1.236 vs 0.740 |
+| Gradient checkpointing alone does NOT reproduce Exp1's 0.740 | [H] Exp 9: CE=1.277 with wrong hyperparams |
+| Exp1's 0.740 likely due to BATCH_SIZE=12 + TOPK=30 (not gradient method) | [M] Exp 9 analysis vs Exp 1 config |
+
 ### Open Questions
 
-1. **Why is the gap prefix-specific?** Format vs persona behaviors differ in how
-   compressible they are in discrete token space. Is this about the *structure* of
-   the behavior (list formatting is low-entropy in token space)?
+1. **What exactly explains Exp1's 0.740?** BATCH_SIZE=12, TOPK=30, and PLACEHOLDER="SOFTPREFIX"
+   all differ from subsequent experiments. Exp10 tests exact reproduction.
 
-2. **Can alternative projection methods close the gap?** Cosine NN projection is a
-   greedy, local method. Could layer-targeting (Exp 3), naturalness penalties (Exp 4),
-   or Gumbel-Softmax (Exp 7) find better discrete starting points?
+2. **Can the projection gap be directly attacked?** The projection is a discrete bottleneck
+   that standard gradient-based methods can't differentiate through. Exp11 tests straight-through
+   estimators that train the soft prefix to minimize post-projection CE directly.
 
-3. **Does more prefix length help?** If the discrete approximation error is additive
-   per token, longer prefixes might amortize it (Exp 5).
-
-4. **Is iterative refinement effective?** Starting soft opt from a previous
-   HotFlip result might find better discrete neighborhoods (Exp 6).
+3. **Is the projection gap fundamentally geometric?** The soft prefix converges to a region of
+   embedding space with no nearby high-quality discrete token. Could alternative projection
+   metrics (Euclidean, learned similarity) do better?
 
 ---
 
