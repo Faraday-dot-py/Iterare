@@ -45,6 +45,10 @@ This task systematically investigates the gap and possible methods to close it.
 | 21 | manager-21/worker-1 | Voronoi margin retry (λ=0.5, λ=2.0): complete Exp16 crash data | ✅ Complete |
 | 22 | manager-22/worker-1 | VQ commitment loss (β=0.1/0.5/2.0): absolute cosine alignment regularizer | ✅ Complete |
 | 23 | manager-23/worker-1 | Held-out suffix eval (20 new topics): measure generalization of SOTA | ✅ Complete |
+| 24 | manager-24/worker-1 | PREFIX_LEN=24 scaling: does 8→16 trend continue? | 📋 Queued |
+| 25 | manager-25/worker-1 | PREFIX_LEN=32 scaling: aggressive 2× Exp19 test | 📋 Queued |
+| 26 | manager-26/worker-1 | Multi-seed len=16 (seeds 0,1,2): is seed=42 still privileged? | 📋 Queued |
+| 27 | manager-27/worker-1 | SGDR warm-restart cosine annealing (3×100 cycles): better basin exploration? | 📋 Queued |
 
 ---
 
