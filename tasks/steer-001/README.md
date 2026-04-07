@@ -1,6 +1,6 @@
 # steer-001: Steering Prefix Research (MATS-10.0)
 
-**Status:** In progress | **Compute:** TIDE (2× NVIDIA A100 80GB)
+**Status:** In progress (Exp16-20 complete) | **SOTA:** 0.6794 (Exp19, PREFIX_LEN=16) | **Compute:** TIDE (2× NVIDIA A100 80GB)
 
 ---
 
@@ -37,11 +37,11 @@ This task systematically investigates the gap and possible methods to close it.
 | 13 | manager-13/worker-1 | Random restarts: escape HotFlip local minima via perturbation | ✅ Complete |
 | 14 | manager-14/worker-1 | Alternating ST+HotFlip: cycle continuous↔discrete to escape basins | ✅ Complete |
 | 15 | manager-15/worker-1 | ST + cosine LR annealing + best-prefix tracking: fix Voronoi variance | ✅ Complete |
-| 16 | manager-16/worker-1 | ST + Voronoi margin regularization (3 λ values): explicit boundary avoidance | 🔄 Running (GPU 1) |
-| 17 | manager-17/worker-1 | Multi-seed (5×) ST+anneal+best-prefix + HotFlip TOPK=50: characterize reliability | 🔄 Running (GPU 0) |
-| 18 | manager-18/worker-1 | TOPK escalation (50→100→200) from Exp11 best: is 0.689 escapable? | 📋 Queued (GPU 1 after Exp16) |
-| 19 | manager-19/worker-1 | ST + cosine annealing + best-prefix, PREFIX_LEN=16: more discrete capacity | 📋 Queued (GPU 0 after Exp17) |
-| 20 | manager-20/worker-1 | Multi-seed (seeds 5-9) fp32-sims ST + HotFlip TOPK=50: exploit better basin config | 📋 Queued (GPU 1 after Exp18) |
+| 16 | manager-16/worker-1 | ST + Voronoi margin regularization (3 λ values): explicit boundary avoidance | ⚠️ Partial (λ=0.0 only; crash) |
+| 17 | manager-17/worker-1 | Multi-seed (5×) ST+anneal+best-prefix + HotFlip TOPK=50: characterize reliability | ✅ Complete |
+| 18 | manager-18/worker-1 | TOPK escalation (50→100→200) from Exp11 best: is 0.689 escapable? | ✅ Complete |
+| 19 | manager-19/worker-1 | ST + cosine annealing + best-prefix, PREFIX_LEN=16: more discrete capacity | ✅ Complete |
+| 20 | manager-20/worker-1 | Multi-seed (seeds 5-9) fp32-sims ST + HotFlip TOPK=50: exploit better basin config | ✅ Complete |
 
 ---
 
@@ -95,22 +95,31 @@ This task systematically investigates the gap and possible methods to close it.
 | **Starting point dominates**: Exp13 restarts from 1.129→0.752, can't reach Exp11's 0.689 from 0.762 | [H] Exp 13 vs 11 |
 | Alternating ST+HotFlip fails: ST warm-started from discrete result has zero gradient (fixed point). Best CE=0.701 | [H] Exp 14 |
 | **Cosine LR annealing hurts**: seed=42 with cosine schedule gets proj=0.868, hotflip=0.738 — worse than constant LR | [H] Exp 15 vs 11 |
-| **New SOTA 0.686**: Exp16 λ=0.0 (float32 sims, best-prefix, constant LR) beat Exp11 0.689 from *worse* proj (0.877) | [H] Exp 16 (prelim) |
+| **New SOTA 0.686**: Exp16 λ=0.0 (float32 sims, best-prefix, constant LR) beat Exp11 0.689 from *worse* proj (0.877) | [H] Exp 16 |
 | **Basin quality > projection quality**: low proj-CE does not imply low final HotFlip CE. Exp16 improved 0.877→0.686 (Δ=0.191) vs Exp11's 0.762→0.689 (Δ=0.073) | [H] Exp 11 vs Exp16 |
 | Float32 vs bfloat16 in st_project changes optimization trajectory significantly (different Voronoi cells) even at same seed | [M] Exp11 vs Exp16 λ=0 |
 
+### Established (Exp 17-20)
+
+| Finding | Evidence |
+|---------|---------|
+| TOPK=50 multi-seed (seeds 0-4) does NOT reliably beat Exp16 SOTA; best=0.694, high variance (range 0.078) | [H] Exp 17 |
+| TOPK escalation from Exp11 starting point gives marginal improvement: 0.705→0.688 (TOPK=100 helped; TOPK=50/200 did not) | [H] Exp 18 |
+| **PREFIX_LEN=16 new SOTA 0.6794**: more discrete tokens give HotFlip more degrees of freedom | [H] Exp 19 |
+| Seeds 5-9 fp32-sims perform worse than seeds 0-4 (best 0.718); seed=42 and seeds 0-4 are unusually good | [H] Exp 20 |
+| ST→HotFlip recovery scales with prefix length: Δ=0.073 (len=8, Exp11), Δ=0.191 (len=8 fp32, Exp16), Δ=0.226 (len=16, Exp19) | [H] Exp 11/16/19 |
+
 ### Open Questions
 
-1. **Can better initialization + restarts beat 0.689?** Exp13 started from proj-CE=1.129 (bad).
-   If we apply random restarts to an Exp11-quality start (proj-CE=0.762, hotflip=0.689), we
-   might go lower. Exp14 (alternating) effectively does this for subsequent rounds.
+1. **Can PREFIX_LEN=32 or 24 push below 0.670?** Exp19 shows each doubling of prefix capacity
+   gives ~0.007 CE improvement. Extrapolating, len=32 might reach ~0.672.
 
-2. **Can alternating ST+HotFlip beat 0.689?** Exp14 (running) cycles ST→HotFlip→ST→HotFlip.
-   Round 0 gave 0.701 (slightly above Exp11's 0.689). Rounds 1-4 will test if warm-starting
-   ST from the discrete result finds better Voronoi cells.
+2. **Why is seed=42 special?** Seeds 0-4 and 5-9 are clearly worse than seed=42 for both
+   Exp16 (fp32-sims, constant LR) and related configs. The seed affects soft initialization
+   which may land in structurally better Voronoi basins.
 
-3. **Does Voronoi oscillation explain the 0.762 vs 1.129 variance?** LR annealing +
-   best-prefix tracking (Exp15) and explicit margin regularization (Exp16) directly test this.
+3. **Voronoi margin regularization (Exp16 λ=0.5, λ=2.0) still untested** due to crash.
+   Could revisit if further progress stalls.
 
 ---
 
