@@ -1,6 +1,6 @@
 # Manager 22: Exp 22 — VQ-Style Commitment Loss
 
-**Task:** steer-001 | **Status:** Queued
+**Task:** steer-001 | **Status:** Complete
 
 ## Summary
 
@@ -12,4 +12,4 @@ Tests β=0.1, 0.5, 2.0 on PREFIX_LEN=8, seed=42.
 
 | Worker | Script | Results |
 |--------|--------|---------|
-| worker-1 | `vq_commitment.py` | `vq_commitment_results.json` (pending) |
+| worker-1 | `vq_commitment.py` | `vq_commitment_results.json` ✓ |

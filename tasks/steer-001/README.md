@@ -1,6 +1,6 @@
 # steer-001: Steering Prefix Research (MATS-10.0)
 
-**Status:** In progress (Exp16-20 complete) | **SOTA:** 0.6794 (Exp19, PREFIX_LEN=16) | **Compute:** TIDE (2× NVIDIA A100 80GB)
+**Status:** In progress (Exp16-23 complete) | **SOTA:** 0.6794 (Exp19, PREFIX_LEN=16) | **Compute:** TIDE (2× NVIDIA A100 80GB)
 
 ---
 
@@ -42,9 +42,9 @@ This task systematically investigates the gap and possible methods to close it.
 | 18 | manager-18/worker-1 | TOPK escalation (50→100→200) from Exp11 best: is 0.689 escapable? | ✅ Complete |
 | 19 | manager-19/worker-1 | ST + cosine annealing + best-prefix, PREFIX_LEN=16: more discrete capacity | ✅ Complete |
 | 20 | manager-20/worker-1 | Multi-seed (seeds 5-9) fp32-sims ST + HotFlip TOPK=50: exploit better basin config | ✅ Complete |
-| 21 | manager-21/worker-1 | Voronoi margin retry (λ=0.5, λ=2.0): complete Exp16 crash data | 📋 Queued |
-| 22 | manager-22/worker-1 | VQ commitment loss (β=0.1/0.5/2.0): absolute cosine alignment regularizer | 📋 Queued |
-| 23 | manager-23/worker-1 | Held-out suffix eval (20 new topics): measure generalization of SOTA | 📋 Queued |
+| 21 | manager-21/worker-1 | Voronoi margin retry (λ=0.5, λ=2.0): complete Exp16 crash data | ✅ Complete |
+| 22 | manager-22/worker-1 | VQ commitment loss (β=0.1/0.5/2.0): absolute cosine alignment regularizer | ✅ Complete |
+| 23 | manager-23/worker-1 | Held-out suffix eval (20 new topics): measure generalization of SOTA | ✅ Complete |
 
 ---
 
@@ -112,17 +112,28 @@ This task systematically investigates the gap and possible methods to close it.
 | Seeds 5-9 fp32-sims perform worse than seeds 0-4 (best 0.718); seed=42 and seeds 0-4 are unusually good | [H] Exp 20 |
 | ST→HotFlip recovery scales with prefix length: Δ=0.073 (len=8, Exp11), Δ=0.191 (len=8 fp32, Exp16), Δ=0.226 (len=16, Exp19) | [H] Exp 11/16/19 |
 
+### Established (Exp 21-23)
+
+| Finding | Evidence |
+|---------|---------|
+| **Voronoi margin regularization is strictly harmful**: λ=0.5: CE=0.746, λ=2.0: CE=0.843 (both worse than λ=0.0 baseline 0.686) | [H] Exp 21 |
+| λ>0 drives soft prefix toward `<unused56>` degenerate tokens — easy-margin region that destroys behavioral alignment | [H] Exp 21 qualitative |
+| **VQ commitment loss is also strictly harmful**: β=0.1: CE=0.794, β=0.5/2.0: CE=0.843 | [H] Exp 22 |
+| β=0.5 and β=2.0 produce identical results (same degenerate `<unused56>` prefix) — strong regularizer overrides CE completely | [H] Exp 22 |
+| **Regularization null result**: both Exp21 and Exp22 confirm that ANY soft-embedding regularizer competes fatally with ST-CE exploration | [H] Exp 21+22 combined |
+| **No overfitting to 12 training suffixes**: holdout CE < train CE for all prefixes (gap = −0.069 to −0.089) | [H] Exp 23 |
+| Exp11→Exp19 improvement (0.689→0.679) is genuine generalization — holdout gap preserved (0.616 vs 0.611) | [H] Exp 23 |
+| 12-suffix eval metric is reliable; no need to rotate or expand suffix set | [H] Exp 23 |
+
 ### Open Questions
 
-1. **Can PREFIX_LEN=32 or 24 push below 0.670?** Exp19 shows each doubling of prefix capacity
-   gives ~0.007 CE improvement. Extrapolating, len=32 might reach ~0.672.
+1. **Can PREFIX_LEN=24 or 32 push below 0.670?** Exp19 shows each doubling of prefix capacity
+   gives ~0.007 CE improvement. Extrapolating, len=32 might reach ~0.672. Regularization
+   approaches (Exp21-22) are now ruled out as paths forward.
 
 2. **Why is seed=42 special?** Seeds 0-4 and 5-9 are clearly worse than seed=42 for both
    Exp16 (fp32-sims, constant LR) and related configs. The seed affects soft initialization
    which may land in structurally better Voronoi basins.
-
-3. **Voronoi margin regularization (Exp16 λ=0.5, λ=2.0) still untested** due to crash.
-   Could revisit if further progress stalls.
 
 ---
 

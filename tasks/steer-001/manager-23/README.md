@@ -1,6 +1,6 @@
 # Manager 23: Exp 23 — Held-out Suffix Generalization Evaluation
 
-**Task:** steer-001 | **Status:** Queued
+**Task:** steer-001 | **Status:** Complete
 
 ## Summary
 
@@ -12,4 +12,4 @@ Addresses the research report's concern that CE on training suffixes may overfit
 
 | Worker | Script | Results |
 |--------|--------|---------|
-| worker-1 | `holdout_eval.py` | `holdout_eval_results.json` (pending) |
+| worker-1 | `holdout_eval.py` | `holdout_eval_results.json` ✓ |

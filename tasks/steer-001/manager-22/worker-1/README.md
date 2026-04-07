@@ -1,6 +1,6 @@
 # Exp 22: VQ-Style Commitment Loss
 
-**Status:** Queued | **Results:** Pending
+**Result: β>0 HURTS — β=0.1: CE=0.794, β=0.5/2.0: CE=0.843 (all worse than β=0.0 baseline 0.686)**
 
 ## Method
 
@@ -36,6 +36,36 @@ constant LR=0.01, BATCH_SIZE=12.
 | Exp11 (pure ST) | 0.762 | 0.689 |
 | Exp16 λ=0.0 (fp32) | 0.877 | 0.686 |
 | Exp19 len=16 SOTA | 0.905 | **0.679** |
-| Exp22 β=0.1 | — | — |
-| Exp22 β=0.5 | — | — |
-| Exp22 β=2.0 | — | — |
+| Exp22 β=0.1 | 1.104 | 0.794 |
+| Exp22 β=0.5 | 1.548 | 0.843 |
+| Exp22 β=2.0 | 1.548 | 0.843 |
+
+## Final Prefix Texts
+
+| β | Final Prefix |
+|---|-------------|
+| 0.1 | ` meow continuouslyБиография脚注の使い方 Cats REPLIESUS]:` |
+| 0.5 | `<unused56> laughs<unused56>continue feline CAT<unused56><unused56>` |
+| 2.0 | `<unused56> laughs<unused56>continue feline CAT<unused56><unused56>` |
+
+## Key Findings
+
+- **VQ commitment regularization is strictly harmful** — all β>0 produce worse results than baseline
+- β=0.5 and β=2.0 converge to identical `<unused56>` degenerate prefixes (same pattern as Voronoi margin λ=2.0)
+- β=0.1 avoids degenerate collapse but still worsens CE from 0.686 → 0.794
+- The HotFlip step is hurt by low-quality soft prefix trajectories: proj-CE 1.104 (β=0.1) vs 0.877 (baseline) leaves HotFlip starting from a worse position
+
+## Interpretation
+
+Both regularization approaches tested (Voronoi margin Exp21, VQ commitment Exp22) show
+the same failure mode: any auxiliary loss that pulls soft embeddings toward specific token
+regions competes with the CE objective's need to explore the embedding space.
+
+The ST estimator works precisely because it allows the soft optimizer to take trajectories
+that cross Voronoi boundaries — the gradient flows through the projection, letting the
+optimizer discover paths to low-CE token sequences. Adding any loss that penalizes such
+exploration degrades the final result.
+
+**Conclusion:** Regularization-based approaches to stabilizing soft→discrete projection
+are not productive for this task. The ST estimator (unregularized) remains the best method.
+Future directions should focus on diverse initialization (multi-seed) or expanded prefix length.
