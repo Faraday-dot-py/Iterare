@@ -21,6 +21,8 @@ if "--gpu" in sys.argv:
     GPU = sys.argv[idx + 1]
 
 GPU_PIN = f"import os as _os; _os.environ['CUDA_VISIBLE_DEVICES'] = '{GPU}'\n"
+PB_KEY  = os.getenv("PUSHBULLET_API_KEY", "")
+ENV_INJ = f"import os as _os; _os.environ['PUSHBULLET_API_KEY'] = {PB_KEY!r}\n"
 
 
 def main():
@@ -31,7 +33,7 @@ def main():
     import tempfile
     with tempfile.TemporaryDirectory() as tmp:
         pinned = Path(tmp) / f"vq_commitment_gpu{GPU}.py"
-        pinned.write_text(GPU_PIN + EXP22_SCRIPT.read_text())
+        pinned.write_text(ENV_INJ + GPU_PIN + EXP22_SCRIPT.read_text())
 
         print(f"[Exp22] Submitting VQ commitment loss (β=0.1, 0.5, 2.0) on GPU {GPU}...",
               flush=True)
@@ -44,7 +46,6 @@ def main():
             script_path=str(pinned),
             timeout=14400,
             on_output=on_output,
-            env_inject={"PUSHBULLET_API_KEY": os.getenv("PUSHBULLET_API_KEY", "")},
         )
 
     print(f"[Exp22] Done: {result.status} ({result.elapsed_seconds:.0f}s)", flush=True)

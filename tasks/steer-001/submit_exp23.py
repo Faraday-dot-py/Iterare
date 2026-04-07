@@ -24,6 +24,8 @@ if "--gpu" in sys.argv:
     GPU = sys.argv[idx + 1]
 
 GPU_PIN = f"import os as _os; _os.environ['CUDA_VISIBLE_DEVICES'] = '{GPU}'\n"
+PB_KEY  = os.getenv("PUSHBULLET_API_KEY", "")
+ENV_INJ = f"import os as _os; _os.environ['PUSHBULLET_API_KEY'] = {PB_KEY!r}\n"
 
 
 def main():
@@ -34,7 +36,7 @@ def main():
     import tempfile
     with tempfile.TemporaryDirectory() as tmp:
         pinned = Path(tmp) / f"holdout_eval_gpu{GPU}.py"
-        pinned.write_text(GPU_PIN + EXP23_SCRIPT.read_text())
+        pinned.write_text(ENV_INJ + GPU_PIN + EXP23_SCRIPT.read_text())
 
         print(f"[Exp23] Submitting holdout eval (3 prefixes × 32 suffixes) on GPU {GPU}...",
               flush=True)
@@ -47,7 +49,6 @@ def main():
             script_path=str(pinned),
             timeout=3600,   # eval only, should finish in ~20min
             on_output=on_output,
-            env_inject={"PUSHBULLET_API_KEY": os.getenv("PUSHBULLET_API_KEY", "")},
         )
 
     print(f"[Exp23] Done: {result.status} ({result.elapsed_seconds:.0f}s)", flush=True)
