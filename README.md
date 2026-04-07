@@ -118,3 +118,39 @@ Requests are reviewed by the Master (or Interface Agent). Approved tools get bui
 ## Full Structure Doc
 
 `docs/structure.md`
+
+---
+
+## Active Tasks
+
+### [golf-001](tasks/golf-001/README.md) — OpenAI Parameter Golf
+
+**Status: Complete**
+
+Best result: **1.11316 BPB** (sliding-window, stride=64) — beats competition SOTA by −0.0015.
+
+Artifact: `tasks/golf-001/manager-5/worker-1/results/artifact_seed314.ptz` (15.76 MB, ready to submit).
+
+Architecture: 11-layer GQA transformer, GPTQ int6 quant, AR self-gen calibration, XSA all layers, BigramHash 3072.
+
+---
+
+### [steer-001](tasks/steer-001/README.md) — Steering Prefix Research (MATS-10.0)
+
+**Status: In progress** | Compute: TIDE (2× NVIDIA A100 80GB)
+
+Goal: engineer discrete token prefixes that reliably steer LLM behavior across many suffix prompts without stating intent. Core challenge: closing the soft→discrete projection gap.
+
+Current SOTA: **CE = 0.686** (Exp 16 λ=0, float32 sims — preliminary)
+
+| Exp | Description | Status |
+|-----|-------------|--------|
+| 1–14 | Baseline through alternating ST+HotFlip | ✅ Complete |
+| 15 | ST + cosine LR annealing + best-prefix tracking | ✅ Complete (HF CE=0.738, worse than Exp11) |
+| 16 | ST + Voronoi margin regularization (3 λ values) | 🔄 Running — GPU 1 |
+| 17 | Multi-seed (5×) ST+anneal+best-prefix, TOPK=50 | 🔄 Running — GPU 0 |
+| 18 | TOPK escalation (50→100→200) from Exp11 best | 📋 Queued — GPU 1 after Exp16 |
+| 19 | ST + cosine annealing + best-prefix, PREFIX_LEN=16 | 📋 Queued — GPU 0 after Exp17 |
+| 20 | Multi-seed (seeds 5-9) fp32-sims ST + TOPK=50 | 📋 Queued — GPU 1 after Exp18 |
+
+Key findings so far: ST estimator is the dominant improvement (CE 1.398→0.762 proj, 0.689 HF). Cosine LR annealing hurts. Basin quality matters more than projection CE. Float32 vs bfloat16 sims reach different Voronoi cells even at the same seed.

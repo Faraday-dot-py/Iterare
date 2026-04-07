@@ -36,12 +36,12 @@ This task systematically investigates the gap and possible methods to close it.
 | 12 | manager-12/worker-1 | Mixed objective: α*CE(soft) + (1-α)*ST projection CE | ✅ Complete |
 | 13 | manager-13/worker-1 | Random restarts: escape HotFlip local minima via perturbation | ✅ Complete |
 | 14 | manager-14/worker-1 | Alternating ST+HotFlip: cycle continuous↔discrete to escape basins | ✅ Complete |
-| 15 | manager-15/worker-1 | ST + cosine LR annealing + best-prefix tracking: fix Voronoi variance | 🔄 Running |
-| 16 | manager-16/worker-1 | ST + Voronoi margin regularization (3 λ values): explicit boundary avoidance | 🔄 Running |
-| 17 | manager-17/worker-1 | Multi-seed (5×) ST+anneal+best-prefix + HotFlip TOPK=50: characterize reliability | 📋 Planned (GPU 0 after Exp15) |
-| 18 | manager-18/worker-1 | TOPK escalation (50→100→200) from Exp11 best: is 0.689 escapable? | 📋 Planned (GPU 1 after Exp16) |
-| 19 | manager-19/worker-1 | ST + cosine annealing + best-prefix, PREFIX_LEN=16: more discrete capacity | 📋 Planned (GPU 0 after Exp17) |
-| 20 | manager-20/worker-1 | Multi-seed (seeds 5-9) fp32-sims ST + HotFlip TOPK=50: exploit better basin config | 📋 Planned (GPU 1 after Exp18) |
+| 15 | manager-15/worker-1 | ST + cosine LR annealing + best-prefix tracking: fix Voronoi variance | ✅ Complete |
+| 16 | manager-16/worker-1 | ST + Voronoi margin regularization (3 λ values): explicit boundary avoidance | 🔄 Running (GPU 1) |
+| 17 | manager-17/worker-1 | Multi-seed (5×) ST+anneal+best-prefix + HotFlip TOPK=50: characterize reliability | 🔄 Running (GPU 0) |
+| 18 | manager-18/worker-1 | TOPK escalation (50→100→200) from Exp11 best: is 0.689 escapable? | 📋 Queued (GPU 1 after Exp16) |
+| 19 | manager-19/worker-1 | ST + cosine annealing + best-prefix, PREFIX_LEN=16: more discrete capacity | 📋 Queued (GPU 0 after Exp17) |
+| 20 | manager-20/worker-1 | Multi-seed (seeds 5-9) fp32-sims ST + HotFlip TOPK=50: exploit better basin config | 📋 Queued (GPU 1 after Exp18) |
 
 ---
 
@@ -94,6 +94,10 @@ This task systematically investigates the gap and possible methods to close it.
 | Random restarts escape local minimum: 0.752→0.710 (3/10 improved) | [M] Exp 13 |
 | **Starting point dominates**: Exp13 restarts from 1.129→0.752, can't reach Exp11's 0.689 from 0.762 | [H] Exp 13 vs 11 |
 | Alternating ST+HotFlip fails: ST warm-started from discrete result has zero gradient (fixed point). Best CE=0.701 | [H] Exp 14 |
+| **Cosine LR annealing hurts**: seed=42 with cosine schedule gets proj=0.868, hotflip=0.738 — worse than constant LR | [H] Exp 15 vs 11 |
+| **New SOTA 0.686**: Exp16 λ=0.0 (float32 sims, best-prefix, constant LR) beat Exp11 0.689 from *worse* proj (0.877) | [H] Exp 16 (prelim) |
+| **Basin quality > projection quality**: low proj-CE does not imply low final HotFlip CE. Exp16 improved 0.877→0.686 (Δ=0.191) vs Exp11's 0.762→0.689 (Δ=0.073) | [H] Exp 11 vs Exp16 |
+| Float32 vs bfloat16 in st_project changes optimization trajectory significantly (different Voronoi cells) even at same seed | [M] Exp11 vs Exp16 λ=0 |
 
 ### Open Questions
 
