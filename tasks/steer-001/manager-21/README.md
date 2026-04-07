@@ -1,6 +1,6 @@
 # Manager 21: Exp 21 — Voronoi Margin Regularization Retry (λ=0.5, λ=2.0)
 
-**Task:** steer-001 | **Status:** Queued
+**Task:** steer-001 | **Status:** Complete
 
 ## Summary
 

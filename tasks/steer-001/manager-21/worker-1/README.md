@@ -1,34 +1,43 @@
 # Exp 21: Voronoi Margin Regularization Retry (λ=0.5, λ=2.0)
 
-**Status:** Queued | **Results:** Pending
+**Result: λ>0 HURTS — λ=0.5: CE=0.746, λ=2.0: CE=0.843 (both far worse than λ=0.0 baseline 0.686)**
 
 ## Method
 
 ST estimator + Voronoi margin regularization:
 `Loss = CE(ST-project(soft)) - λ * mean_i(margin_i)`
-where `margin_i = cos(soft_i, nearest_tok) - cos(soft_i, 2nd_nearest_tok)`
 
 Same config as Exp16: PREFIX_LEN=8, seed=42, SOFT_STEPS=300, HOTFLIP_STEPS=80,
 HF_TOPK=30, constant LR=0.01, BATCH_SIZE=12.
 
-λ=0.0 already done in Exp16 (CE=0.686). This run covers λ=0.5 and λ=2.0 only.
+## Results
 
-## Expected Findings
+| λ | Best ST-CE | Proj CE | HotFlip CE | Final Prefix |
+|---|-----------|---------|------------|-------------|
+| 0.0 | 0.877 | 0.877 | **0.686** | `Keeping Cats'];?>Only responding Cat Ley trivia` (Exp16) |
+| 0.5 | 1.436 | 1.436 | 0.746 | `Cats<start_of_turn> talking Answer must Replies pyridine<unused56>` |
+| 2.0 | 1.549 | 1.549 | 0.843 | `<unused56> laughs<unused56>continue feline CAT<unused56><unused56>` |
 
-If λ>0 consistently improves over λ=0.0:
-- Voronoi boundary avoidance is a useful regularizer
-- The approach can be combined with PREFIX_LEN=16 (Exp19 SOTA path)
+## Key Findings
 
-If λ>0 hurts or doesn't help:
-- Boundary avoidance is not the bottleneck at this scale
-- The margin geometry doesn't align with what HotFlip needs
+- **Voronoi margin regularization is strictly harmful** — both λ>0 produce substantially worse results
+- λ=0.5: proj-CE 1.436 vs 0.877 for λ=0.0 — a 0.56 CE increase in projection quality
+- λ=2.0: proj-CE 1.549 — even further degraded; best-prefix tracking found no improvement
+- Both runs ended up with `<unused56>` tokens (padding artifacts), suggesting the optimizer
+  was pushed into degenerate regions of embedding space where margin is easy to maximize
+  but behavioral alignment is poor
 
-## Comparison Targets
+## Interpretation
 
-| Method | Proj CE | HotFlip CE |
-|--------|---------|------------|
-| Exp11 (ST, β=0 baseline) | 0.762 | 0.689 |
-| Exp16 λ=0.0 (fp32 sims) | 0.877 | 0.686 |
-| Exp19 (len=16 SOTA) | 0.905 | **0.679** |
-| Exp21 λ=0.5 | — | — |
-| Exp21 λ=2.0 | — | — |
+The margin loss creates a **competing objective** against ST-CE:
+- ST-CE wants to find soft prefixes that project cleanly to behaviorally-aligned tokens
+- Margin wants to push the soft prefix to the interior of its current Voronoi cell
+- These goals conflict: the interior of the Voronoi cell for `<start_of_turn>` (margin easy)
+  is not near any behaviorally useful token
+
+At λ=0.0, the optimizer is free to find trajectories that cross Voronoi boundaries many times
+to eventually land in a good cell. Penalizing boundary proximity prevents this exploration.
+
+**Conclusion:** Voronoi margin regularization is not a useful technique for this task.
+The VQ commitment loss approach (Exp22) may fare better since it pulls toward the nearest
+token rather than trying to stay interior to the current cell.
