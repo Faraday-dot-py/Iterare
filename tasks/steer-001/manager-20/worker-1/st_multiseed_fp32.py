@@ -32,8 +32,24 @@ _ilu.find_spec = _patched
 for _k in list(sys.modules):
     if "torchvision" in _k: del sys.modules[_k]
 
-import json, time
+import json, os as _os, time, urllib.request as _urlreq
 from pathlib import Path
+
+def notify(title, body=""):
+    """Pushbullet push. No-ops silently if PUSHBULLET_API_KEY not set."""
+    key = _os.environ.get("PUSHBULLET_API_KEY", "")
+    if not key:
+        return
+    try:
+        import json as _json
+        data = _json.dumps({"type": "note", "title": title, "body": body}).encode()
+        req = _urlreq.Request(
+            "https://api.pushbullet.com/v2/pushes", data=data, method="POST",
+            headers={"Access-Token": key, "Content-Type": "application/json"},
+        )
+        _urlreq.urlopen(req, timeout=5)
+    except Exception:
+        pass
 
 import torch
 import torch.nn.functional as F
@@ -89,6 +105,7 @@ def log(msg):
 
 log("=== Exp 20: Multi-seed ST (float32 sims, seeds 5-9) + HotFlip TOPK=50 ===")
 log(f"CUDA: {torch.cuda.is_available()} | GPUs: {torch.cuda.device_count()}")
+notify("Exp20 starting", f"Multi-seed fp32 ST, seeds={SEEDS}, TOPK={HF_TOPK}")
 for i in range(torch.cuda.device_count()):
     p = torch.cuda.get_device_properties(i)
     log(f"  GPU {i}: {p.name}")
@@ -99,6 +116,7 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, dtype=DTYPE, device_map="cuda:0")
 model.eval()
 log(f"Model loaded in {time.time()-t0:.1f}s | {gpu_mem_str()}")
+notify("Exp20 started", f"Model loaded | seeds={SEEDS} | {gpu_mem_str()}")
 
 PLACEHOLDER_IDS = tokenizer.encode(PLACEHOLDER, add_special_tokens=False)
 embed_fn = model.get_input_embeddings()
@@ -266,6 +284,7 @@ for seed in SEEDS:
     log(f"\n{'='*60}")
     log(f"=== Seed {seed} ({SEEDS.index(seed)+1}/{len(SEEDS)}) ===")
     log(f"{'='*60}")
+    notify(f"Exp20 seed={seed} starting", f"{SEEDS.index(seed)+1}/{len(SEEDS)}")
 
     torch.manual_seed(seed)
     soft_prefix = (emb_mean.unsqueeze(0).repeat(PREFIX_LEN, 1)
@@ -349,6 +368,17 @@ for seed in SEEDS:
         "timing": {"soft_seconds": t_soft, "hotflip_seconds": t_hf},
     })
 
+    # Checkpoint: save partial results after each seed so we don't lose work
+    ckpt_path = Path("/home/jovyan/steer001_multiseed_fp32_ckpt.json")
+    with open(ckpt_path, "w") as f:
+        json.dump({"runs": all_results, "completed_seeds": [r["seed"] for r in all_results],
+                   "overall_best_hotflip_ce": overall_best_ce}, f, indent=2)
+    log(f"Checkpoint saved ({len(all_results)}/{len(SEEDS)} seeds done) → {ckpt_path}")
+    notify(
+        f"Exp20 seed={seed} done" + (" *** BEST ***" if hotflip_ce == overall_best_ce else ""),
+        f"proj={proj_ce:.4f} → hf={hotflip_ce:.4f} | overall best={overall_best_ce:.4f} | {len(all_results)}/{len(SEEDS)} done",
+    )
+
 log(f"\n{'='*60}")
 log(f"=== FINAL SUMMARY ===")
 log(f"{'='*60}")
@@ -382,3 +412,4 @@ with open(OUT_PATH, "w") as f:
     json.dump(results, f, indent=2)
 log(f"\nResults saved to {OUT_PATH}")
 log("=== DONE ===")
+notify("Exp20 complete", f"Best HF CE={overall_best_ce:.4f} across seeds {SEEDS} | SOTA=0.686")

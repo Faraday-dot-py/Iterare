@@ -40,8 +40,24 @@ _ilu.find_spec = _patched
 for _k in list(sys.modules):
     if "torchvision" in _k: del sys.modules[_k]
 
-import json, time
+import json, os as _os, time, urllib.request as _urlreq
 from pathlib import Path
+
+def notify(title, body=""):
+    """Pushbullet push. No-ops silently if PUSHBULLET_API_KEY not set."""
+    key = _os.environ.get("PUSHBULLET_API_KEY", "")
+    if not key:
+        return
+    try:
+        import json as _json
+        data = _json.dumps({"type": "note", "title": title, "body": body}).encode()
+        req = _urlreq.Request(
+            "https://api.pushbullet.com/v2/pushes", data=data, method="POST",
+            headers={"Access-Token": key, "Content-Type": "application/json"},
+        )
+        _urlreq.urlopen(req, timeout=5)
+    except Exception:
+        pass
 
 import torch
 import torch.nn.functional as F
@@ -98,6 +114,7 @@ def log(msg):
 
 log("=== Exp 16: ST + Voronoi Margin Regularization ===")
 log(f"CUDA: {torch.cuda.is_available()} | GPUs: {torch.cuda.device_count()}")
+notify("Exp16 starting", f"ST Voronoi margin, λ={LAMBDAS}, seed={SEED}")
 for i in range(torch.cuda.device_count()):
     p = torch.cuda.get_device_properties(i)
     log(f"  GPU {i}: {p.name}")
@@ -108,6 +125,7 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, dtype=DTYPE, device_map="cuda:0")
 model.eval()
 log(f"Model loaded in {time.time()-t0:.1f}s | {gpu_mem_str()}")
+notify("Exp16 started", f"Model loaded | λ={LAMBDAS} | {gpu_mem_str()}")
 
 PLACEHOLDER_IDS = tokenizer.encode(PLACEHOLDER, add_special_tokens=False)
 embed_fn = model.get_input_embeddings()
@@ -292,6 +310,7 @@ for lam in LAMBDAS:
     log(f"\n{'='*60}")
     log(f"=== λ = {lam} ===")
     log(f"{'='*60}")
+    notify(f"Exp16 λ={lam} starting", f"ST opt {SOFT_STEPS} steps, seed={SEED}")
 
     # Re-initialize from same seed
     soft_prefix = init_noise.clone().detach().float().requires_grad_(True)
@@ -390,6 +409,17 @@ for lam in LAMBDAS:
         "timing": {"soft_seconds": t_soft, "hotflip_seconds": t_hf},
     })
 
+    # Checkpoint: save partial results after each lambda so we don't lose work
+    ckpt_path = Path("/home/jovyan/steer001_voronoi_margin_ckpt.json")
+    with open(ckpt_path, "w") as f:
+        json.dump({"runs": all_results, "completed_lambdas": [r["lambda"] for r in all_results]}, f, indent=2)
+    log(f"Checkpoint saved ({len(all_results)}/{len(LAMBDAS)} lambdas done) → {ckpt_path}")
+    sota_flag = " *** NEW SOTA ***" if hotflip_ce < 0.686 else ""
+    notify(
+        f"Exp16 λ={lam} done{sota_flag}",
+        f"proj={proj_ce:.4f} → hotflip={hotflip_ce:.4f} | SOTA=0.686 | {len(all_results)}/{len(LAMBDAS)} done",
+    )
+
 log(f"\n{'='*60}")
 log(f"=== FINAL SUMMARY ===")
 log(f"{'='*60}")
@@ -397,6 +427,8 @@ log(f"  {'λ':>6}  {'proj-CE':>10}  {'HotFlip':>10}  prefix")
 for r in all_results:
     log(f"  {r['lambda']:>6.1f}  {r['projection_ce_best']:>10.5f}  {r['hotflip_ce']:>10.5f}  {r['final_text']!r}")
 log(f"  {'Exp11':>6}  {'0.76245':>10}  {'0.68935':>10}  (reference)")
+
+_best_r = min(all_results, key=lambda r: r["hotflip_ce"])
 
 results = {
     "experiment": "steer-001-exp16-voronoi-margin",
@@ -421,3 +453,7 @@ with open(OUT_PATH, "w") as f:
     json.dump(results, f, indent=2)
 log(f"\nResults saved to {OUT_PATH}")
 log("=== DONE ===")
+notify(
+    "Exp16 complete",
+    f"Best: λ={_best_r['lambda']}, CE={_best_r['hotflip_ce']:.4f} | SOTA=0.686",
+)

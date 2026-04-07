@@ -36,6 +36,7 @@ def run_script(
     remote_dir: str = "iterare_jobs",
     on_output=None,
     cleanup: bool = True,
+    env_inject: dict | None = None,
 ) -> JobResult:
     """
     Upload a local Python script to TIDE and execute it.
@@ -46,6 +47,9 @@ def run_script(
     remote_dir: directory on the TIDE server to upload to
     on_output: callable(text) for live stdout streaming
     cleanup: delete the remote script after execution
+    env_inject: dict of env vars to set in the remote kernel before running
+                the script. Use this to pass secrets (e.g. PUSHBULLET_API_KEY)
+                without embedding them in script files.
     """
     script_path = Path(local_script)
     if not script_path.exists():
@@ -57,11 +61,25 @@ def run_script(
     # Ensure server is running
     client.start_server(wait=True)
 
-    # Upload script
-    client.upload_file(str(script_path), remote_path)
+    # Upload script — prepend env var injection block if requested
+    if env_inject:
+        import json as _json
+        env_block = (
+            "import os as _os\n"
+            f"_os.environ.update({_json.dumps(env_inject)})\n"
+            "del _os\n\n"
+        )
+        original = script_path.read_text()
+        import tempfile, pathlib
+        tmp = pathlib.Path(tempfile.mktemp(suffix=".py"))
+        tmp.write_text(env_block + original)
+        client.upload_file(str(tmp), remote_path)
+        tmp.unlink()
+    else:
+        client.upload_file(str(script_path), remote_path)
 
-    # Execute via kernel
-    code = f"exec(open('{remote_path}').read())"
+    # Execute via kernel — runpy.run_path is safer than exec(open().read())
+    code = f"import runpy; runpy.run_path('{remote_path}', run_name='__main__')"
     kernel_id = client.create_kernel()
     try:
         exec_result = execute(
