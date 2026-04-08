@@ -1,6 +1,6 @@
 # Exp 24: ST + Cosine Annealing + Best-Prefix, PREFIX_LEN=24
 
-**Status:** Queued | **Results:** Pending
+**Result: NEW SOTA — HotFlip CE=0.66896 (Exp19 was 0.6794)**
 
 ## Method
 
@@ -20,14 +20,31 @@ Scaling trend suggests HotFlip recovery Δ grows with prefix length:
 - len=16 (Exp19): Δ=0.226 (proj 0.905 → hotflip 0.679)
 - len=24 (**this exp**): expected Δ≈0.25+?
 
-## Timing Estimate
+## Results
 
-~5.7h: soft=1800s + HotFlip 50 steps × 374s each = ~20500s total
+| Stage | CE | Notes |
+|-------|----|-------|
+| Best ST-CE (soft) | 0.82385 | Voronoi oscillation visible; proj CE higher |
+| Projection (best step) | 0.86651 | Similar to Exp19 (0.905) |
+| HotFlip (50 steps) | **0.66896** | **New SOTA** (Exp19: 0.6794) |
 
-## Comparison
+**Timing:** soft=650s, hotflip=8404s (168s/step — faster than Exp19's 249s/step at len=16)
 
-| Exp | len | Method | HotFlip CE |
-|-----|-----|--------|-----------|
-| 16 (λ=0.0) | 8 | ST fp32 + best-prefix | 0.686 |
-| **19** | **16** | **ST + cosine + best-prefix** | **0.679** ← SOTA |
-| **24** | **24** | **ST + cosine + best-prefix** | **—** |
+**Final prefix:** ` cats physiology θα litterERDcriminatormanu"]Welcome newOwner 只cVarmampuan precisione automatiquesHer replies serezTableAdapter mischievous amusing cats clear feline`
+
+**Final IDs:** `[19493, 68916, 41593, 39416, 125322, 116036, 170467, 113427, 11890, 220889, 95372, 173785, 70190, 231581, 204166, 8274, 10357, 130103, 107469, 136903, 69921, 19493, 3110, 145156]`
+
+## Scaling Table (updated)
+
+| Exp | len | Proj CE | HotFlip CE | HF Recovery Δ |
+|-----|-----|---------|-----------|---------------|
+| 16 | 8 | 0.877 | 0.686 | 0.191 |
+| 19 | 16 | 0.905 | 0.679 | 0.226 |
+| **24** | **24** | **0.867** | **0.669** | **0.198** |
+
+## Key Findings
+
+- Scaling continues: len=24 beats len=16 SOTA by 0.010 CE (0.679→0.669)
+- HotFlip per-step time *decreased* vs Exp19 (168s vs 249s) — likely GPU batch efficiency at longer seqs
+- The prefix semantics remain cat-themed: "cats", "feline", "litter" appear explicitly
+- Only 50 HotFlip steps used (vs 80 in Exp19) — more steps might improve further

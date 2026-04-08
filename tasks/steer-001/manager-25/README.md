@@ -1,6 +1,6 @@
 # Manager 25: Exp 25 — PREFIX_LEN=32 Scaling
 
-**Task:** steer-001 | **Status:** Queued
+**Task:** steer-001 | **Status:** Complete
 
 ## Summary
 
@@ -12,4 +12,4 @@ or hits diminishing returns beyond 24 tokens.
 
 | Worker | Script | Results |
 |--------|--------|---------|
-| worker-1 | `scale_prefix_32.py` | `scale_prefix_32_results.json` (pending) |
+| worker-1 | `scale_prefix_32.py` | `scale_prefix_32_results.json` ✓ |

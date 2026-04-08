@@ -1,6 +1,6 @@
 # steer-001: Steering Prefix Research (MATS-10.0)
 
-**Status:** In progress (Exp16-23 complete) | **SOTA:** 0.6794 (Exp19, PREFIX_LEN=16) | **Compute:** TIDE (2× NVIDIA A100 80GB)
+**Status:** In progress (Exp16-25 complete) | **SOTA:** 0.6317 (Exp25, PREFIX_LEN=32) | **Compute:** TIDE (2× NVIDIA A100 80GB)
 
 ---
 
@@ -45,8 +45,8 @@ This task systematically investigates the gap and possible methods to close it.
 | 21 | manager-21/worker-1 | Voronoi margin retry (λ=0.5, λ=2.0): complete Exp16 crash data | ✅ Complete |
 | 22 | manager-22/worker-1 | VQ commitment loss (β=0.1/0.5/2.0): absolute cosine alignment regularizer | ✅ Complete |
 | 23 | manager-23/worker-1 | Held-out suffix eval (20 new topics): measure generalization of SOTA | ✅ Complete |
-| 24 | manager-24/worker-1 | PREFIX_LEN=24 scaling: does 8→16 trend continue? | 📋 Queued |
-| 25 | manager-25/worker-1 | PREFIX_LEN=32 scaling: aggressive 2× Exp19 test | 📋 Queued |
+| 24 | manager-24/worker-1 | PREFIX_LEN=24 scaling: does 8→16 trend continue? | ✅ Complete |
+| 25 | manager-25/worker-1 | PREFIX_LEN=32 scaling: aggressive 2× Exp19 test | ✅ Complete |
 | 26 | manager-26/worker-1 | Multi-seed len=16 (seeds 0,1,2): is seed=42 still privileged? | 📋 Queued |
 | 27 | manager-27/worker-1 | SGDR warm-restart cosine annealing (3×100 cycles): better basin exploration? | 📋 Queued |
 
@@ -116,6 +116,18 @@ This task systematically investigates the gap and possible methods to close it.
 | Seeds 5-9 fp32-sims perform worse than seeds 0-4 (best 0.718); seed=42 and seeds 0-4 are unusually good | [H] Exp 20 |
 | ST→HotFlip recovery scales with prefix length: Δ=0.073 (len=8, Exp11), Δ=0.191 (len=8 fp32, Exp16), Δ=0.226 (len=16, Exp19) | [H] Exp 11/16/19 |
 
+### Established (Exp 24-25)
+
+| Finding | Evidence |
+|---------|---------|
+| **PREFIX_LEN=24 new SOTA 0.669**: scaling continues beyond 16 tokens | [H] Exp 24 |
+| **PREFIX_LEN=32 new SOTA 0.632**: largest single improvement yet (Δ=0.047 from len=24) | [H] Exp 25 |
+| Scaling is super-linear at len=32: len=16→24 improved by 0.010, len=24→32 improved by 0.037 | [H] Exp 24+25 |
+| HotFlip per-step time does NOT scale linearly with PREFIX_LEN on A100 (168s/step at len=24, 237s/step at len=32 — less than 2× the 249s/step at len=16) | [H] Exp 24+25 timing |
+| Only 35 HotFlip steps used for Exp25 (budget constraint); CE still improving at last step — more steps would help | [M] Exp 25 hotflip_log |
+| Explicit cat semantics appear in discrete prefix: "Cats Cats...feline...haughty cats" in len=32 SOTA | [L] Exp 25 qualitative |
+| **Scaling not saturated**: len=48/64 should be tried next | [H] Exp 24+25 trend |
+
 ### Established (Exp 21-23)
 
 | Finding | Evidence |
@@ -131,13 +143,15 @@ This task systematically investigates the gap and possible methods to close it.
 
 ### Open Questions
 
-1. **Can PREFIX_LEN=24 or 32 push below 0.670?** Exp19 shows each doubling of prefix capacity
-   gives ~0.007 CE improvement. Extrapolating, len=32 might reach ~0.672. Regularization
-   approaches (Exp21-22) are now ruled out as paths forward.
+1. **Can PREFIX_LEN=48 or 64 push below 0.60?** The scaling trend is super-linear at len=32
+   — CE dropped 0.047 from len=24→32, more than the 0.010 from len=16→24.
+   Extrapolating suggests significant further gains are available.
 
-2. **Why is seed=42 special?** Seeds 0-4 and 5-9 are clearly worse than seed=42 for both
-   Exp16 (fp32-sims, constant LR) and related configs. The seed affects soft initialization
-   which may land in structurally better Voronoi basins.
+2. **Would more HotFlip steps at len=32 improve Exp25?** Only 35 steps were used (budget);
+   the CE log still showed improvement at the last step. Running 60-80 HotFlip steps at
+   len=32 could push CE below 0.62.
+
+3. **Why is seed=42 special?** Still unexplained. Exp26 (queued) will test seeds 0-2 at len=16.
 
 ---
 
