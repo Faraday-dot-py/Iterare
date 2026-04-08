@@ -49,6 +49,8 @@ This task systematically investigates the gap and possible methods to close it.
 | 25 | manager-25/worker-1 | PREFIX_LEN=32 scaling: aggressive 2× Exp19 test | ✅ Complete |
 | 26 | manager-26/worker-1 | Multi-seed len=16 (seeds 0,1,2): is seed=42 still privileged? | 📋 Queued |
 | 27 | manager-27/worker-1 | SGDR warm-restart cosine annealing (3×100 cycles): better basin exploration? | 📋 Queued |
+| 28 | manager-28/worker-1 | PREFIX_LEN=48: does super-linear scaling continue beyond len=32? | 📋 Queued |
+| 29 | manager-29/worker-1 | PREFIX_LEN=32 full HotFlip (80 steps): how budget-limited was Exp25? | 📋 Queued |
 
 ---
 
