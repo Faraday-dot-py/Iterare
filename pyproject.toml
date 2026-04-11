@@ -9,20 +9,24 @@ description = "Agent-native applied AI research platform"
 requires-python = ">=3.11"
 dependencies = [
     "lancedb>=0.14",
+    "paramiko>=3.0",
     "pydantic>=2.0",
     "python-dotenv>=1.0",
     "pyyaml>=6.0",
     "requests>=2.31",
     "rich>=13.0",
+    "runpod>=1.7",
     "websocket-client>=1.7",
 ]
 
 [project.scripts]
 iterare = "iterare.cli:main"
 tide = "tide.cli:main"
+rpod = "rpod.cli:main"
+iterare-continue = "iterare.tools.auto_continue:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/iterare", "code/tools/tide"]
+packages = ["src/iterare", "code/tools/tide", "code/tools/rpod"]
 
 [tool.hatch.metadata]
 allow-direct-references = true
