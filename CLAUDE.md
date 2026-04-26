@@ -70,6 +70,28 @@ notify("steer-001 watcher", "Exp16 results downloaded")
 
 ---
 
+## Session Hydration (automatic)
+
+The `UserPromptSubmit` hook (`src/iterare/hooks/prompt_hydrate.py`) runs on every
+prompt and injects active run context as `additionalContext` when any task has a
+`run.yaml` with `status: active`.
+
+**When injected context is present:**
+
+1. Treat `resume.md` as the authoritative session state. Start from it — do not
+   reconstruct intent from conversation history.
+2. Respect stop rules listed in `run.yaml`. They are hard constraints. Check them
+   before spawning new agents or continuing long-running work.
+3. If pending approvals are listed, check them before actions that require
+   write authority outside the active task's scope. Resolve with
+   `iterare approvals approve <task_id> <approval_id>`.
+4. The last checkpoint in `run.yaml` marks where state was last persisted.
+   Resume from there if work was interrupted.
+
+**When no context is injected:** no active runs exist; proceed normally.
+
+---
+
 ## Commit policy
 
 Commit experiment scripts + results after each experiment completes. Include the
