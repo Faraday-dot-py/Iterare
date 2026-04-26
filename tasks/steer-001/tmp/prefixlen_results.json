@@ -1,0 +1,62 @@
+{
+  "experiment": "steer-001-prefixlen",
+  "model": "google/gemma-2-2b-it",
+  "reference_prefix": "Talk only about cats.",
+  "prefix_lengths_tested": [
+    4,
+    8,
+    12,
+    16
+  ],
+  "n_soft_steps": 300,
+  "n_hotflip_steps": 80,
+  "batch_size": 8,
+  "note": "len=16 timed out at HotFlip step 60; HotFlip converged at step 40 CE=1.20261",
+  "results_by_length": {
+    "4": {
+      "prefix_len": 4,
+      "soft_ce": 0.22721,
+      "projection_ce": 1.41581,
+      "hotflip_ce": 1.34258,
+      "gap_soft_to_proj": 1.1886,
+      "gap_proj_to_hotflip": 0.0732299999999999,
+      "recovery_fraction": 0.06161029782937902,
+      "projected_text": "\u041a\u041e\u0412 blasting lagerfeld Hulu",
+      "final_text": "\u041a\u041e\u0412 SHOCK lagerfeld however"
+    },
+    "8": {
+      "prefix_len": 8,
+      "soft_ce": 0.16192,
+      "projection_ce": 1.49727,
+      "hotflip_ce": 1.28241,
+      "gap_soft_to_proj": 1.33535,
+      "gap_proj_to_hotflip": 0.21486000000000005,
+      "recovery_fraction": 0.1609016362751339,
+      "projected_text": "\u247f TampCharacterOffsetstart_of_turn EDA Permalink",
+      "final_text": "preview rumorsteriousCharacterOffsetstart_of_turn including EDA Permalink"
+    },
+    "12": {
+      "prefix_len": 12,
+      "soft_ce": 0.08116,
+      "projection_ce": 1.40851,
+      "hotflip_ce": 1.25092,
+      "gap_soft_to_proj": 1.32735,
+      "gap_proj_to_hotflip": 0.1575899999999999,
+      "recovery_fraction": 0.11872527969262056,
+      "projected_text": "\ud465\ud440\ubc0f beautifully",
+      "final_text": "\ud465\ud440StoryboardSeguetvguidetime beautifully pinulongantagHelperRunner Laylaactylus thermostat"
+    },
+    "16": {
+      "prefix_len": 16,
+      "soft_ce": 0.03779,
+      "projection_ce": 1.45633,
+      "hotflip_ce": 1.20261,
+      "gap_soft_to_proj": 1.41854,
+      "gap_proj_to_hotflip": 0.25371999999999995,
+      "recovery_fraction": 0.17885995460120968,
+      "projected_text": "\ud456 sostenibilidadouvrage MAKING",
+      "final_text": "\ud456 betweenstoryUnsafeEnabledwebElementXpathsMLLoaderouvrage resourceCultureOwnPropertyBug AMAZING",
+      "note": "HotFlip converged at step 40; job timed out before saving JSON"
+    }
+  }
+}

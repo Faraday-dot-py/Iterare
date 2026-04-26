@@ -9,6 +9,7 @@ Two API surfaces:
 
 import os
 from pathlib import Path
+from urllib.parse import quote
 
 import requests
 from dotenv import load_dotenv
@@ -38,7 +39,13 @@ class TIDEClient:
         return f"{self.hub_base}/hub/api"
 
     @property
+    def _username_encoded(self) -> str:
+        """URL-encoded username for hub API paths (e.g. adamwebb%40cpp.edu)."""
+        return quote(self.username, safe="")
+
+    @property
     def server_api(self) -> str:
+        # JupyterHub proxy paths use the raw username (not encoded)
         return f"{self.hub_base}/user/{self.username}/api"
 
     @property
@@ -50,7 +57,7 @@ class TIDEClient:
 
     def server_status(self) -> dict:
         """Return info about the user's JupyterHub server."""
-        r = self._session.get(f"{self.hub_api}/users/{self.username}")
+        r = self._session.get(f"{self.hub_api}/users/{self._username_encoded}")
         r.raise_for_status()
         data = r.json()
         servers = data.get("servers", {})
@@ -72,7 +79,7 @@ class TIDEClient:
         if status["ready"]:
             return status
 
-        r = self._session.post(f"{self.hub_api}/users/{self.username}/server")
+        r = self._session.post(f"{self.hub_api}/users/{self._username_encoded}/server")
         if r.status_code not in (200, 201, 202):
             r.raise_for_status()
 
@@ -90,7 +97,7 @@ class TIDEClient:
 
     def stop_server(self) -> None:
         """Stop the JupyterHub server."""
-        r = self._session.delete(f"{self.hub_api}/users/{self.username}/server")
+        r = self._session.delete(f"{self.hub_api}/users/{self._username_encoded}/server")
         if r.status_code not in (200, 202, 204):
             r.raise_for_status()
 
@@ -119,9 +126,24 @@ class TIDEClient:
 
     # ── Contents (file) API ───────────────────────────────────────────────────
 
+    def _ensure_remote_directory(self, remote_dir: str) -> None:
+        """Create a remote directory if it doesn't exist (no-op if already present)."""
+        try:
+            self._session.get(f"{self.server_api}/contents/{remote_dir.lstrip('/')}")
+        except Exception:
+            pass
+        payload = {"type": "directory", "format": "json", "content": []}
+        self._session.put(
+            f"{self.server_api}/contents/{remote_dir.lstrip('/')}",
+            json=payload,
+        )
+
     def upload_file(self, local_path: str, remote_path: str) -> None:
         """Upload a local file to the Jupyter server."""
         import base64
+        remote_dir = str(Path(remote_path).parent)
+        if remote_dir and remote_dir != ".":
+            self._ensure_remote_directory(remote_dir)
         content = Path(local_path).read_bytes()
         payload = {
             "type": "file",
