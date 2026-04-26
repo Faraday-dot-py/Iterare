@@ -44,3 +44,5 @@ Thumbs.db
 .pytest_cache/
 .coverage
 htmlcov/
+tasks/profile-001/results_tide/results.tar.gz
+tasks/profile-001/results_tide/results_tide/embeddings/embeddings.npy
