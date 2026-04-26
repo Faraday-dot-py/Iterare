@@ -1,0 +1,50 @@
+name: rpod
+version: "1.0"
+status: active
+registered_at: "2026-03-31"
+iterare_integrated: true
+description: Create and manage RunPod GPU instances for batch compute jobs
+code_path: code/tools/rpod/
+entry_point: rpod.cli:main
+cli_command: rpod
+iterare_module: iterare.tools.rpod_runner
+
+capabilities:
+  - create on-demand GPU pods (H100, A100, etc.)
+  - upload and execute Python scripts via SSH
+  - stream stdout in real time
+  - download output files after job completes
+  - terminate pod when done (default) or keep running
+  - multi-GPU support (up to 8 GPUs per pod)
+
+iterare_usage:
+  when_to_use:
+    - ML training or fine-tuning requiring more GPUs than TIDE provides
+    - jobs needing 8x H100 (e.g. OpenAI Parameter Golf time constraint)
+    - experiments needing specific CUDA/PyTorch versions via custom images
+    - any job where TIDE is unavailable or insufficient
+  do_not_use_for:
+    - research, web search, file edits
+    - small scripts that run fine on host or TIDE
+  agent_templates:
+    standard_compute: templates/worker-rpod.yaml
+
+hardware:
+  available_gpus:
+    - "NVIDIA H100 80GB HBM3 (SXM) — up to 8x"
+    - "NVIDIA H100 NVL — up to 8x"
+    - "NVIDIA A100-SXM4-80GB — up to 8x"
+    - "NVIDIA H200 SXM — up to 8x"
+  note: "Availability varies by datacenter; H100 SXM recommended for training"
+
+configuration:
+  required_env:
+    RUNPOD_API_KEY: RunPod API key
+  ssh_key: auto-generated at ~/.runpod/ssh/iterare on first use
+
+dependencies:
+  - runpod>=1.7
+  - paramiko>=3.0
+  - python-dotenv>=1.0
+  - rich>=13.0
+  - cryptography>=41.0
