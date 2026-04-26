@@ -3,7 +3,9 @@
 Usage
 -----
 python tasks/anti-steer-001/eval.py results/run.json
-python tasks/anti-steer-001/eval.py results/run.json --judge  # add LLM usefulness scores
+python tasks/anti-steer-001/eval.py results/run.json --judge --agent claude
+python tasks/anti-steer-001/eval.py results/run.json --judge --agent codex
+python tasks/anti-steer-001/eval.py results/run.json --judge --agent codex --save
 """
 
 from __future__ import annotations
@@ -11,7 +13,14 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
+import sys
 from pathlib import Path
+
+# Repo root on sys.path so we can import code.tools.*
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
 
 
 def load(path: str) -> list[dict]:
@@ -44,43 +53,63 @@ def print_table(stats: dict[str, dict[str, list[float]]]):
         print(f"{cond:<20} {mp:>14.4f} {mx:>15.4f} {n:>8}")
 
 
-def judge_ideas(task: str, ideas: list[str]) -> list[float]:
-    """Score each idea 1-5 on plausibility + relevance using Claude API."""
-    import anthropic
+# ── judge backends ────────────────────────────────────────────────────────────
 
+JUDGE_PROMPT = (
+    "Issue: {task}\n\nIdea: {idea}\n\n"
+    "Rate this idea on a scale from 1 (useless/incoherent) to 5 "
+    "(concrete, plausible, actionable). Reply with only the integer."
+)
+
+
+def _parse_score(text: str) -> float:
+    m = re.search(r"\b([1-5])\b", text.strip())
+    return float(m.group(1)) if m else 3.0
+
+
+def _judge_claude(task: str, ideas: list[str]) -> list[float]:
+    import anthropic
     client = anthropic.Anthropic()
     scores = []
     for idea in ideas:
         msg = client.messages.create(
             model="claude-haiku-4-5-20251001",
             max_tokens=50,
-            messages=[{
-                "role": "user",
-                "content": (
-                    f"Issue: {task}\n\nIdea: {idea}\n\n"
-                    "Rate this idea on a scale from 1 (useless/incoherent) to 5 "
-                    "(concrete, plausible, actionable). Reply with only the integer."
-                ),
-            }],
+            messages=[{"role": "user", "content": JUDGE_PROMPT.format(task=task, idea=idea)}],
         )
-        try:
-            scores.append(float(msg.content[0].text.strip()))
-        except (ValueError, IndexError):
-            scores.append(3.0)
+        scores.append(_parse_score(msg.content[0].text))
     return scores
 
 
-def run_judge(results: list[dict]) -> list[dict]:
+def _judge_codex(task: str, ideas: list[str]) -> list[float]:
+    from code.tools.codex.runner import CodexRunner
+    runner = CodexRunner(default_sandbox="read-only", timeout=60)
+    scores = []
+    for idea in ideas:
+        response = runner.exec(JUDGE_PROMPT.format(task=task, idea=idea), sandbox="read-only")
+        scores.append(_parse_score(response))
+    return scores
+
+
+def judge_ideas(task: str, ideas: list[str], agent: str) -> list[float]:
+    if agent == "claude":
+        return _judge_claude(task, ideas)
+    elif agent == "codex":
+        return _judge_codex(task, ideas)
+    raise ValueError(f"Unknown agent: {agent!r}. Use 'claude' or 'codex'.")
+
+
+def run_judge(results: list[dict], agent: str) -> list[dict]:
     for task_result in results:
         task = task_result["task"]
         for cond, data in task_result["conditions"].items():
             if "usefulness" not in data:
-                scores = judge_ideas(task, data["ideas"])
-                data["usefulness"] = {
-                    "scores": scores,
-                    "mean": sum(scores) / len(scores),
-                }
-                print(f"  task={task_result['task_idx']} cond={cond} usefulness={data['usefulness']['mean']:.2f}")
+                scores = judge_ideas(task, data["ideas"], agent)
+                data["usefulness"] = {"scores": scores, "mean": sum(scores) / len(scores)}
+                print(
+                    f"  task={task_result['task_idx']} cond={cond} "
+                    f"usefulness={data['usefulness']['mean']:.2f}"
+                )
     return results
 
 
@@ -94,7 +123,7 @@ def print_usefulness_table(results: list[dict]):
                 cond_scores.setdefault(cond, []).append(data["usefulness"]["mean"])
 
     if not cond_scores:
-        print("No usefulness scores available. Run with --judge to add them.")
+        print("No usefulness scores available. Run with --judge --agent claude|codex.")
         return
 
     print(f"\n{'condition':<20} {'mean_usefulness':>16}")
@@ -103,11 +132,15 @@ def print_usefulness_table(results: list[dict]):
         print(f"{cond:<20} {statistics.mean(scores):>16.3f}")
 
 
+# ── main ──────────────────────────────────────────────────────────────────────
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("results", help="Path to results JSON")
     parser.add_argument("--judge", action="store_true",
-                        help="Score usefulness via Claude API (requires ANTHROPIC_API_KEY)")
+                        help="Score usefulness via an LLM judge")
+    parser.add_argument("--agent", choices=["claude", "codex"], default="claude",
+                        help="Judge backend: 'claude' (Anthropic API) or 'codex' (OpenAI codex CLI)")
     parser.add_argument("--save", action="store_true",
                         help="Save judge scores back to the results file")
     args = parser.parse_args()
@@ -120,18 +153,15 @@ def main():
     print_table(stats)
 
     if args.judge:
-        if not os.getenv("ANTHROPIC_API_KEY"):
-            print("\nANTHROPIC_API_KEY not set — skipping usefulness scoring.")
-        else:
-            print("\nRunning usefulness judge...")
-            results = run_judge(results)
-            if args.save:
-                Path(args.results).write_text(json.dumps(results, indent=2))
-                print(f"Saved updated results to {args.results}")
+        print(f"\nRunning usefulness judge (agent={args.agent})...")
+        results = run_judge(results, args.agent)
+        if args.save:
+            Path(args.results).write_text(json.dumps(results, indent=2))
+            print(f"Saved updated results to {args.results}")
 
     print_usefulness_table(results)
 
-    # Per-step max-similarity (shows whether diversity accumulates or degrades)
+    # Per-step max-similarity
     print("\n=== Mean max-to-prior sim by step ===")
     cond_step: dict[str, dict[int, list[float]]] = {}
     for task_result in results:
@@ -143,8 +173,7 @@ def main():
             import numpy as np
             for i in range(1, len(ideas)):
                 prior_sims = [float(np.dot(embs[i], embs[j])) for j in range(i)]
-                val = max(prior_sims)
-                cond_step.setdefault(cond, {}).setdefault(i, []).append(val)
+                cond_step.setdefault(cond, {}).setdefault(i, []).append(max(prior_sims))
 
     import statistics
     steps = sorted({k for d in cond_step.values() for k in d})
