@@ -12,6 +12,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "code" / "tools"))
 
+from dotenv import load_dotenv
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")
+
 from iterare.tools.tide_runner import run_on_tide, tide_available
 from tide.client import TIDEClient
 
@@ -47,7 +50,7 @@ def main():
 
     print(f"\n[run03] Status: {result.status}  elapsed={result.elapsed_seconds:.0f}s")
     if result.error:
-        print(f"[run03] ERROR: {result.error[:500]}")
+        print(f"[run03] ERROR: {result.error[:2000]}")
 
     if result.status == "complete":
         try:

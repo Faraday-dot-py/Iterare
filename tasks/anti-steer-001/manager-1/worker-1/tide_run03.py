@@ -18,6 +18,9 @@ Output: /home/jovyan/anti_steer001_run03.json
 Checkpoint: /home/jovyan/anti_steer001_run03_ckpt.json
 """
 
+import subprocess as _sp
+_sp.run(["pip", "install", "-q", "transformers>=4.40.0"], check=False)
+
 import sys, importlib.util as _ilu
 _real_find_spec = _ilu.find_spec
 def _patched(name, package=None, target=None):
@@ -48,7 +51,8 @@ def notify(title, body=""):
 import torch
 import numpy as np
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from sentence_transformers import SentenceTransformer
+from transformers import AutoTokenizer as _EmbTok, AutoModel as _EmbModel
+import torch.nn.functional as _F
 
 # ── config ────────────────────────────────────────────────────────────────────
 MODEL_NAME    = "Qwen/Qwen2.5-3B-Instruct"
@@ -333,10 +337,20 @@ def main():
     steer_layers = [steer_layer]
     print(f"n_layers={n_layers}, steer_layer={steer_layer}")
 
-    print("Loading sentence-transformers...")
-    st = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+    print("Loading embedding model (MiniLM via AutoModel)...")
+    _emb_tok = _EmbTok.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
+    _emb_mod = _EmbModel.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
+    _emb_mod.eval()
+
     def embed_fn(texts):
-        return st.encode(texts, normalize_embeddings=True)
+        inputs = _emb_tok(texts, padding=True, truncation=True,
+                          max_length=128, return_tensors="pt")
+        with torch.no_grad():
+            out = _emb_mod(**inputs)
+        mask = inputs["attention_mask"].unsqueeze(-1).float()
+        embs = (out.last_hidden_state * mask).sum(1) / mask.sum(1).clamp(min=1e-9)
+        embs = _F.normalize(embs, p=2, dim=1)
+        return embs.numpy()
 
     # build condition list
     conditions = ["prompt_only", "output_rerank"] + [f"anti_steer_a{a}" for a in ALPHAS]
