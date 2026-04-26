@@ -1,0 +1,677 @@
+[
+  {
+    "task_idx": 0,
+    "task": "How should we handle cache invalidation when a user updates their profile photo? The cache is Redis-backed and serves multiple microservices.",
+    "conditions": {
+      "prompt_only": {
+        "ideas": [
+          "Add some kind of cache management tool. Some implementations, like Yarn-JS, provide API control to manage their cache. If you're not sure which cache management tool you want, you can set up a Github project.\n\nIn general, read the documentation and read some examples.\n\nTo make the service available for all to use, define a name for each microservice and use the default one.\n\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 > api.exs >> api.exs\n\nUse the API to call and update your services;\n\n1 2 3 api.exs >> api.exs",
+          "When we look at this idea, it's hard to know which model is the right one for each task, but the question is if we want to avoid them all.\n\nWhat are our options?\n\nIf we had to choose between model, we can use a cache manager that handles multiple applications and one that does not. For most of us, it is a good idea to use some type of \"management tool\", to be precise.\n\nMany applications would use an example that uses cache management to manage their data, while our application store can also store and cache data. With that in mind, let's give this example a try. You may have tried using an application store, or you may have seen a project manager",
+          "Our implementation is based on a simple one:\n\nA cache management tool for each microservice. A cache management tool for each service, even though some services require it.\n\nWhat would you do with it?\n\nIn this sense we think we can make it so that you are always on the lookout for caching issues that need to be fixed. You can even start a project with two different options:\n\nWrite a config.json file to set the default cache management status. You can use any of the available cache management options.\n\nCreate a new task with each service and configure it to implement this feature.\n\nCreate a new task and configure it to implement this feature. Set the cache management status of each",
+          "It would be cool.\n\nProblems:\n\nSolution: Don't try to make our system like the other one.\n\nSolution: Take advantage of all the cache management tools out there, but we want to be using only one.\n\n4. Maybe one of these solutions is better for our microservices?\n\n5. Then add something more.\n\n6. Take a look at the code or ask questions.\n\nReferences:"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.5997872153917948,
+          "mean_max_to_prior": 0.6722043951352438
+        },
+        "elapsed_s": 23.2
+      },
+      "output_rerank": {
+        "ideas": [
+          "Consider the following examples:\n\nuser=> { data : '[user=>' . data }) => { // set 'user_image' to user-altered image data : '<span>Anonymous</span>', // set 'user_image' to content image : '<span>Anonymous</span>', // set 'user_image' to content image\n\nWhat if we're just going to keep a single element from being updated and we want to use it when we update it in a different user context?\n\nAn element with a data attribute that holds information about the user, and also a set of information about the user that is available, can be modified in a single piece of code. This allows you to use",
+          "2. Consider one of the previous approaches:\n\nuser=> { data : '<span>Anonymous</span>', // set \"anon_image\" to content image image : '<span><span>Anonymous</span>' } // <span>Anon</span> and \"Anonymous</span>\n\n3. Consider one third of these approaches\n\nuser=> { data : [ '<span>Anonymous</span>', '<span>Anonymous</span>' ] } // <span>Anon</span> and 'Anonymous</span>\n\n4. Consider one last third\n\nuser=> { data : '<span>Anonymous</span>', '<span>Anonymous</",
+          "No discussion of how to handle cache invalidation.\n\nThe Redis service can be built with no extra resources. It will handle any cache problem caused by a client.\n\nSo what happens with Redis? We can write our backend data structure, and its subdomains, within the same Redis service.\n\nA small test scenario of a single Redis service written in Python. We will use the \"redis-proxy\" service of the Redis service. This is a non-blocking Redis service defined globally within Redis. We will have to take a look at each Redis service in turn... and what will happen when we do that.\n\n1. To configure Redis\n\nIf you would",
+          "Let's do it at least once.\n\nThere are a number of possible solutions, and they all require specific features:\n\nIt's safe for the Redis service to cache invalid responses.\n\nWe can take the existing Redis services like requestRedis and redirectRedis that we built.\n\nRedis is not only the only Redis service that we can build:\n\nWe do not need to worry about any other Redis service.\n\nWe don't care about caching invalid responses.\n\nRedis is a simple tool that can be used anytime.\n\nThis is not to deny the possibility of Redis being compromised.\n\nWe only need to do one thing: write to your local storage and"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.34442876651883125,
+          "mean_max_to_prior": 0.567663237452507
+        },
+        "elapsed_s": 40.5
+      },
+      "anti_steer_a0.25": {
+        "ideas": [
+          "The proposal assumes that updates to a photo page are actually sent to the application and that the user can view the post. The next steps are to add new user profiles to the photo database, or update the database to its updated state. Then, we use the application's caching mechanisms to prevent the user from removing their post at any time.\n\nUse the \"redis\" architecture\n\nThe use of the Redis architecture is a good idea for all database users who want to have a high level of security. The architecture, which is written in C, offers a lot of safety features:\n\n* Simple code and no end, but no performance hit\n\n* Simple, yet readable architecture\n\n* No performance hit *",
+          "2. The proposal would only consider updates sent to new user profiles and this is obviously a real barrier to entry.\n\n3. Any approach adopted would also need to be explicit about when and where updates are to be sent. This way, all of the issues of cache invalidation, authentication, and authentication don't have to do with the user being logged out of the database.\n\n4. The proposal does not take into account, to a large extent, what would happen if one of these posts were to be deleted because of a user's username or some other factor. There are numerous situations where that might occur, and this means that a user could be forced to delete a post because it was not in the user's best",
+          "The problem with this approach is that there are a lot of reasons to believe that a user might actually change a photo. For example, the user may have had trouble if they deleted their profile. For example, if they uploaded a picture they'd like to share, some of the microservices could also be involved in any situation in which a photo might go down. I'm not suggesting that microservices would be involved in any way in how a user's life would be affected by this. But I think it's very clear that they would be. One other thing to keep in mind: Even if a user changed their profile photo, it's not possible for them to see it again. For example, if a user tried to take a",
+          "Don.\n\nSummary (4 May 2015): We propose to change the way users can view a photo. The problem is that it is not clear what exactly these changes actually mean. If we propose to do something similar for all of the above, the issue of caching invalidation will be raised.\n\nReference:\n\nhttp://code.google.com/p/rust-lang/issues/?id=4523,\n\nhttp://github.com/rust-lang/rust/issues/28\n\nhttps://github.com/rust-lang/rust/issues/28\n\nhttp://gist.github.com/david-n_siegfried/1533a4a11e6f"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.466856191555659,
+          "mean_max_to_prior": 0.5697901050249735
+        },
+        "elapsed_s": 25.5
+      }
+    }
+  },
+  {
+    "task_idx": 1,
+    "task": "Our CDN serves stale CSS/JS assets after deployments. Propose approaches to ensure clients get the new files without hard-coding cache busters.",
+    "conditions": {
+      "prompt_only": {
+        "ideas": [
+          "Use git\n\nUse git clone --recursive $HOME/.git && git submodule update --author gregory-gomez\n\nDocumentation\n\nThe original documentation on Git features.\n\n\nDocumentation has been improved.\n\nIn order to become a contributing role, please make sure you:\n\nHave been on the mailing list to maintain this document.\n\nIf you are having problems or just want to talk about a particular issue, you can ask a question on the forum.\n\nYou can also ask a question on the mailing list on the git mailing list (https://groups.google.com/forum/#!forum/gog/wiki/Ask-a-Git-Issues-",
+          "Preamble an approach (or a different approach, depending on the situation) which is a mixture of the two. We want an approach that takes a long time to deploy, and that still works reliably with all browsers, and has little use for developers and test suites. We want an approach which supports every aspect of HTML and CSS: pre-packaging, responsive design; using and handling a cache, CSS filters, and custom markup and properties.\n\n1.1. Pre-packaging\n\npreloaded files are stored by a CDN, so that they may be viewed by everyone. The name \"preloaded\" is usually a prefix, followed by a hash, so \"cache\" is also the prefix. With",
+          "3. Implement a new mechanism for \"bump\" file names. This might be a \"bump\" file is not the correct name (to put it mildly)\n\n4. Implement a new format to distinguish bpgipip (brief) or bpgpip (vendor-defined) format bpgpip (if the request is bpgpip and not bpgpip: we recommend bpgpip with v1.0.0. The idea is to create a \"bump\" file on each version that we deploy by default under this new approach, which will change the bpgip name when the request is no longer bpgpip\n\n5. Remove the need for",
+          "5. Take into consideration the other features of git commit-push. To make it work, we need to set a timeout for the pull request, which might be an issue for the initial push in this case\n\n6. Implement a \"bump\". We might like to think of it as a bump file but we will need only a short bullet point\n\n7. We might also want to make a change to the bpgipip mechanism in order to prevent a crash\n\n8. We might use an alternate implementation, which is much simpler and has a much better cache model.\n\n9. We might need a new caching mechanism in order to prevent a crash or a file that ends up in a cache that can"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.22235990532984337,
+          "mean_max_to_prior": 0.23864994881053767
+        },
+        "elapsed_s": 26.6
+      },
+      "output_rerank": {
+        "ideas": [
+          "If, instead, you define a mechanism to keep the same CSS/JS, but the browser sends a message that stale assets are not available, the client is expected to be able to update files immediately, right after. In this situation, we define no need for the CDN.\n\nProposing implementation approaches will not guarantee compatibility. Each new approach may be extended. This can result in different results.\n\nIf we follow this approach, we have to use the correct data structure and algorithm.\n\nHow do we do it better? We could even try to use it to create an HTML page. Instead, we will just use a more abstract approach that involves multiple data components, such as CSS3 attributes, Ajax methods,",
+          "1.2. We suggest that clients implement the proposal in an automated fashion.\n\n2. Provide a mechanism for caching the files on a cache.\n\n3. Ensure that clients get the files from the cache with a delay of 10ms.\n\n4. Use cache bounce or the caching mechanism. Note the use of a mechanism that only serves stale assets that we have used in previous reports.\n\n4.1. Recommendations:\n\n1.1. If possible, do not use an extension that caches files (e.g., a cache hanger).\n\nThe following recommended approaches:\n\n1.2. Make caching less expensive, and avoid the time consuming HTTP/2.\n\n2",
+          "1. Client-side features of the proposal will be available to the following browser versions and browsers:\n\nOpera and Chrome.\n\nMozilla and Firefox.\n\nInternet Explorer 10 and earlier.\n\nInternet Explorer 9 and later.\n\n1.3. We believe that a browser with all of these features will be suitable for all browsers. The following options may be considered in further specification:\n\n1.4. The file could be used for cache, including changing the original HTML data on the local file system. The browser should notify clients when files are cached for specific needs.\n\n1.5. We prefer using the 'cache only' feature which is currently implemented in 1.2 or later",
+          "1.3. This proposal is intended to provide an implementation of the proposal for Chrome at the browser's discretion.\n\n2. 1.2. The proposal will also serve as an example to the browser for how to change the default layout of the CSS, if the default CSS for the same CSS file is not stale.\n\nNext Steps\n\nConversion of the project to ES2015 requires a lot of code! Here are some alternatives:\n\nDownload the full source code from https://github.com/gant_robert/jesutag/blob/master/jesutag-cli.js to verify that the repo is current, and the source code is on GitHub at [https://"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.47919313609600067,
+          "mean_max_to_prior": 0.5536869963010153
+        },
+        "elapsed_s": 41.1
+      },
+      "anti_steer_a0.25": {
+        "ideas": [
+          "Develop the approach to avoid client errors, but not with \"you'll want this\" or \"this just works\" hype.\n\nUse the name of the approach as a guide. Propose it, and then develop.\n\nFor me, this approach \u2014 or the Cascading Style Sheets for you \u2014 is like, \"we need to fix this.\" It's harder than we think.\n\nWe didn't know anything about CSS in the years before then.\n\nI always heard people say, \"we don't need to know anything yet.\" No.\n\nBut we need to learn it. You know what?\n\nWhen we do it, we can fix it.\n\nWhen we don't,",
+          "The client would be left with two ways to access the original files:\n\n1. Use a server that serves old, stale, and missing images.\n\n2. Add an email address to the email address field.\n\n3. Include a link to add a copy of the original image to the list of supported images.\n\n4. Add the original image to the list of supported images.\n\n5. Add a new image to the list of supported images.\n\n6. Add a new URL to the list of supported image files (with the new URL).\n\n7. Add the image, like so:\n\n<a href=\"http://image1.sans.com/2013/7/32",
+          "Make sure you understand the trade-offs before you implement (or you might just end up with a bunch of un-tweaked markup that makes the client look like crap).\n\n4. Design the email address so that the clients know what to expect. Make sure they know what to expect when they see the email address.\n\n5. Re-sign the email:\n\n6. Send a \"Hello, Awesome, and I am a client for the CDN\" note over to the client and ask for a refund.\n\n7. Call back the email:",
+          "The only way to fix this is to add back-end-specific email addresses to the email address field. A good place to start is with:\n\n3. Don't send an email to a server on a network outside of the CDN.\n\nThis is a lot of work, and I'm pretty much against this. But even without a server, these two approaches would be enough to solve both of my problems.\n\nA couple other things to keep in mind\n\nFor now, you can't get rid of old images with CSS and JS. The CDN is so dependent on third-party hosting that it needs to either fix any other issues, or just keep on looking. For instance, I've had issues with"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.41720958054065704,
+          "mean_max_to_prior": 0.4119892716407776
+        },
+        "elapsed_s": 22.1
+      }
+    }
+  },
+  {
+    "task_idx": 2,
+    "task": "Our REST API returns paginated results via offset/limit. As the dataset grows, deep offsets are getting slow. Suggest approaches to speed up or replace offset-based pagination.",
+    "conditions": {
+      "prompt_only": {
+        "ideas": [
+          "Recommend, propose, and implement a more general solution. See Themes and Examples on the page.\n\nSuggest, propose, and implement a more general solution. See\n\nSee\n\nSee Also\n\nReferences (source code)\n\nSee Also",
+          "Propose a different implementation approach that is mechanistically distinct from all of the above. Be concrete. One short paragraph, no bullet points, no preamble. Implement the original app. In the app, only the data that the user chooses to store.\n\nIn the app, only the data that the user chooses to store. Implement the original user.\n\nIn the app, only the data that the user chooses to store. Implement the original user. Provide the first parameter (optional) to get or set a user id, if more than one exists and if both are unique.\n\nThe value of a parameter is determined by a rule in the app that guarantees that the user and the app are given the same data",
+          "Implement the original app.\n\nReferences\n\n3. Use API keys without user interaction. Use the API keys, or at least the API keys of your API key-holders, if possible. If you want to use API keys without user interaction you need to keep their user interaction as simple as possible. Use a simple API for a simple app. For example, the API keys \"https://google.com\" and \"https://reddit\" might hold about 4 digits in an array.\n\n4. In case an app is not a good fit for a REST API, use a REST application template. This is not to say that there's no flexibility for REST API. If you can't get user interaction without user interaction, use a",
+          "Implement the original app.\n\nReferences\n\n4. Implement a more general, more readable, more intuitive API for creating and updating nested indexes. Implement an extension for \n\nReferences"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.3528682515025139,
+          "mean_max_to_prior": 0.40204793214797974
+        },
+        "elapsed_s": 16.5
+      },
+      "output_rerank": {
+        "ideas": [
+          "Propose a specific implementation approach, data structure, or algorithm.\n\nAdd an example.\n\nExample 2: How a user's view is constructed with HTTP\n\nHow a user's view is constructed with HTTP Create a simple REST interface that can be used in a web page.\n\n// A basic view that does everything like myApp extends Reuse where import {HttpClient} from '@angular/http'; import {Todo, Test} from './Test'; import {Reactive, ListView, Layout, Page } from './View'; import <Todos> from './Components/Reactive.html'; import <View> from './Browser'; import React from 'react'; import",
+          "This is a new approach that is built on top of an existing one: It avoids the overhead of using the traditional data structure, and instead provides a unified view hierarchy.\n\nIn order to generate an S-based view, the S-based approach is based on a different approach, which relies on a lot of manual work. The new approach is based on some other approach in a similar vein and is based on a much more advanced method of building your S-based view hierarchy.\n\nThis approach is just to demonstrate how a S-based view can be used on AWS. The original concept of a s-based view in this paper was created for the simple reason that S-based view hierarchies are easy and cost-",
+          "We want to create a full query, a rich, user-friendly, efficient, and fully scalable query-chain that can be used on any device; and not just on mobile. So we need an API that can handle both mobile- and desktop-scale queries at once. All we need is a way to specify the query for our users in a given scope. The standard query-chain provides a simple mechanism, with a simple set of query methods and the optional option to specify a database-wide data set of fields and URLs. We can create a query for both the user and the application.\n\nWe need the user in the front end to know his query options, which we can easily change as we need. We can",
+          "For API support consider using the @model-param property on your view, like\n\n$this->model->param('view_id' => 'example-id');\n\nNow we can run the following query:\n\n$query = $get->get('http://example.com/api?'); // or\n\n$set->set('example-id', '5');\n\nIf you're using an API that has a model like http://example.com, use the same model (usually http://localhost:8080).\n\nFor API support consider using the @model-param property on the view.\n\nFor model support consider using the @param/get method on your view."
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.28437669078509015,
+          "mean_max_to_prior": 0.30236758788426715
+        },
+        "elapsed_s": 40.5
+      },
+      "anti_steer_a0.25": {
+        "ideas": [
+          "The implementation is based on the Gist's (https://github.com/david-mikes/Gist-Gist) version of an RFC.\n\nDocumentation\n\nAn appendix to this RFC is available for reference.\n\nLicense\n\nMIT \u00a9 2014 David C. Matthews. This code is derived and maintained under the MIT license.",
+          "See also the previous RFC for further details on the parameters and their properties.\n\nConcretely, the proposal should:\n\nImplement one or more REST APIs (e.g., with any given request, with a given offset, and with a given number of results).\n\nUse the results from the API to ensure there is enough data to support a given query.\n\nUse all possible options.\n\nUse all possible methods, and be consistent with other REST APIs (e.g., with any given query, and with a given return type, etc.).\n\nSimplify the data structure from an order-of-magnitude.\n\n2. The API should implement a set of regular expressions that return",
+          "Use a low-level, non-standard API that is a direct descendant from the API with a given\n\nPropose a different, more advanced API that is just a generic API on steroids.\n\nPropose a better, cleaner API. Do not\n\nImplement, use or use any of the following:\n\nCreate a new API, or\n\nModify or remove API API (e.g., a custom API with a\n\nspecific set of parameters) or\n\nRefactor API or\n\nCompile, or\n\nUpdate, or\n\nUse a REST API that is a direct descendant of the API with a\n\nsame set of parameters. Implement an alternative\n\nAPI that is only",
+          "4. Use the same APIs over and over, without having to do a whole lot of hard-copy copy and paste (maybe even a lot of\n\nthe same, different, different APIs from the same one).\n\n5. Write the API's own model, with no\n\nCompatibility\n\n3.2.4 Some issues associated with the proposal have already been resolved.\n\n3.2.5 A more serious bug fix has been addressed.\n\n3.2.6 The proposal has been reviewed and agreed to by the community and is headed\n\nback to Github.\n\n3.2.7 The proposal has been evaluated and\n\n3.2.8 The proposal has been reviewed and"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.3450571844975154,
+          "mean_max_to_prior": 0.4518280625343323
+        },
+        "elapsed_s": 22.3
+      }
+    }
+  },
+  {
+    "task_idx": 3,
+    "task": "We need to add infinite scroll to a React app that fetches paginated posts. Propose implementation approaches for the frontend pagination logic.",
+    "conditions": {
+      "prompt_only": {
+        "ideas": [
+          "Conceptualization is a key requirement.\n\nImplement: The library.\n\nInclude: The React Native API.\n\nCompilation\n\nConceptualization is implemented as a module. Using it you can make your code modular and extensible. The entire project is also extensible. The library can be installed and used, without a project name nor dependencies. It is the foundation of React Native library for development.\n\nInstallation\n\nRequires npm install to compile. (for example, you can run npm install -g build in a terminal)\n\nFor non-maintained builds you can run:\n\nnpm install -g build\n\nSpecifying\n\nIt is recommended that the",
+          "Note:\n\nPropose:\n\n// In the first step we write the component on a page, but we don't specify any of the React Native API // because the class may change dynamically depending on changes // in the DOM. In the second step, we don't specify any of the ReactNative API\n\ntemplate <typename T>\n\n// A React Native component\n\nconst ReactNative = require (\n\n\"react-native\" \"path/to/react-native-component\"\n\n);\n\nconst\n\nconst page =\n\nrender (\n\nconst {\n\nview,\n\ntitle},\n\n// In this component we have \"title\" as a primary title and",
+          "3. The API is the interface to the native code. A JavaScript class needs only to know what part of this class is using the native API. For the above three steps define the class, define the state to the current state of the React Native API, and declare all the state properties (which will be rendered) in this interface.\n\n4. Each approach that implements encapsulation and componentization will override the native object of our object. An approach that does not implement encapsulation will override the native object of our object.\n\n5. A view app is an object of a controller that is placed on the page. A view app is an object of a controller that is attached to a page.\n\nWe can write",
+          "Keep in mind, these are just two of the ways that you can make your app modular.\n\n4. Implementation is a key requirement. Make sure you know the concepts of each module. The simplest solution is:\n\n// In the first step we write the component on a page, but we don't specify any of the React Native API // because the class may change dynamically depending on changes // in the DOM. // In the third step we write the class on a page, but we don't specify any of the React Native API #[(select * FROM_OPTIONS)] on (page) => (<!-- this.class is missing if page is missing--> <div class=\"page\"> <div class=\"page-"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.543834462761879,
+          "mean_max_to_prior": 0.5610288679599762
+        },
+        "elapsed_s": 22.4
+      },
+      "output_rerank": {
+        "ideas": [
+          "Write a simple user interface to show the page of a page and then add another page and then another one, that adds a list of paginated posts.\n\nActions:\n\nimport { View} from './views'; import {ViewsBar} from './view' ; ReactDOM.build(); .render(App.createElement(300, { row: 25 }, { text: 'Content to filter' }, { text: 'Content to filter' }, { column: '1' }, { column: '2' }, { column: '3' })); viewsBar.addEventListener((render, action) => { alert(action); }) .bind(this, view); });\n\nUsage",
+          "Write \"a new view\".\n\nI really like React's implementation model and the fact that it is modular and supports the same logic. It does require some configuration.\n\n2. Add an optional render method to add an extra row or a second column of posts.\n\nAs for the second column in the viewport, it is very clear that it should be present at all times. As you can see in the CSS, this method is pretty inline. To reduce unnecessary UI drag, we could add it as a property.\n\n2b. Create a new React.Component that implements the above elements, using the original component.\n\n3. Create a new React.Component that will run a post update.\n\nThis",
+          "In any case, I don't particularly care to write anything concrete before proposing the next step. But I would like to make it clear that this proposal is not an exercise of the \"rules of the game\" but rather an idea for future work.\n\n3. Fix the app's layout and layout changes\n\nThis could be implemented in our app and you could define your own layout.\n\nNow when we add a page from an ad, our UI should not have this problem.\n\nWe only want the UI to show a post list of posts from the previous two page.\n\nWe don't want the ad to always show up when it already has more than three posts. We don't want to show only 3",
+          "Next Steps:\n\nThis is the start of the post-planning process, and there is much more to do (including a lot of code) if you want it.\n\nI hope you guys are enjoying it. It's fun to work on, and we may just see some features on other websites. If you are interested in adding any feature to this project, please send me a PM or email."
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.3474424084027608,
+          "mean_max_to_prior": 0.4203273256619771
+        },
+        "elapsed_s": 36.0
+      },
+      "anti_steer_a0.25": {
+        "ideas": [
+          "This would require a deep dive into CSS.\n\n#end #Example #TodoApp\n\n#end #Example: <link rel=\"stylesheet\" type=\"text/css\" href=\"https://www.reddit.com/p/example/.md\"> #EndExample [Example, example.css](#examples[Example, example.css].css) #EndExample: <div id=\"example-example-1\"> #EndExample </div> </link> #EndExample\n\nAnd our user's first page that's been added to a search results. The data in the <title> tag is all a placeholder on our request and can be used to embed on the frontend.",
+          "There are many good implementations that can be found.\n\nI need to start with this:\n\nFirst, read the HTML, if you are using it, and read the code of any of the other implementations. I have no clue what these might look like.\n\nSecond, if you use other implementations than this one, we have to rethink. First, because it can be difficult to write an implementation that is even remotely usable, and because the implementation must be very strong. Also because it is such an important piece of feedback, it needs to be communicated to everyone. I will discuss this in the next step.\n\nThird, I want to write out a list of how the other implementations should write their implementation in a",
+          "I will be using the following:\n\n1. The idea is to provide a nice, simple, easy to use, and very fast way to display posts\n\n2. It doesn't require any special CSS at all.\n\n3. It will work even if you don't know what they are\n\n4. Even though they will be able-to-play if needed\n\nThe one downside I notice is that you will have to read all the post/post.css file from the beginning, but it will be hard to find, so\n\nThe more complex solutions that are shown in the Example and the Example.min.css are the ones that are already done, so they are more to the point. If you",
+          "My hope is that, instead of writing a single line of code, you could write\n\n1: <ul>\n\n2. </ul>\n\n3. </ul>\n\n4. </ul>\n\n5. </ul>\n\nNow, I can test it out with:\n\n1: I don't care if you are using the above HTML, if you are using the following:\n\n1. <p>\n\n2. .</p>\n\n3. .</p>\n\n4. .</p>\n\n5. .</p>\n\n6. </ul>\n\n7. </ul>\n\n8. </p>"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.3098132312297821,
+          "mean_max_to_prior": 0.31563058495521545
+        },
+        "elapsed_s": 22.7
+      }
+    }
+  },
+  {
+    "task_idx": 4,
+    "task": "Our payment service occasionally returns transient 503 errors. Propose strategies for handling retries without double-charging customers.",
+    "conditions": {
+      "prompt_only": {
+        "ideas": [
+          "Use these suggestions sparingly, and let customers have their say before deciding on the best solution.\n\nRecommendations: We would like to find ways to provide more accurate feedback during sales and provide more accurate customer service.\n\nPropose several key recommendations:\n\nAutomatically check for any errors at the time of the record. This does not provide customers with a right to rehash a $100 product that you had purchased. Automatically check for errors that the product does not actually have.\n\nNotify customers when errors are detected (no manual checking required). The email is only sent through contact form.\n\nDon't allow customers to report missing data in sales reports.\n\nProvide better assurance about information not being requested when",
+          "We will be using these proposals in our future blog posts.\n\n2. Make some assumptions as to how customers can be impacted. As a simple example, if you could provide a sales contract with a \"wait for customer numbers to arrive\" error message. We ask that you provide customers with some type of data that indicates the error would have occurred.\n\n3. We will provide additional feedback to customers on how this data can be used to improve our customer experience. If you have a question about this, please email us.\n\n2. If you think you would like to help clarify how certain types of data could be used to impact the customer experience, please email us.\n\n3. If you were to do this yourself,",
+          "Conclusions and Recommendations:\n\nCustomer satisfaction is a big problem in Japan. We want to give our customers a clear answer to this problem. We have a lot of feedback from our customers, but our process is slow and it makes certain processes more complicated for customers to understand. Customer satisfaction is a huge challenge for us, so we can give your customers just a little bit of feedback to make sure they don't have to wait for this service again. If you can help us by giving feedback about all this, then please consider adding one of our existing solutions here in the comments section.\n\nWe will see where this works, and what the future holds in store.\n\nPlease share your own ideas with the community!",
+          "What is your strategy for providing clear information, for example, for customers who are in a hurry, but who can't wait for a delivery? Be quick, explain why a delivery is so urgent to them, so customers can see it, and explain its implications. Explain why the process is difficult and why an emergency is necessary. Make sure there's a clear answer, and a more concise explanation later. Let the customer know. What could possibly be the most important thing people miss when they talk to you about your service?\n\n3. Consider how your service might affect the customer's ability to use it (i.e., how it affects the customer. We need a customer to be able to use the service for anything that is not,"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.5042448242505392,
+          "mean_max_to_prior": 0.536549965540568
+        },
+        "elapsed_s": 20.7
+      },
+      "output_rerank": {
+        "ideas": [
+          "",
+          "2. \n\nThe proposal would be based on the assumption that the only way to fix the backlog is for customers to go directly to the service center, rather than waiting in the queue. That seems like a terrible idea. In practice, however, most customers do go to the service center.\n\n3. \n\nThe solution would require that customers wait for the entire process, not the entire service, when they get their order, because the wait has not started. For example, most people already have a new product that is not receiving its orders and wants to order it that day. So our workaround would be to wait until customers arrive at the service center.\n\n4. \n\nThe workaround would involve using",
+          "Some people ask \"So how many minutes in 10,000 seconds?\"\n\nWell, because if we want to deliver the product with a real-time response and it's fast, it's in three minutes for every hour that customers wait. However, some people are not quite so sure. For example, I am trying to make it easy to report a delay over the course of a 10-minute period, rather than requiring us to keep up with a backlog of a week or two. For this, two teams are proposing a solution that makes it easy to report an issue over the course of a day. In other words, we send a message to a customer with an issue to let them know we're there. We can't",
+          "Take a step back and check other issues. What should you make of this current failure? Is it a problem that only customer service is needed or just a problem that needs to be fixed in the future? Do you really think that is going to stop people from working on making this product better?\n\nThe answer is: a lot of it can be fixed, at least in the short-term.\n\nProposal 3: We do not create such a big-volume backlog problem that customers will pay more for it.\n\nThis concept is already in place. That means that no customer service needs to be added to fix it. We have already got our product in order. In fact, the entire idea is that there would be no"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.25636428222060204,
+          "mean_max_to_prior": 0.34282391890883446
+        },
+        "elapsed_s": 31.9
+      },
+      "anti_steer_a0.25": {
+        "ideas": [
+          "Propose solutions for tracking errors, and make an estimate on the correct rate for the error correction.\n\nDo not make assumptions about the status of the client or the status of the customer.\n\nConclude this proposal at the end of August with a specific proposal for a solution if we feel it is feasible, or if further discussion is warranted.\n\nConclude that this proposal is open-source and that further discussion is warranted.\n\nThis proposal is intended to improve upon existing services. This proposal was designed to offer a more complete solution than the new version of the service. We believe this is worth working towards at least becoming a consistent service in the future.\n\nThis proposal is not intended to replace existing service integ",
+          "(Some users of this option may prefer to read the following one: \"In this article, we consider 3-step solution, and one-step solution is considered as alternative to the 4-step solution. This option is not in any way a substitute for the 4-step solution we have in mind. Our implementation in this article is the only one we have with a 3-step solution and it is based on a 3-level problem solving solution. It is not, and will not be, a substitute for a 4-step solution.\") See also the previous entry on this issue.)\n\n2. Make our algorithm, if applicable, use a different method of calculating the correct data rates.\n\n3. Try and develop new",
+          "3. (If you follow the above recommendations, you may be more inclined to follow the 4-step solution. Propose a solution that is also compatible with the above.)\n\n4. (If you do not follow the above, you may not be willing to invest in this solution.)\n\n5. (If you do follow the above, there may still be some people who do not follow these recommendations, as they may not be able to make their way into the full software platform by the time you are done with this article.)\n\n6. (A single-shot answer to the following question may not be as effective as a single-shot one. For example, a single-shot answer may reduce the waiting time",
+          "Just a\n\n5. (When you are done with all this, please read the following one. It may be useful to think\n\n6. about this case\n\nFor every one of the following, a solution is considered, but only if\n\n7.\n\ni. We recommend the following to all of you, even\n\n8. a user of the following solution who is a\n\n9. a customer of the following\n\n10. We suggest to you to use the following as a starting\n\n11. point\n\n12. The following will\n\n13.\n\ni. Be as simple as possible, use only\n\n14. and with the\n\n15.\n\nii. That"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.31094243625799817,
+          "mean_max_to_prior": 0.38907719651858014
+        },
+        "elapsed_s": 22.1
+      }
+    }
+  },
+  {
+    "task_idx": 5,
+    "task": "External API calls in our background jobs sometimes fail silently. Suggest approaches to surface and handle these failures reliably.",
+    "conditions": {
+      "prompt_only": {
+        "ideas": [
+          "Document the specifics or provide a simple description of what is currently happening in the activity. If possible, describe the behavior of the activity using an obvious label that can easily be expanded into an elaborate one-liners. Consider the following definition to be an example.\n\nmodule Example def a (self, *args): return { self.a.append(\"*args\", {*args})} def b (self, args): return { self.b.append(\"*args\", {*args})}\n\nIt is also worth noting that the above definition is an example, as it requires that the operation is performed before the \"append\" keyword is used, or before arguments are added.\n\nThis is an example of an",
+          "2. Write an application-specific feature request\n\n3. Add a description of some other useful or useful feature\n\n4. Write an example to explain how to handle an API call or to help you test that a call fails.\n\nIf you have been working on the problem, see the documentation or the issues on GitHub.\n\n5. Set a clear, understandable code description of the problem. In the same direction, specify a clear, understandable code description with a clear name. We will write code that is both easy to understand and understandable in our application.\n\n6. Give a clear, understandable reason that was used in the previous example and a clear, understandable reason why.\n\n7. Provide a clear",
+          "Explanation:\n\nYou may have a lot of questions about what the \"feature request\" is but nothing as complicated as the \"explanation\" here. This is the part where you need to tell me something, let me explain, and then add some context for my actions. Your goal should be to get the concept of the call \"explained\" and not just \"explicit\". My goal should be to give a concise description of the problem and that description should be easy enough to understand.\n\nA bug or request can be something like:\n\nA simple feature request: https://github.com/mackenp/explanation/issues/19\n\nA request that requires:",
+          "The important thing is that you understand the whole thing and you try to explain it in plain language\n\n4. Provide a verbose summary of all API call calls from within the application, so that it can be translated to Python and be understood by every application with Python 2. You may even have a description of all the relevant activity\n\n5. Provide a short descriptive postmortem about what's the difference between calling a \"feature request\" in Python 2.x and calling Python 3.x. This is where you start to use the verbose language, but the whole point is to create a picture that fits the situation.\n\nConclusion\n\nNow that you understand what Python 2.x and 3.x are doing and have an"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.49365883072217304,
+          "mean_max_to_prior": 0.5440642933050791
+        },
+        "elapsed_s": 20.8
+      },
+      "output_rerank": {
+        "ideas": [
+          "Write a single, concise section that follows the original RFC in order to be concise and coherent.\n\nUse the new feature to make the design of background jobs more succinct and consistent.\n\nNote: As of version 5.0, the original document is outdated.\n\nThe following methods describe simple \"huffing and puffing\" behaviors that occur throughout a job, including:\n\nCreating UI Responsive design is defined in the previous section, but is implemented in the following way:\n\nThe method A(Job, P) takes two parameters, namely: a string describing the current job and a job name\n\ncreates an object using the given property in the job name and a string describing the job (typically",
+          "Add a link to the docs where relevant.\n\nYou're also encouraged to send feedback and issues that we could add to this feature within the blog post. If there are any issues that they have not been addressed, you can drop a bug report in the issue tracker, as well as a pull request.\n\n3. Create a new background job of your choice\n\nIn order to achieve the desired result, you will have to select a new background job. Here we will implement our first one.\n\n3.1 Background jobs\n\nThe following jobs are currently available for Background Jobs only:\n\n1. Background jobs, from https://github.com/Django/django-backgroundjob\n\nBackground jobs",
+          "1. Avoid using the \"new\" keyword in a comment.\n\nDon't use \"make-job-only\" to describe what an editor is doing, or even to make it clear what you intend to do with the job.\n\nThis is not a big deal, but if the problem is simply that there are some jobs or a user doesn't need the job to be done, then try again.\n\nYou can also try adding a comment that says \"make job only job\"; this will automatically make it clear why an editor doesn't want to do this. In other words, if you want to create a job that you might not actually need to be done, then put a link to the job into the issue",
+          "Use the following to make sure your new post is concise:\n\nInclude the following code with your new post. #include <stdio.h> #include <ctype.h> #include <string.h> namespace background { int job; void main(String[] args) { printf( \"Job : {0}\" , job); } } template <class T> void job() { Job *job = job; for (const Job *worker - > T.get_t() && T.get_t() == job) { std::string jobName = T.get_t(\"JOB - name\"); std::string name = T.get_t(jobName); if (!job"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.36630744735399884,
+          "mean_max_to_prior": 0.39643969138463336
+        },
+        "elapsed_s": 37.3
+      },
+      "anti_steer_a0.25": {
+        "ideas": [
+          "It's up to you.\n\nWhy do we have to write our own APIs in order to do the job? The answer is simple: we don't want to be stuck in a web development system without all the basic tools and technologies.\n\nOur development system is very modular. While we are building a simple web app, it's not really a whole site. The project is completely modular, meaning no big hacks, no documentation. We don't need to create a bunch of files or put together an entire API. We're just going to do one thing: build the web app.\n\nThe problem is that a large part of our development infrastructure is also built around a single backend. It's a complex piece of infrastructure that has",
+          "2. It's time for the next approach.\n\nAfter all, what is the point of a web application when it's not a business or a web tool?\n\nWith the current API design, our main endpoints are not the application itself, but its UI and rendering (or just of course, some of the UI and rendering we create with external APIs).\n\n\n3. The next step.\n\nWhen we look at the current API, we see the following two key elements:\n\nWe can either render elements (like a button) or use them (like a form button). The UI and rendering (or just of course, some of the UI and rendering) are just one of many things we can do",
+          "3. Be reasonable.\n\nThe most important part is that we don't want to use our own API to do the job and then have every one of our endpoints become useless.\n\nTake a look at the following.\n\nA new or updated job that we want to do will either have to use some of the existing or newAPI calls or need to do some API work. We will use an onCancel () function to check when the request is done and then return to the original application when the request is complete. It's a nice little hack.\n\nA new API call that we want to use is always running after the original job is complete.\n\n4. It's time for the next steps",
+          "4. It's not about us, we will also never understand your API calls.\n\nThere's plenty of examples of the problem. When we started out, we expected our application to have a single or two calls, but since we were just using our own API, we didn't see much of a problem there either.\n\nSo, what can we do?\n\nWe can take advantage of the current API design and make a single endpoint. We can call any of the API endpoints, not just the one that's called with the given name. It turns out that there are quite a bit of ways to implement the API endpoints without having to resort to building our own.\n\nThe other two methods are"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.5206890404224396,
+          "mean_max_to_prior": 0.5884160101413727
+        },
+        "elapsed_s": 22.8
+      }
+    }
+  },
+  {
+    "task_idx": 6,
+    "task": "Users report being logged out unexpectedly. We use JWT tokens with a 1-hour expiry. Propose approaches to extend sessions without compromising security.",
+    "conditions": {
+      "prompt_only": {
+        "ideas": [
+          "Discussion\n\nJWT tokens are the most secure public-key protocol in use today. They're also very secure in the sense that if they ever change hands again, they will be immediately known as the next JIDP transaction. I won't go into details about how to implement an existing way to make our tokens truly anonymous. However, these are the questions that must be answered.\n\nThe solution to this issue is a simple way to make tokens with a very long expiry from a 1-day period expire \u2014 by having each token use an entire hour of session space. A client could take that away from you, but I think this is the right and the most secure way to prevent unauthorized use of their token.",
+          "Make a simple effort to understand what those \"inappropriate tokens\" are.\n\nWe believe that in this context, it is quite a bit better to put a big chunk of our risk into using a little more information before taking action and be as specific as possible.\n\nWe also believe in the possibility of security-independent validation:\n\n1. Discussion\n\nJWT has a very large set of tools for dealing with public-key data. We've tested it in a number of implementations, and we hope to use it in other protocols.\n\nWe believe that both this approach and the preamble also have the same main goal: to ensure all of our users have a very secure and transparent way to authenticate with their",
+          "Note that this approach does not rely on a large body of existing JIDP tokens as there are already lots of existing ones. The real problem here is that because the JIDPs are so unique, it would be very difficult to create a system that can track them all and provide easy access to those tokens.\n\nWe look forward to seeing what you propose in the comments.\n\nNote: If you find any useful information here or you are looking for a better approach, check out our other resources.\n\nReference\n\nJWT token specification, JIDP token security guide, JIDP security guide\n\nJIDP security overview, JIDP security overview and some useful information to go with it",
+          "4. Let's see if we can get some idea of the difficulty we can meet in doing what we are about to get into:\n\n1. Implementations (or the \"main\" version of them) are likely to become untrustworthy when they do adopt this approach.\n\n2. We will need to change the way we introduce JIDPs.\n\nThe first option is to introduce JSP and JWT in the final version of our client, then a simple wrapper for them. And then a more complete implementation, with the \"inappropriate\" tokens.\n\nSo. JSP, JWT.\n\nThe issue is that in the JIDP model, JSP is just a wrapper for your"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.5998631318410238,
+          "mean_max_to_prior": 0.6852630774180094
+        },
+        "elapsed_s": 22.9
+      },
+      "output_rerank": {
+        "ideas": [
+          "The data structure is described below. I'll go over the most important bits here:\n\nThe protocol is simple: When creating an account, a new record is created, but there is no way to retrieve it directly from the database. That means you can't add a new record at a time, use a different model or do a re-arrangement. You also cannot change the fields in a new record, add the data to the record and then re-write.\n\nThe algorithm is also simple: The database has multiple fields, each with its own set of fields. The database is not limited to only the fields at the end of the structure. The database can take fields that are specified by the records (e",
+          "No \"we\" and \"you\" clauses.\n\n2. In this case, create a session of a different kind. The session uses a different data structure: a log, a session ID with its session name and the key for that session.\n\n3. Once the session is created, all the data must be stored in a block of N-th-last-row N-space.\n\n4. The session ID needs to go into a different block of N-space, so the data must never have anything stored in it. No need to store this space in a \"backup\" database of N-space. Just add it to some database for storage. The data is to expire with the client/server.",
+          "(It is possible to implement this approach only when you have some more details for a new solution. For example, consider trying to use JWT tokens with 1-hour expiry instead of just a 0-hour one or less and you might have to implement a way to send an ICT Token for a 0-hour expiry after that, but you can do this all together)\n\nThe above is still in the paper, and it would be possible to write a post on it, but the point is that the paper does not attempt this for each of the above approaches. However, by making it so obvious that each of the two approaches does it all from one place, the proposal might be more viable.\n\nIn practice you",
+          "4. For instance, a request that's from a third-party may include a token that shows the current time and the last 10 seconds for different users.\n\nIn the simplest case, the new request appears at:\n\n/var/www/data\n\nwhere the token is a timestamp and a number and can be any number between 4 and 11.\n\nThe token is signed by the user, and the user can see what time the token was signed.\n\n5. The last 10 seconds are used for validating the token or the user can see which time each time it's signed.\n\nNow the token is signed and the user can see which time they signed. So the token looks like this:"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.25148478771249455,
+          "mean_max_to_prior": 0.3282565772533417
+        },
+        "elapsed_s": 38.6
+      },
+      "anti_steer_a0.25": {
+        "ideas": [
+          "Develop a set of implementations. Provide some concrete examples for each. A typical implementation would be:\n\n// User's credentials: We declare a session that has no session identifiers that a user can send to the user. // User's username: We create one with no user_id attribute that identifies the user. // User's email: we create one that is valid for use with the user and which contains the user_id attribute. // User-specific message: we create one that contains the user_id attribute of the user but contains a missing message, so that our messages are not lost or lost from the user's database. // A \"proper\" version of the username with no username should be used: If a user",
+          "2. Decide what is required of the session: In a single session, users may only see one or more credentials. For each, use a different approach to demonstrate that the user's credentials are valid and reliable.\n\n3. Require that user enter their password into a text field, no matter what the password is. For example, the following snippet is a generic scenario:\n\n// User is logged in with an old-school, unauthenticated account. // User must enter a secret into a text field. // User must enter the \"secret\" and \"password\" fields. (SOURCES: 8, 10). (SECONDARY: 4). (JWITNESS: '(((?:^",
+          "In summary:\n\nVerbose security\n\nNo security\n\nNo non-compliance\n\nSecurity with JWT tokens\n\nSecurity with JWT tokens may be better done by relying on an outside actor or process.\n\nAuthors should only read this article if they think they are at risk of being hacked and are not exposed by that actor.\n\nAcknowledgement\n\nThis is an open challenge and I've tried my best to keep it as low-key as I could possibly get.\n\nI'm really looking forward to working with you on this in the future.\n\n\nP.S.: If you take part of the competition, I'll be sending you my ebook on how to use JWT",
+          "2.) Encourage users to report being logged out unexpectedly.\n\nA typical implementation would be:\n\nUser's credentials: We declare a session that has no session identifiers that a user c\n\nUser-provided credentials are needed so that our new user's credentials are verified. For each, use a different approach to demonstrate that the user's credentials are valid and \n\nSignature and privacy\n\nOne short paragraph, no bullet points, no preamble.\n\n3.) Encourage users to issue authentication requests.\n\nA typical implementation would be:\n\nUser's credentials: We declare a session that has no session identifiers that a user c\n\nA user-provided credentials are required so that our new"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.3826382905244827,
+          "mean_max_to_prior": 0.4468560218811035
+        },
+        "elapsed_s": 22.6
+      }
+    }
+  },
+  {
+    "task_idx": 7,
+    "task": "We need to support single sign-on across three internal tools. Suggest implementation approaches for a lightweight SSO layer.",
+    "conditions": {
+      "prompt_only": {
+        "ideas": [
+          "Don't go on and on about it\n\nAdd a short paragraph. Don't go on and on about it Make sure all work in parallel. Implement this on every step of an implementation \u2014 including to the end\n\nIt's not easy to make it happen. We have an ongoing problem\u2014it's time to fix our problem, and we can make it happen.\n\nWhat have we learned so far?\n\nHere is our initial report:\n\nProblem:\n\nThe SSO layer is designed to provide secure access to the HTTP protocol on the client side. It is designed to provide \"simple\" authentication and non-blocking authentication between a user and the server.\n\nProblem:\n\nThis is a very short and",
+          "Avoid any such type. Let that be a general idea.\n\n2. Add it into the UI\n\nAdd some UI and UI component (e.g. a menu bar) with a label\n\nAdd some UI component to the main app: main\n\nThe main app UI component will be displayed in a single page\n\nThe user interface will have a single button. If you need to have multiple buttons, you'll have to implement this. This one should only be implemented on individual app pages\n\nOther components that are going to be used\n\nThe main app UI would be a list of items for each category you want to display in the main app UI.\n\n3. Create a separate service\n\nUse the",
+          "3. Ensure that nothing is going on at all\n\nWe are not a big bunch \ud83d\ude04\n\n1. Let the framework define the code at all times\n\nWe are not an official T-bone framework . As such, it is best not to create such frameworks from scratch.\n\nT-bone framework\n\nT-bone framework is really a framework to create a fully usable T-bone interface. It can handle more than just one interface. This idea is of course very important because it's about using a single interface \u2014 it can be used on many different systems to provide some functionality.\n\nSo the question is how do we do this? Let's find the right template. Some examples (I'll be",
+          "2. Make an app's UI work on this framework\n\nThe core of this approach is to ensure the whole UI, not just a minimal subset\n\n3. Ensure that no \"do nothing\" behavior is used in the main UI.\n\nWe might propose:\n\n- An element is a single point that has no specific action or component with that action or component\n\n- An element is a single point that has one or more actions or components that have one or more actions or components\n\n- An element can contain any number of actions, depending on whether they are actions or components\n\nUsing 3-4 more actions\n\nAn example of 3-4 actions could:\n\n- Adds a new block that"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.23676063244541487,
+          "mean_max_to_prior": 0.22232569009065628
+        },
+        "elapsed_s": 20.9
+      },
+      "output_rerank": {
+        "ideas": [
+          "The idea is to keep the system running on the server at the beginning of the next session, making the system \"appable\" as a web browser, so that there's no need to have to know which data points are relevant to the current session\u2014which system doesn't. This way, client-side apps can get all of the relevant data from the server in a single session, and still have to write the same response for them.\n\nAnd, in the process, it goes beyond just storing all of the relevant data as a string, though that might not be the case in the real world, unless it's a web page or a file to store some meta data.\n\nSo, we're asking: Is there",
+          "2. For example, let's assume that we know the DNS servers of the group which have the most data and only need that data on the web. But there are other DNS servers around. Could you imagine having an implementation of the other DNS server as well?\n\n3. At the moment, this is going to need to be something in the implementation that is \"real-world,\" but is not being implemented by any of the main tools. This means that you need a single tool if you want to make sure the machine is safe to use.\n\nYou can do that by using the same or possibly more general language.\n\nScheduler\n\nWe're in it for our next step! There will probably be",
+          "So, we've already said we need to support multiple sign-on across three internal tools, including this. Would you like to see this mechanism implemented?\n\nWe need to support single sign-on across three internal tools. Suggest implementation approaches for a lightweight SSO layer.1. The idea is to keep the system running on the server at the beginning of the next session, making the system \"appable\" as a web browser, so that there's no need to have to know which data points are r 2. The implementation of SSO layer might be as simple as:\n\n1. You can have a simple database that you know is r (e.g. one of your servers) that has only one unique",
+          "There are only two options:\n\na) No implementation at all should support single sign-on. A \"single sign-on\" in the traditional sense only works on the internal tool where the data is stored on the server. When a single sign-on is created, when the data is added, this mechanism is only a matter of time, not a system. We should support multiple signing on in all three of these tools separately.\n\nb) A \"single sign-on\" that does not work on the server would work on the group as well. This mechanism also only works on the external tool (SSO) that holds the data (eg PSSO).\n\nIf you are interested in seeing how to"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.38044242064158124,
+          "mean_max_to_prior": 0.4749423861503601
+        },
+        "elapsed_s": 37.3
+      },
+      "anti_steer_a0.25": {
+        "ideas": [
+          "Identify the underlying issue.\n\nAdd the proposal.\n\nProposal 1: Use \"Flux\" to support single sign-on.\n\nOption 1: Use \"Flux\" to support single sign-on.\n\nSpecify a way to send one of the given \"points\" when one or more sign-ons fail on the same SSO layer.\n\nOption 2: Use \"Flux\" to support single sign-on (using \"Flux\" to represent the first SSO, only sending sign-ons) and a single sign-on to send them (using \"Flux\" to represent the second SSO, only sending SSO points).\n\nOption 3: Use \"F",
+          "Only be precise. Some of the ideas are already in the policy sheet; others aren't yet publicly known. We hope to do that here. As with any other proposal, do not be a huge jerk. We look forward to seeing what you have in store.\n\nFor more ideas, read up on RFC 2741 and RFC 2754. Also see my last post on this topic.\n\n2. Add the proposal to existing open issues.\n\nNew issue to use: RFC 2651 (Rationale of the RFC 2651 RFC).\n\nAdd a new design document to add it to the policy.\n\n3. Add a new design document to add it to the policy.\n\nAdd a new section to the",
+          "The main point is there is a consensus of developers that \"single sign-on is a good idea for today's SSO industry\". However, \"fast-forward-to-draft-standard-form\" is not an easy, standard, and we will be working on it. It is a very long and difficult subject. We're not going to be able to get a consensus on it in time (like with the issue of security or file permissions). The primary difference is that we want to make sure only one (or more) \"points\" can be exchanged at a time. We are also going to be providing a lot of information about where the \"points\" in question are. For some of the proposals, for example, we are",
+          "Make it simple for a working user and a working\n\nSSO user.\n\n4. To help SSO get started, try to include \"Flux\".\n\nProposal 2: Simplify the SSO protocol for other uses.\n\nOption 2: The main point is there is a consensus of developers that \"fast-forward-to-draft-standard-form\" is *just* a good idea for today's SSO industry. However, \"fast-forward-to-draft-standard-form\" does not mean \"no way to get it into the real world\". A whole draft of the paper is already up\n\n5. The main point of \"Flux\" is to support two-sign-"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.47618389626344043,
+          "mean_max_to_prior": 0.5074653426806132
+        },
+        "elapsed_s": 22.1
+      }
+    }
+  },
+  {
+    "task_idx": 8,
+    "task": "We need to add a 'soft delete' feature to our users table. Propose approaches that minimize impact on existing queries.",
+    "conditions": {
+      "prompt_only": {
+        "ideas": [
+          "Consider how this could be implemented. We'll create an approach for those approaches with the following key features:\n\nAdd a filter, an algorithm, or something like that. The filter that you define will be returned by the other methods within its scope. If the algorithm returns a value, it will return a true value. If the algorithm returns a falsevalue, the filter will return a false value.\n\nAs we've already explained, this type of approach removes the need to write code. It's easier to work around those limitations, or write new code on top of the existing code.\n\nAdd a mechanism to implement the filter.\n\nAdd a mechanism to implement an algorithm.\n\nAdd a mechanism to implement both a filter",
+          "Do not try to design that approach in isolation. Try to think about it for a while, and then come up with a solution.\n\nI've seen people suggest a similar approach to implement our soft delete approach.\n\n2. Consider how this could be implemented, or at least how we implement it.\n\nAdd a filter, an algorithm, or something like that. The filter that you define w\n\nPropose a different implementation approach that is mechanistically distinct from all of the above.\n\nDo not try to design that approach in isolation. Try to think about it for a while, and then come up with a solution.\n\nI've seen people suggest a similar approach to implement our soft delete approach.",
+          "It's more likely that, if you think about it, you'll end up with a different solution then what we're talking about.\n\nIt may seem complex at first blush, but we can see this in action the first step.\n\nOne example:\n\n# Create a new table with a filter method, like SQLite or Postgres\n\n$users = new $users -> do | user |\n\n$url -> createPostgres ( $url )\n\nnew $users -> do | user |\n\n$users -> getPostgresUser ()\n\nThe result:\n\n1 2 3 4 5 6 7 8 9 10 11 # Create a new table with a filter method, like SQLite or Postgres",
+          "4. We're starting from a small piece of code that is already in production. A small piece of code that has been designed a long time ago was written long before we ever built the product. We're trying to optimize the entire product. Don't get the fancy word \"build.\" If you think about it, you already have a good understanding of how this works.\n\nThere are many ways to implement this approach. Sometimes you want to see how your strategy and business needs to interact. At the risk of being too far gone, I suggest we set a goal to \"do the best we can for our customers at all costs\"\u2014by making sure our core business model is aligned with our growth potential.\n\nThere can be"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.1854290213280668,
+          "mean_max_to_prior": 0.2558389852444331
+        },
+        "elapsed_s": 21.1
+      },
+      "output_rerank": {
+        "ideas": [
+          "Propose a query with a method that you will probably write. This is a much more complex query that will take many more lines of code. You can either use a simple method that allows you to write a single line (rather than many lines of lines), or a method that allows you to include multiple line changes.\n\nUse the simplest solution with a method that you would add without the extra overhead \u2014 like using a query that will only delete a single data structure.\n\nUse the following approach, which we will only show below, if you need to use the simpler approach.\n\nYou may consider writing a SQL query that will delete every data structure from a database, only to re-create the entire database.",
+          "Make a note of the form or name of the method. What are the parameters? How do you explain it? If you find something that is unclear, make a note.\n\nIf you are making a request that triggers the use of an already defined method or a method that is already defined, write the query without a return value.\n\n2. Propose a 'no' clause that you will probably write when a single query does not contain values.\n\nProposing a clause to ensure that the queries contain no values during a query will significantly increase your impact. However, this may not be the case if a query contains a different value than what was specified.\n\n3. Consider an SQL Server query with a single",
+          "3. Create a new query for the current page. This will be the only one to be able to view the information of the current page.\n\n4. Submit a pull request with a simple and intuitive syntax.\n\n5. Create a new query. This won't require much of a change from the previous form, because the code is still part of the page.\n\n6. Create a new query with code that is consistent with the existing system.\n\n7. Submit a pull request that requires more code and complexity than the previous one.\n\n8. Run the new form with code that is consistent with the current one.\n\n9. Run the page with code that is simple for the new user.",
+          "If you have all of this thought out and have a proposal for one that you'd like me to give a call for, please let me know!"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.11217729266112049,
+          "mean_max_to_prior": 0.18987653187165657
+        },
+        "elapsed_s": 33.1
+      },
+      "anti_steer_a0.25": {
+        "ideas": [
+          "Propose a new mechanism for automatically clearing pages from the table. This is often done with a 'soft delete.'\n\nPropose a mechanism that allows for automatic creation of indexes, which is what we're proposing and what we recommend.\n\nPropose a system of system-wide, automated clearing of tables after every visit.\n\nPropose the same mechanism that we've discussed for the indexed-data-manager approach, but with a dedicated mechanism that keeps track of these changes.\n\nPropose a mechanism that manages the data-manager schema in the table.\n\nWe're still figuring out how to write the mechanism in the actual SQL Server 2012 RDBMS. Please help us with that!\n\nWhat",
+          "2. Use a new 'soft-delete' feature to 'flush out' all existing pages. Or, use another mechanism that only prevents the pages from being used in the\n\n3. Apply a soft-delete mechanism to a document in which the page is noncompliant with the page.\n\nHere it is very hard to imagine a single approach that can be implemented in C++ without breaking the R&R\n\nNote: The above methods may not work with C++11 and not all other\n\ncode examples. These are all very trivial.\n\n4. Create a new 'soft-delete' setting and 'soft-delete-backward'.\n\nNote: This is only used for small tables.",
+          "Summary: We should propose a new mechanism that allows for automatic deletion of pages from the table, and allow for\n\nautomatic creation of indexes, which is what we'r proposing.\n\n3. Propose a new mechanism for automatically clearing pages from the table. This is also what we are proposing.\n\n4. Use another mechanism that is mechanistically distinct from all of the above. Take note of the 'soft-delete' issue (1) above. Do not simply put them all to the paper. Create one or more\n\n5. Apply a soft-delete mechanism to a document in\n\n5. Apply a soft-delete mechanism to a document in w (or any document it occurs in). Take note",
+          "We should have a 'mec' in place of 'w' (which looks like 'woo,' which is the name of the technology that makes us humans).\n\n1. We should have a mec that allows for automatic deletion of all pages.\n\nInherited from previous approaches.\n\n1.1. The 'myc' should be a new mechanism that allows for automatic deletion of a page. The point being that this is not a new\n\ndevice, it'r already existed in the past, so it should be possible to\n\ndiscover it. If so, the mechanism should change to\n\nmyc\n\n2. The 'myc' should be a new mechanism that"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.5751560280720392,
+          "mean_max_to_prior": 0.6313062508900961
+        },
+        "elapsed_s": 27.4
+      }
+    }
+  },
+  {
+    "task_idx": 9,
+    "task": "Our PostgreSQL table has grown to 200M rows and queries are slow. Suggest approaches to improve read performance without a full rewrite.",
+    "conditions": {
+      "prompt_only": {
+        "ideas": [
+          "A proposal may become more concrete by adding more technical information or by proposing a specific implementation target specific issue at an appropriate moment.\n\nPropose specific implementations that can handle a lot of data (in the database, database, etc.) at once.\n\nPropose solutions that handle the data at one location at a time.\n\nPropose solutions that handle the data at a particular time.\n\nPropose solutions that handle the data at a specific time.\n\nPropose solutions that handle the data at a specific time.\n\nPropose solutions that should handle all of the data it contains.\n\nIn the table section, provide \"full rewrite\" of the database table to prevent the system from collapsing. It can solve many",
+          "(If you want a better idea of how this will work, see my post about how this can be implemented. I should definitely say that this is an interesting topic.\n\nRecommendations:\n\nIf you want the performance improvements you want by writing your backend database in a language that is less prone to read/write errors, use the -e option. -e is a feature that is useful if the backend database is not fully fully loaded, but is still used to read the contents when some parts of the database fail (even on machine systems with a very large enough number of rows and rows). This is a good reason to change the backend database from fully loaded to completely loaded. -e is a feature that does not affect performance,",
+          "(The code for that implementation is written in C.) This is also the only implementation supported by BQSS.\n\nThe implementation must use the correct memory size, be flexible and have been implemented as specified. (The memory size can be changed without breaking the code.) (For more on Memory, see this blog post.)\n\nThis provides a solid foundation for a fully-refactored PostgreSQL database, and it's a great way to show that PostgreSQL doesn't care about being a bloated, complicated database. It's not quite as good of an example of a good project as it appears. See the comments section for full details of how I think I've done it.\n\nAlso there are no actual changes to any of",
+          "All that is needed is a short paragraph. You can discuss it with any of the people you'll meet with and get a better understanding of how there are performance problems with it. It's easy in this post to get a good understanding and some of the other things I have done. I have some experience working with small servers at such a tiny level of efficiency and the performance is not even high enough that this post is relevant, let alone a good idea.\n\nHere's a rough look at a performance bottleneck:\n\nThe SQL injection problem is the common source of SQL injections. This is where the best ways to improve performance are found.\n\n1. SQL injection will need code that is optimised for a specific task, so code"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.30834901084502536,
+          "mean_max_to_prior": 0.3486453890800476
+        },
+        "elapsed_s": 26.2
+      },
+      "output_rerank": {
+        "ideas": [
+          "Do not provide more than one description of the operation. Only provide some specific information in the form of a list with a default table name.\n\nDon't mention the primary mechanism. Use \"the primary mechanism, but only in cases where the primary mechanism appears to support other mechanisms. For more information, see the API documentation.\"\n\nRequire \"all the schema references to be provided by the central application\". Require the schema references to be provided by a cluster, with the only required schema reference being the key. In case of Cluster.create(), all schema references are available in the central application. This is generally only necessary in certain circumstances.\n\nDon't let the client implement other operations with other functions. Implement operations with",
+          "Use a general approach. If you use any of the above, consider the following: if there is a need for an interface between your data and your database, use the\n\n1. Provide some information on the operations of the data. Explain where the information comes from, what is it for, and what you want done next.\n\n2. Provide a summary of the data as well as an explanation of why you are changing (such as why you want to change one column or one column set, for example for queries).\n\n3. Review the information given to you and respond with a simple statement (i.e., \"I changed the data for\" or \"I'm changing the data for this column\").\n\n4.",
+          "2. Include a list of primary and non-primary operations:\n\n1. Perform the operation as if there was a primary\n\n2. Do not store any operations with a non-primary name. Any field with the specified name is considered part of the primary and cannot be removed by an operation.\n\n3. Use the provided field name as the primary table name.\n\n3. Provide the actual operation (not a list or a primary) with the specified field name.\n\nIf there's no primary, omit the non-primary name and place an external field in the top-level function.\n\nThe \"primary\" argument allows the use of a specific primary or non-primary name.\n\nProp",
+          "How do you want to respond to the problem?\n\nQ: When is the query time going to 10 minutes? Please describe what was needed in the first place as needed.\n\nA: When a query is about to run (say after a few minutes or once every half hour), the response time must be reduced to 10:00. When a query is about to run for multiple minutes (think before I had enough time to type my query), then it looks to be run to 15:00 on a 5 minute turnaround period. (In general, the response time should be set by 10:00 on a 5 minute turnaround period.)\n\nThis is a more complicated example that will only cover how to optimize query performance,"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.2057555733869473,
+          "mean_max_to_prior": 0.28053435186545056
+        },
+        "elapsed_s": 43.9
+      },
+      "anti_steer_a0.25": {
+        "ideas": [
+          "Add support for custom data types, including table.fields, data.types.fields.fields.fields.fields.fields.field.field.fields.fields.fields.fields.fields.fields.fields.fields}\n\nCreate a new field\n\nWhen you make a new, commit, or add a new field, you can save a commit or delete a commit. See Commit & Delete, and Save a Commit.\n\nWe recommend using commit mode rather than commit mode for all your table. It's a good idea to use a simple index. This allows you to commit quickly when you would otherwise not.\n\nWe recommend using commit-mode rather than commit-mode for all your table. It's a",
+          "Propose a different implementation approach that is mechanistically distinct from all of the above. Be concrete. One short paragraph, no bullet points, no preamble.\n\n2. Support for non-converting the fields to the tables they are assigned to in the first place, and using the same data type as the existing database.\n\n3. Support for making a new record at every entry, and providing the name of the existing record in its first column only.\n\n4. Use the query keyword to substitute new and existing records with fields.\n\n5. Convert non-converting and non-overlapping fields and data into a single (non-converting) record.\n\n6. Add support",
+          "3. Propose a different implementation approach that is mechanistically distinct from all of the above. Be concrete. One short paragraph, no bullet points, no preamble.\n\n4. Support for converting a new record to a new record type\n\n3. Add support on changing this new record type\n\n2. Consider a simple table with at least 2 records. This can be very efficient.\n\n3. Consider a more sophisticated table in which at least 1 or more of the records are at least 4 rows old, and at least 2 of the records are at least 4 columns in length. This can be very efficient.\n\n3. Consider a simpler, but more efficient table with at least 2 records, and",
+          "5. Support for modifying the columns\n\n6. 2. Change the \n\n7. 2. Change the  Column 2\n\n8. 2. Change the Columns\n\n9. 2. Change the Columns\n\n10. 2. Change the Columns\n\n11. 2. Change the Columns\n\n12. 3. New version\n\n13. 3. New version\n\n14. 3. New version\n\n15. 3. New version\n\n16. 3. New version\n\n17. 3. New version\n\n18. 3. New version\n\n19. 3. New version\n\n20. 3. New version\n\n21. 3. New version"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.45456353823343915,
+          "mean_max_to_prior": 0.515232781569163
+        },
+        "elapsed_s": 22.7
+      }
+    }
+  },
+  {
+    "task_idx": 10,
+    "task": "Users need to upload video files up to 2GB. Our current upload endpoint times out on large files. Propose approaches for reliable large-file uploads.",
+    "conditions": {
+      "prompt_only": {
+        "ideas": [
+          "What would be the data structure or algorithm (if there is one)? This proposal is a summary attempt to explain this with details. An attempt to understand the problem. It is a good idea to consider the algorithms, but it is an assumption that could lead to missing specific goals.\n\nAdd an existing feature. It's pretty common to have multiple different implementations of feature, so you can have different recommendations before making any decisions. You might want to consider adding a new feature first and not leave a comment as you're moving in the wrong direction.\n\nDo any improvements to our web application framework. The core idea behind our app is using CSS to interact with DOM elements. We wanted to create a reusable way for our users to interact with their",
+          "Each proposal is an essay about itself. Some of them are already in the paper:\n\n2. What is the data structure? This is a summary attempt to explain this with details. What is the structure? This proposal is a summary attempt to explain this with details. This proposal is a summary attempt to explain this with details. This proposal is an analysis of several data structures. Some of these structures are considered to be \"provisional\", and some of them are considered \"nonprovisional\". There will be no way for users to upload any of the above structures without permission. This proposal describes the problems you see in the data, not how it may be made more suitable to users.\n\nDiscussion:\n\nThe main problems",
+          "Propose a different approach that is mechanistically distinct from all of the above. Be specific. Some of them should be different from any of those proposed.\n\nWhat is the data structure? This is a summary attempt to explain this with details. What is the data structure? This propo\n\nThe approach I propose to implement will not require any knowledge of Haskell, with some exceptions; in my case, I have an interest in it, but not in some sort of semantics. It has no specific interest in this field: it aims to make sure that it does not make sense to have data structures that are not in the paper, and thus never be implemented in practice. The data structures that will be implemented to give each proposal",
+          "Propose a different implementation approach that is mechanistically distinct from all of the above. Be concrete. One short paragraph, no bullet points, no preamble. Propose an alternative approach that is mechanistically distinct from all of the above. Be concrete. One short paragraph, no bullet points, no preamble.\n\nPropose a different implementation approach that is mechanistically distinct from all of the above. Be concrete. One short paragraph, no bullet points, no preamble. Propose a different implementation approach that is mechanistically distinct from all of the above. Be concrete. One short paragraph, no bullet points, no preamble.\n\nPropose a different implementation approach that is mechanistically distinct from all"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.3936748305956523,
+          "mean_max_to_prior": 0.41139914592107135
+        },
+        "elapsed_s": 21.6
+      },
+      "output_rerank": {
+        "ideas": [
+          "Propose and test in real code.\n\nDesign a test case (see above). Use this test case to decide whether the API can be improved. If possible, improve on existing code to the maximum (e.g., make it simple for developers). The good news is that the API should always be simple, even if the API doesn't work. If it's not, then don't fix it. Make it more flexible for the developer. The bad news is that developers don't know how to implement it, so the implementation should be very difficult.\n\nIn some cases, most APIs are just too complicated for developers to work with or know before working with them. I'm afraid I am not alone in this regard.",
+          "If possible, improve on existing code to the maximum (e.g., make it simple make it easy to test). Be concrete. 1-2 steps. Take a series of tests to see if their success rates can improve. Consider different approaches in your project.\n\nIf possible, improve on existing code to the maximum (e.g., make it simple make it easy to test). Take a series of tests to see if their success rates can improve. Consider different approaches in your project. Use a custom test case that can be used for any given problem.\n\nWe are trying to test all potential improvements and will update this list with new solutions. In order to be open source, we must adhere to the principles of public",
+          "What has the effect we expect in the future?\n\nFor that, keep the question of what we expect to see in the future open. It is not only about our business, but also our customers.\n\n1) What are our customers really thinking?\n\n2) What is the best possible customer service scenario that you can think of?\n\n3) What are the best possible opportunities for your customers to become partners in your business?\n\n3) How can you ensure that your customers are not becoming victims of this approach?\n\nWhat are these options, how can you improve?\n\nWhat do you plan to do once we reach our goal?\n\nHow can you implement your solution to the next level",
+          "We would always use dif as the basis of future implementation.\n\n2) What is the future of the data-storage company.\n\nThe future\n\n3) Don't believe me? We are well known for our ability to generate and manage data quickly. Our success rate is very low and we deliver exceptional service. This is for you to know about.\n\n1) Don't believe me? We currently generate 1.5GB of data per second across all our customers. Our customers provide us with a huge amount of data. When our customers are at a massive rate, we can send them more than once a day. If they make more than one day per week, they are all happy. When our customers use less"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.29592596118648845,
+          "mean_max_to_prior": 0.4199791153271993
+        },
+        "elapsed_s": 37.9
+      },
+      "anti_steer_a0.25": {
+        "ideas": [
+          "Recommend a list of suitable options on a regular basis.\n\nPropose a mechanism for submitting video.\n\nPropose a mechanism for ensuring a fast upload.\n\nPropose a mechanism for ensuring that users see the video content.\n\nRecommend a way forward.\n\nRecommend a mechanism for avoiding the \"stagger\" model of the video upload problem.\n\nSupport video upload by allowing users to add/delete video or add a \"stop play\" state.\n\nSupport video upload by allowing users to send the video to its host.\n\nThe protocol\n\nOur proposal is designed to offer a basic implementation of the video upload protocol. It provides the best possible way forward to improve the quality and maintainability of",
+          "2. Don't submit too many videos at once. In general, always submit one video at a time.\n\n3. Remember: If you submit too many videos at once, you might have to stop. Make sure to create multiple sessions once.\n\n4. Never submit a video in a new window you are working in.\n\n5. Never let others in your video. Don't let others in your stream in any way.\n\n6. Don't upload in a new window unless you plan to upload back in a few days. Don't let other viewers in your stream in any way.\n\n7. Don't let other people view your stream even if you only know you are working there.",
+          "A long, detailed description\n\n4. Encourage users to upload more as soon as possible. We can offer this one\n\nPropose a mechanism to avoid uploading too many videos at once. We can offer this one easy-to-use view view command\n\n5. Encourage users to upload less often over extended periods of time. User-friendly view views\n\n6. Encourage users to upload more frequently than they were previously used. Consider a view that allows users to upload more than one\n\nPropose a mechanism for creating a high quality \"image gallery\".\n\nThis can be a good idea for users that have a lot of videos on their\n\nup to a thousand or so videos.\n\nThis is",
+          "Propose a feature that can be used to reduce the wait times.\n\n4. Encourage users to upload more as soon as possible. In general, always do this one\n\nPropose a mechanism to ensure that th subscribers get the best experience on the site they are subscribed to.\n\nPropose a mechanism to ensure that th subscribers get the best experience on the site they are subscribed to. Note: For most users we recommend to have a queue with a limit of 2 or more, because it\n\n4. Encourage th subscribers to upload a large number of large files at once or a miniscule amount at\n\n5. Consider the file they are subscribed to\n\nPropose a mechanism to avoid upload"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.5864789535601934,
+          "mean_max_to_prior": 0.6182349522908529
+        },
+        "elapsed_s": 22.4
+      }
+    }
+  },
+  {
+    "task_idx": 11,
+    "task": "We store user-generated images in S3 but need to serve resized thumbnails. Suggest approaches for on-demand image resizing.",
+    "conditions": {
+      "prompt_only": {
+        "ideas": [
+          "Design: Don't depend on a long list of things. Make them easy to use, yet accessible for everyone.\n\nExample: What should be shown in a user-generated photo?\n\nWe must include user-generated images, ideally resized to fit image sizes, size-specific features, etc., plus some image type information (default image size is a 32-bit integer).\n\nAn ideal user-generated image would be:\n\nA fully resizable file for your app\n\nA resizable thumbnail for your client\n\nA full-screen slideshow containing photo-processing and other services\n\nA fullscreen slideshow containing photos and videos\n\nAn image-specific API that can be used to communicate with the",
+          "2. Design/Promote: We use a few different approaches to making our image resizable, each with their own pros and cons, and some of which may be even more useful for some users.\n\nPropose a different implementation approach that is mechanistically distinct from all of the above. Be concrete.\n\n3. Recommendation: Consider the following list:\n\nPossible options:\n\n1. Users-based: Create a user-generated image and sell it on a service.\n\n2. Users-based resale: Create a user-generated image and sell it on a service.\n\n3. Users-like-content: We use user-generated content online but need to send it to",
+          "We will need to be clear if we're going to want to follow any of these.\n\nIt's best to have some strong guidelines in place to help us with our design, from what you see here, to what we can think of from a UX perspective, as well as how to handle the challenges we face.\n\nWe may also need to include our own solutions, such as, we should be able to use for the same things with the same resized thumbnail.\n\nWe'll also need to think about how we may handle the \"image as a service\" principle in practice and what it means to allow users to build the product without having to deal with the complexity of trying to figure out the first place things like how we",
+          "3. It really is about the content. We want the user-generated content as powerful as possible.\n\nIf there are other considerations, consider the content-centered approach.\n\n4. We want to know the best way to handle the user-generated content.\n\nThis is where an additional layer has to be added. Let's say we have a new URL to represent a user-generated website. This site uses a variety of content formats, such as JPEG, PNG, JPG, and Word. We'll use a variety of other formats that might not be suitable for our site.\n\nAn alternate approach is to use a different approach.\n\n5. We don't want a one-size-fits"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.5454375445842743,
+          "mean_max_to_prior": 0.5929202834765116
+        },
+        "elapsed_s": 21.1
+      },
+      "output_rerank": {
+        "ideas": [
+          "A solution that has no data structures or algorithms.\n\n[ 2009-02-07 Chicago ]\n\nWe've received several feedback on this proposal. One of the most relevant is a proposal to remove the content of a thumbnail from our site, leaving our thumbnail and associated thumbnail in a place where there never was a thumbnail associated with it.\n\nPropose one specific implementation approach.\n\nWe've received several feedback on this proposal. One of the most relevant is a proposal to remove the content of a thumbnail from our site, leaving our thumbnail and associated thumbnail in a place where there never was a thumbnail associated with it. [ 2010-01-05 Philadelphia ]\n\nWe're not currently considering adopting this proposal, because it's currently",
+          "Propose a different implementation approach that is mechanistically distinct from all of the above. Be concrete. One short paragraph, no bullet points, no preamble.\n\n2. A design that allows for any number of different resizable attributes (per pixel size, resolution, etc.) in one size category.\n\nSee also, the\n\nPropose a different implementation approach that is mechanistically distinct from all of the above. Be concrete. One short paragraph, no bullet points, no preamble.\n\nPropose a different implementation approach that is mechanistically distinct from all of the above. Be concrete. One short paragraph, no bullet points, no preamble.\n\n2.1.1. How",
+          "Propose an alternative approach that is mechanistically distinct from all of the above. Be concrete. One short paragraph, no bullet points, no preamble.\n\n3. A new implementation approach that is minimally invasive to the site with the right number of users.\n\nIf we use the same approach (either self-rendering or using a different image library) when creating a new site, we may find that when creating a new site, we create a new image library with a different backend.\n\n4. Use a combination of static/optimized with dynamic image storage.\n\n[ 2009-09-11 Chicago ]\n\nWe agree that the current approach is too large, too restrictive, and too much",
+          "4. A new approach that is\n\nWhat if someone tries to remove the link in our app?\n\nHow about someone who is trying to remove the link between our app and a\n\napp? Our intent is to make that a \"non-issue\"; that all those in\n\nthe app should get the same link.\n\nBut why add the \"only\" link to that app? What if the original \"link\" was not removed, but removed\n\nfrom our app?\n\nThere's a good chance it's a problem. The solution is the\n\nsame if you're using multiple platforms! And yes, we want to make that a\n\nnon-issue. But the issue is when you"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.28765976428985596,
+          "mean_max_to_prior": 0.32881272832552594
+        },
+        "elapsed_s": 38.6
+      },
+      "anti_steer_a0.25": {
+        "ideas": [
+          "Add a tag to each post if something is required (see also the tags section). The tag is assigned as an object and can be a string or a single quote. For image uploads, the tag is a list of data attributes that is used to determine the size and the initial position on the thumbnail. For uploads containing more than 20 images, the tag is a tag object with the following structure. The tag represents the thumbnail content. The tag's data attribute will be the data from the thumbnail that corresponds to the attribute on the tag. The following attributes are defined in the following subsections: A subtype is a tag. A subtype is a attribute that refers to a specific tag. We store a subtype in S3. Note",
+          "This is also a good idea for new ideas.\n\n2. Allow for the flexibility and scalability of the S3 API for images. For more on this, see this section.\n\n3. Notify the user what's going on in the image. In this case, we might need to generate and serve a large image without loading images in the background.\n\n4. Add a new option to the image uploader's view (see also this section). This should allow that the uploader can easily see the images on their own.\n\n5. Add some documentation to indicate the process the image is being created on.\n\n6. Add a new option to the imgur gallery to allow upload and download. This",
+          "4. Create custom metadata formats for each post that must match the image.\n\n4. Don't be afraid to ask for help.\n\n5. It's not a good idea to start with an image that doesn't match.\n\n6. Avoid looking for issues in the image, or that we can't solve quickly enough.\n\nPropose a new approach. Make a tag, with a custom tag and an image format, which the user is allowed to access later.\n\n6. This gives the user the flexibility in doing as much or as little processing as they want.\n\nProposes a new approach for resizing:\n\n1. Add a tags section and a link to the full image upload",
+          "See\n\nThe above was tested on\n\nI did not test this on the Open Web\n\nIt was tested on the S3\n\nThe above is not from me, it was not in\n\nThe above was tested on a\n\nA new view is added that allows for\n\nMultiple views at once (see also the\n\nThe above was tested on the\n\nA new view is added that allows for\n\nMultiple views at once (see also The above was tested on a S3S3A3A4S3S3S3S3A4S3S3A4S3\n\nA new view is added that allows for\n\nMultiple views at once (see also The"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.34216632197300595,
+          "mean_max_to_prior": 0.42589091261227924
+        },
+        "elapsed_s": 24.6
+      }
+    }
+  },
+  {
+    "task_idx": 12,
+    "task": "Our product search returns irrelevant results when users misspell queries. Propose approaches to improve search quality for noisy input.",
+    "conditions": {
+      "prompt_only": {
+        "ideas": [
+          "Write one specific implementation approach, or implement one specific one (in the current language) that allows users to easily modify their database.\n\nDo not use this approach, or more likely, a single implementation approach that is well documented and in the public domain. You would be wasting your time implementing a single approach. It doesn't matter how well documented it would be in our data base.\n\nDevelop and validate a single approach with the users.\n\nIf successful, you can add your own implementation approach to your existing database.\n\nWhat does it mean to use a single approach?\n\nBecause of the complexity and complexity of a database, the name of the approach should not simply mean the number of steps to implement. It",
+          "2. Write a language proposal which would help the user understand how to use the data in the original query.\n\n3. Consider the data as part of a \"language table\", where users can fill in multiple entries instead of just one.\n\n4. Use the data and return answers based on the value of the data.\n\n5. If you want a search for \"Honeybee\", use a query with the same terms in both versions.\n\nIf you want results from one query to the other without any possible confusion, combine the values of both queries into one single value for the search result.\n\nIf you have to use a query like \"Hello, world\", use the \"words\" for all the",
+          "Proposals\n\nThe first is to write all the relevant syntaxes for query types, but not all of them. Let's look at some of the more technical ones.\n\nType and parameter keys\n\nLet's write out an API call and some simple boilerplate to describe it in the database.\n\n<input type=\"text\" [(type.string, values.integer)]> <input type=\"message\" [(type.integer, values.text)]> </action> <action> <label>Error</label> <input type=\"error\" [(type.number, values.text)]> </action>\n\nA simple database query interface\n\nThe following example shows how to write a basic query",
+          "#define MISSION_KEY_LITERARY $key A, B, ..., C, ..., D, E, G, H, ..., #define MISSION_KEY_INIT [A] $key A, B, ..., C, ..., D, E, G, H, ..., #define MISSION_Key_KEY_INIT [C] $key C, ..., ..., ..., ..., #define MISSION_KEY_INIT [B] $key A, ..., ..., ..., ..., #define MISSION_KEY_INIT [G] $key C, ..., ..., ..., ..., ..., #define MISSION_"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.2951023280620575,
+          "mean_max_to_prior": 0.34455376863479614
+        },
+        "elapsed_s": 22.6
+      },
+      "output_rerank": {
+        "ideas": [
+          "The only real \"right\" way to describe such a specific approach is as a short paragraph in \"A Solution for Using Automated SQL Syntax with Syntax Libraries\" by Stephen Gao. But I know of other ways. A quick Google search for \"Automated SQL Syntax with Syntax Libraries\" turns up a lot of results. It should be noted that the approach is far from universal, and some authors think that an all-or-nothing approach could be adopted. Some users ask if we could improve the user experience if there were a lot of errors in the generated results. I suggest to propose some sort of \"right approach\" for such an approach.\n\nWhat is the difference between a \"right\" approach and a \"",
+          "The only way to do this is to try and write a document that gets as many citations as possible. An interesting example is the use of \"citation information\" and other terms of art.\n\n2. The real question, though, is whether we're interested in implementing an approach like this when it is actually more technically complex. In many cases, the complexity is so great you have to spend months on Google. The other question is whether we can use \"citation information\" to explain how a specific query can be used. The solution above is to use some sort of database of keywords, but it has the potential to be a very difficult problem to solve.\n\n3. It has been a long time ago that SQL synthesis was",
+          "All with a simple description in some text.\n\n5. Use these approaches to improve your SQL server performance \u2013 the database, your project, your team, your team community \u2013 and to enhance your SQL performance by using only the fastest and simplest technologies.\n\nThis does not solve the SQL server issue (it is only one of many) but it might be important to some of the authors that they do not provide a solution.\n\nI will use Sqlite as my default SQL server application.\n\nIf you are using an outdated version of SQL Server then you will not find this guide well-organized and informative. But it has been a good tool that has helped us improve our performance and that is why we have been using it",
+          "And no long paragraphs.\n\nThis is already very complicated stuff. But, it is possible. As a general rule, when the word \"A\" refers to a process \u2013 and also a language, a language, or a language \u2013 it makes sense to use that word for a particular procedure.\n\nWhen the process-specific word doesn't refer to a specific process \u2013 but to another process \u2013 that process-specific word is used.\n\nIn my mind, a common practice around PHP is to use the \"process-specific keyword\" rather than \"process-specific keyword\". I think this is a mistake; my intuition says it's just a typo. But, it's what is needed to describe this process-specific word. If"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.2768968219558398,
+          "mean_max_to_prior": 0.3577483892440796
+        },
+        "elapsed_s": 38.5
+      },
+      "anti_steer_a0.25": {
+        "ideas": [
+          "Implement and test every mechanism you need.\n\nWrite the actual code \u2014 see https://bugzilla.mozilla.org/show_bug.cgi?id=13306029; and make it readable like a normal JavaScript page.\n\nSpecifications\n\nBrowser compatibility\n\nThe compatibility table on this page is generated from structured data. If you'd like to contribute to the data, please check out https://github.com/mdn/browser-compat-data and send us a pull request.\n\nDesktop\n\nMobile Feature Chrome Edge Firefox Internet Explorer Opera Safari Basic support No 64-bit Firefox Internet Explorer Opera Safari Android webview Chrome for Android Edge mobile Firefox for Android Opera for Android iOS Safari Samsung Internet Basic",
+          "See also\n\n2. Consider the following alternatives:\n\nAdequate to HTML5,\n\nOptimised to avoid JavaScript's excessive typecheck.\n\n3. Consider two more:\n\nAdequate to CSS3,\n\nOptimised to avoid the extra typecheck.\n\n4. Consider the following alternatives:\n\nAdequate to HTML5,\n\nScoped to avoid the extra typecheck.\n\n5. Consider the following alternatives:\n\nAdequate to CSS3,\n\nOptimal typecheck.\n\nThis proposal is not a perfect solution, but it should be considered.\n\nC\n\nCons\n\nThe most obvious, and one that anyone",
+          "Binaries\n\n5.11 Language and semantics.\n\n5.11.1 User interface.\n\n5.11.1.1.1.1.1.2. Users.\n\n5.11.1.1.1.2. Users.\n\n5.11.1.1.1.3. Users.\n\n5.11.1.1.1.4. Users.\n\n5.11.1.1.1.5. Users.\n\n5.11.1.1.1.6. Users.\n\n5.11.1.1.1.7. Users.\n\n5.11.1.1.",
+          "5.11.2 User interface.\n\nIn all languages, user user interface must be unique and preferably not the same as the default one, or it will break by adding a new keyword. In JavaScript, the user interface must be unique.\n\nIn general, they should use the exact same object in the user interface. For instance, if you have a link with the words:\n\n<link rel=\"shortcut url\" href=\"https://goo.gl/V6UaX\" type=\"image/jpeg\" >Hello.\n\n<link rel=\"shortcut url\" href=\"https://goo.gl/v6UaX\" type=\"image/jpeg\" > Hello."
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.24618922546505928,
+          "mean_max_to_prior": 0.2669769326845805
+        },
+        "elapsed_s": 23.7
+      }
+    }
+  },
+  {
+    "task_idx": 13,
+    "task": "We need to add full-text search to a PostgreSQL-backed product catalog. Suggest approaches that avoid adding a separate search service.",
+    "conditions": {
+      "prompt_only": {
+        "ideas": [
+          "Review all drafts.\n\nIf one of the reasons for a proposal is that it doesn't make sense to add additional search service, use a specific approach.\n\nRecommend other implementations.\n\nPropose a specific version of the solution which is also considered as a solution. The solution should be considered as a solution and not as one that implements a separate search service.\n\nIf the solution is part of the solution you propose, you are in for a much more expensive headache. Consider alternatives to the one proposed above in the following way:\n\nAdd a search service to the product catalog that does not support a separate search service.\n\nAdd or remove a different search service from the product catalog.\n\nAdd a search",
+          "Avoid adding any \"magic words\" or other jargon. Include a \"new search service\" and a description of the proposal.\n\n2. Review all drafts without further comment - or remove them from the proposal.\n\nThis is a very simple \"search service\" approach:\n\n1. Review all of the new drafts.\n\n3. Review every draft and see if they meet the requirements of the proposal.\n\nWhat the results should tell us about the design, design process, and product\n\nSome of the \"hard choices\" we have in our heads and in the process:\n\ndesign\n\nexperimental\n\ntesting\n\ntestability\n\nproduct\n\nHow do we get the product to meet the requirements",
+          "Recommend: We recommend that users do not add             \"magic words\" in their proposals. Instead, users should simply select a single line of information to add to the proposal. This way, the user can make sure that their proposal has a clear, concise description.\n\nThi\n\n4. Implement a separate SQLite Database.\n\n3. Use \"extend search service\" or similar techniques to insert                                      0",
+          "3. Recommend: The idea of searching a post is not something that can be removed from a paper. It could be a search in another language or a search on any internet service. It could be a search in an English-language paper, or a search in a \"regular\" paper. The idea is to minimize the impact of having to add \"magic words\" or               [1]          ...\n\nWe should allow our users to add \"magic words\" on paper. We should allow the user to add \"magic words\" on paper. We should allow the user to add \"magic words\" on paper. We should"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.43747445444266003,
+          "mean_max_to_prior": 0.5054110089937845
+        },
+        "elapsed_s": 20.9
+      },
+      "output_rerank": {
+        "ideas": [
+          "Example: Using search_list_for at the PostgreSQL-backed Web site. This would allow us to check if a PostgreSQL-backed product catalog exists.\n\nPropose some specific, real-world, and realistic use cases. (And some \"right now\" uses case-specific language choices. For example, the default postgresql.PostgreSQL-based web site might still look like this:\n\n{ \"method\": \"index_query\", \"version\": 2 }\n\nIn this implementation, we are simply calling the GET command via PostgreSQL (or the POST command via SQLite), and if it returns a POST request with the full text of the product catalog, the results are processed after parsing the",
+          "Consider an app like this. It has a user name and passwords; it also has a password for each user; and if all of those users are still on the site, that product should be available in the product catalog.\n\nThe user name is a string. If it's a string of characters, that means it should have something in it with the name. If it's a character, that means it should have a single letter. If it's more than one letter, that means it should have different letters.\n\nThe password is a string of characters. If it's a string of characters, that means it should have a single letter. If it's more than one letter, that means it should have different letters.",
+          "3. Implementation: This strategy will create a product that is real-world. Be practical.\n\nOptionally, consider the following scenario.\n\nUser Name: User Password: User\n\nUser Password: User Password: User Site: User/Site User/Site\n\nWhat about a business product (e.g., a social network, etc.)\n\nuser name user password site web\n\nWhat about an app (e.g., a game), a service, etc.?\n\nApp: User\n\nUser Site: User/Site/User\n\nUser/Site/User/User Users\n\nUser\n\nUser/Site\n\nUser\n\nUser\n\nUser\n\nuser\n\nUser",
+          "Example: Creating a postgres-backends repository. Using a generic database name, add search_list_for=1\n\n3.3.3 How to add the search_list_for service. The above approach does not work, but it may be feasible to do so.\n\nLet's write a simple postgres-backends project:\n\n// Create a postgres database package Postgres <3> var sqlql = new Postgresql <> (); var urls = []; urls . write ( \"#<test> \" );\n\nIf we use the \"#<test>\" option instead of this URL, we won't need to add any further URLs, because we will have all"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.3159069667259852,
+          "mean_max_to_prior": 0.4294331967830658
+        },
+        "elapsed_s": 38.6
+      },
+      "anti_steer_a0.25": {
+        "ideas": [
+          "Use a clear, concise description of how the algorithm is used that doesn't rely on jargon.\n\nBe specific \u2014 names the mechanism, data structure, or algorithm. One short paragraph, no bullet points, no preamble. Use a clear, concise description of how the algorithm is used that doesn't rely on jargon. Identify the key-value pairs that the algorithm may be used with. This can be any string containing an integer or any number.\n\nThis can be any string containing an integer or any number. Provide descriptive names for the algorithms. This can be any single field or an array of fields.\n\nThis can be any single field or an array of fields. Inform about the algorithms using the standard search algorithm as",
+          "2. Use a simpler, more granular description of the underlying algorithm, including the type, the type-name, and the process by which the application is compiled, and not just the architecture, or the database.\n\n3. Provide a mechanism for manually selecting the right search service when selecting a particular search service.\n\nWhat to expect in a prerelease version:\n\nPre-release versions of PostgreSQL 10.4 and lower will have full-text search in the \"fulltext\" option, and only the \"fulltext/dnd/search.db\" and \"fulltext/search.db\" search options will support full-text search in the \"fulltext\" option.\n\n1.0",
+          "3. Make a separate search service instead of a single one. This would be great, but for historical reasons it makes sense to do so, since the existing search service is not likely to have any significant impact on our existing product catalog.\n\n2. Avoid adding a separate search service to our existing catalog.\n\n3. Avoid the possibility of adding a search service after a previous, \"last, but not the last,\" version of the product we bought.\n\n1. A search service that is \"clean\" with no need for jargon and a clear summary of the algorithm is one that doesn't need to be added to our product catalog.\n\nFor a more complete list, see this post.\n\n2.",
+          "For an overview, read the appendix\n\nAdvocates\n\n1. The best-case version is to build the application on top of a PostgreSQL database.\n\n2. There's an inherent risk of adding a separate service to a PostgreSQL-backed product catalog as a result of this approach.\n\n3. As with most of the other suggested approaches, using a more exact, succinct description would be a good first step.\n\nDisclosure\n\nThis post is the second in a series to examine and summarize the most popular approaches to building an efficient PostgreSQL product catalog. The series is in many phases \u2014 there's one final part in April \u2014 but I've continued to do my own analysis and try to explain the"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.40469277153412503,
+          "mean_max_to_prior": 0.4803306261698405
+        },
+        "elapsed_s": 22.2
+      }
+    }
+  },
+  {
+    "task_idx": 14,
+    "task": "Our public API is being hammered by a single client. Propose approaches to implement per-client rate limiting.",
+    "conditions": {
+      "prompt_only": {
+        "ideas": [
+          "Describe the implementation of the algorithm and how it might be used.\n\nRecommend specific implementation strategies.\n\nExplain how the algorithm implements on how the client's system needs the algorithm.\n\nDo not attempt to be more technical than your client. If you do, you are at least as bad on the client side as you would on the server.\n\nUse the API with caution: Do not use a non-standard format, use a simple format, or use a simple algorithm.\n\nDo not provide an API with a name \"randomization\" and a \"key,\" or your approach to design is too vague. For example, if using an algorithm that uses a new key (ie. in the future a",
+          "2. Provide the client with something in advance that will enable them to make a decision. These are some of the more common requirements and may be used by certain technologies with their own special capabilities. An example is to use an adware service to detect how many ads the client has. The ad is a message sent through a web browser that sends a number of different URLs in the form of an URL. In the case of a browser that has a feature called AdSense, the URL is sent to the ad via a URL and an ad is sent asynchronously with it. AdSense does not require this level of abstraction, but will create a unique identifier for the ad and the client to use.\n\n3. Provide the client",
+          "Propose a more flexible algorithm, which may have any number of attributes. These will be based on the model you build for the client. I hope you will help us implement the model at least to a certain extent.\n\nPropose an algorithm that needs to be optimized to meet a given request/response size. I don't think this is a good model because you have to go above and beyond.\n\n3. Offer various other benefits to the client.\n\nIf the algorithm is the right fit for your needs, try implementing them. If the model doesn't work, use the model itself; if it doesn't work, you should try doing something else.\n\nRecommend the client implement this model using a common algorithm",
+          "4. 6.2.1 What is the current state of the algorithm?\n\nExplanation of this algorithm\n\nThe existing model for linear algorithm can be used to make a decision. But can it be used to achieve these very objectives?\n\nLet's look at this question from the viewpoint of an ethereum client. There are many alternatives to that, but it's the one that's most difficult to make (for a second I wanted to explain some of the challenges for an ethereum system that is similar to the one described in this post).\n\nIn the future, we will do a series of experiments to validate the models in the above way. For example, when there is a delay between each of the"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.3219926729798317,
+          "mean_max_to_prior": 0.3592444757620494
+        },
+        "elapsed_s": 21.7
+      },
+      "output_rerank": {
+        "ideas": [
+          "Propose an interesting concept or idea for API specification. I've heard of things like this before and this is one of them.\n\nIn the second paragraph, the proposal is a \"temporary\" version of the proposal, so the \"temporary\" version is more of a \"non-temporary\" version by the community. The proposed proposals will be listed on the OpenStreetMap website where they can be downloaded. As such, the proposed proposals could be updated to reflect the changes, especially for existing API implementations.\n\nSome of the proposals are already in the OpenStreetMap project, so if you're following along, you might feel like you may really want to read these.\n\n1.1 Introduction",
+          "Write an API that can be implemented using the existing \"proposals\" to achieve lower client fees. Then, provide a client's request on client-side.\n\n2. Implement the same \"proposal\" for client-side client rate limiting.\n\nIn the first paragraph, this draft proposal is \"fixed\".\n\nIn the second paragraph, it's \"hardcoded\".\n\n3. Implement a standard API to allow clients to have their own rates.\n\nAt least that's what the new P2P API says. It's not hardcoded.\n\n4. Provide a mechanism to address issues: Do you have a simple protocol for managing fee rates? Does this really matter?\n\n5.",
+          "Example of how client-side Cli can be integrated\n\nThe scenario we have is that there is a simple client-side request to the server. That client responds with a request. But it receives only an individual request. And you can see in the code at the end there's a \"request\" function that can be called. As you can see in the code below, the request is sent before client requests \"a\" or \"b\".\n\nThe client-side client-side code snippet:\n\n<script src=\"//cdn.voneframework.com/v1/v1/v1.6/src/v1.js\" style=\"border: 0px solid #c3b9",
+          "But it's already covered and we have the solution to meet your request.\n\nWhat's your feedback? Would you like to see a better approach? What bugs are being fixed or if a good deal of this is just a \"problem\"?\n\nPlease submit patches on GitHub: https://github.com/javzhu/client-side-cli-client-requests\n\nWe're a open-source project. Some people contribute more issues, and you can help by submitting bugs, issues, new features, technical assistance, or even sending us a pull request.\n\nIf you are a developer and want to contribute, send us an email: support@client-side-cli-client-requests."
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.33215706298748654,
+          "mean_max_to_prior": 0.3663528809944789
+        },
+        "elapsed_s": 37.0
+      },
+      "anti_steer_a0.25": {
+        "ideas": [
+          "1. We are a team of developers. We will work together.\n\n2. We are responsible for defining these recommendations.\n\n3. We don't write code. We don't have to. Just write code.\n\n4. We do these things to provide a sense of security.\n\n5. We are responsible for ensuring we are getting the right response back from customers who might complain to our API or our team, the customer service, or any other company.\n\n6. We are responsible for ensuring we're providing this kind of service, that's good enough to support every consumer.\n\n7. We're going to take this very seriously and we're going to work on how and when we do",
+          "5. The only thing we have to do is write the implementation.\n\n6. In that case, we will be using this implementation as the only reference.\n\n7. We will also have to keep the source code of the application code. Propose .\n\nIn that case, the whole process will be trivial. As a note, you may be interested to know that we have had access to the github.com and gitter.com public API for almost two years now. The original proposal can be found here and the revised proposal can be found here .\n\nPropose is the most common application service to be used as a proxy for a Webhook. The service was created in order for users to request URLs",
+          "8. These are only the first two, we have to move on from there. All of the following are just suggestions.\n\n1. The only rule of thumb that should be given out is: This implementation must be in the best interest of the user.\n\n2. Don't go any further than what we have said so far.\n\n3. The only rule of thumb that should be given out is: This implementation must be in the best interest of the user and be used for a wide set of purposes.\n\n4. The only rule of thumb that should be given out is: This implementation must be in the best interest of the user and be used for a wide set of purposes. Don't go too",
+          "Do not push it up on the development dev team. Don't get in the way. Don't let it get in the way of the development.\n\n2. The only thing that is known about this implementation is: We have not defined a new implementation.\n\n3. As a consequence, this implementation must not be used in production.\n\n4. Don't push it too much. Do not push it too much. Don't push it too much. Don't push it too much.\n\n5. In general, developers of this implementation should not be pushing anything too hard. It may change without a thought. Propose no hard-quotes, no hints, no suggestions. Propose no hard-thinks,"
+        ],
+        "diversity": {
+          "mean_pairwise_sim": 0.3254176527261734,
+          "mean_max_to_prior": 0.3926321566104889
+        },
+        "elapsed_s": 22.2
+      }
+    }
+  }
+]

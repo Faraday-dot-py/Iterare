@@ -1,0 +1,61 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading gpt2...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2160.29it/s]
+Model layers: 12, steering at: [8]
+Loading sentence-transformers for diversity scoring...
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 2587.93it/s]
+[1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+  task=0 cond=prompt_only mean_sim=0.5998 max_prior=0.6722 (23.2s)
+  task=0 cond=output_rerank mean_sim=0.3444 max_prior=0.5677 (40.5s)
+  task=0 cond=anti_steer_a0.25 mean_sim=0.4669 max_prior=0.5698 (25.5s)
+  task=1 cond=prompt_only mean_sim=0.2224 max_prior=0.2386 (26.6s)
+  task=1 cond=output_rerank mean_sim=0.4792 max_prior=0.5537 (41.1s)
+  task=1 cond=anti_steer_a0.25 mean_sim=0.4172 max_prior=0.4120 (22.1s)
+  task=2 cond=prompt_only mean_sim=0.3529 max_prior=0.4020 (16.5s)
+  task=2 cond=output_rerank mean_sim=0.2844 max_prior=0.3024 (40.5s)
+  task=2 cond=anti_steer_a0.25 mean_sim=0.3451 max_prior=0.4518 (22.3s)
+  task=3 cond=prompt_only mean_sim=0.5438 max_prior=0.5610 (22.4s)
+  task=3 cond=output_rerank mean_sim=0.3474 max_prior=0.4203 (36.0s)
+  task=3 cond=anti_steer_a0.25 mean_sim=0.3098 max_prior=0.3156 (22.7s)
+  task=4 cond=prompt_only mean_sim=0.5042 max_prior=0.5365 (20.7s)
+  task=4 cond=output_rerank mean_sim=0.2564 max_prior=0.3428 (31.9s)
+  task=4 cond=anti_steer_a0.25 mean_sim=0.3109 max_prior=0.3891 (22.1s)
+  task=5 cond=prompt_only mean_sim=0.4937 max_prior=0.5441 (20.8s)
+  task=5 cond=output_rerank mean_sim=0.3663 max_prior=0.3964 (37.3s)
+  task=5 cond=anti_steer_a0.25 mean_sim=0.5207 max_prior=0.5884 (22.8s)
+  task=6 cond=prompt_only mean_sim=0.5999 max_prior=0.6853 (22.9s)
+  task=6 cond=output_rerank mean_sim=0.2515 max_prior=0.3283 (38.6s)
+  task=6 cond=anti_steer_a0.25 mean_sim=0.3826 max_prior=0.4469 (22.6s)
+  task=7 cond=prompt_only mean_sim=0.2368 max_prior=0.2223 (20.9s)
+  task=7 cond=output_rerank mean_sim=0.3804 max_prior=0.4749 (37.3s)
+  task=7 cond=anti_steer_a0.25 mean_sim=0.4762 max_prior=0.5075 (22.1s)
+  task=8 cond=prompt_only mean_sim=0.1854 max_prior=0.2558 (21.1s)
+  task=8 cond=output_rerank mean_sim=0.1122 max_prior=0.1899 (33.1s)
+  task=8 cond=anti_steer_a0.25 mean_sim=0.5752 max_prior=0.6313 (27.4s)
+  task=9 cond=prompt_only mean_sim=0.3083 max_prior=0.3486 (26.2s)
+  task=9 cond=output_rerank mean_sim=0.2058 max_prior=0.2805 (43.9s)
+  task=9 cond=anti_steer_a0.25 mean_sim=0.4546 max_prior=0.5152 (22.7s)
+  task=10 cond=prompt_only mean_sim=0.3937 max_prior=0.4114 (21.6s)
+  task=10 cond=output_rerank mean_sim=0.2959 max_prior=0.4200 (37.9s)
+  task=10 cond=anti_steer_a0.25 mean_sim=0.5865 max_prior=0.6182 (22.4s)
+  task=11 cond=prompt_only mean_sim=0.5454 max_prior=0.5929 (21.1s)
+  task=11 cond=output_rerank mean_sim=0.2877 max_prior=0.3288 (38.6s)
+  task=11 cond=anti_steer_a0.25 mean_sim=0.3422 max_prior=0.4259 (24.6s)
+  task=12 cond=prompt_only mean_sim=0.2951 max_prior=0.3446 (22.6s)
+  task=12 cond=output_rerank mean_sim=0.2769 max_prior=0.3577 (38.5s)
+  task=12 cond=anti_steer_a0.25 mean_sim=0.2462 max_prior=0.2670 (23.7s)
+  task=13 cond=prompt_only mean_sim=0.4375 max_prior=0.5054 (20.9s)
+  task=13 cond=output_rerank mean_sim=0.3159 max_prior=0.4294 (38.6s)
+  task=13 cond=anti_steer_a0.25 mean_sim=0.4047 max_prior=0.4803 (22.2s)
+  task=14 cond=prompt_only mean_sim=0.3220 max_prior=0.3592 (21.7s)
+  task=14 cond=output_rerank mean_sim=0.3322 max_prior=0.3664 (37.0s)
+  task=14 cond=anti_steer_a0.25 mean_sim=0.3254 max_prior=0.3926 (22.2s)
+
+Done. Results saved to /home/awebb/Research/iterare/tasks/anti-steer-001/results/run02.json
+Total elapsed: 20.8 min
