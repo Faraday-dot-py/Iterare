@@ -7,12 +7,17 @@ Agent-native applied AI research platform. Runs through Claude Code — no Anthr
 ```
 Lead Developer
 └── Interface Agent  ← this Claude Code session
-    └── Master Agent  (spawned via Agent tool, on approval)
-        └── Manager Agent  (spawned by Master via Agent tool)
+    └── Orchestrator  (spawned via Agent tool for multi-manager tasks)
+        └── Manager Agent  (spawned by Orchestrator via Agent tool)
             └── Worker Agent  (spawned by Manager via Agent tool)
 ```
 
-Orchestration happens entirely through Claude Code's Agent tool. No separate Python process, no direct API calls.
+The Interface Agent often acts as Orchestrator directly. A dedicated Orchestrator
+(Master Agent) is spawned only for large or overnight tasks.
+
+Every significant session runs against a **file-native control plane**:
+`run.yaml` (objective + budgets + stop rules), `events.jsonl` (append-only event log),
+`resume.md` (hydration packet for the next session), and `checkpoints/`.
 
 ## Setup
 
@@ -32,20 +37,26 @@ cp .env.example .env
 
 ### 3. Start working
 
-Just talk to Claude Code. Pitch your research idea. The Interface Agent (Claude Code) will handle it directly or propose spawning a Master Agent — you approve before anything runs.
+Talk to Claude Code. Pitch your research idea. The Interface Agent handles it
+directly or proposes spawning an Orchestrator — you approve before anything runs.
 
 ---
 
-## CLI (inspection only)
+## CLI
 
-The CLI is for inspecting state, not for running agents.
+The CLI inspects state and manages approvals. It does not run agents.
 
 ```bash
 iterare tasks                    # list all tasks
-iterare tasks task-20260330-...  # show task state + log
+iterare tasks <task_id>          # show task state + log
+iterare runs <task_id>           # show run control doc + event log
+iterare approvals                # list all pending approvals (all tasks)
+iterare approvals <task_id>      # list approvals for a task
+iterare approvals approve <task_id> <apr_id>
+iterare approvals reject  <task_id> <apr_id> "reason"
 iterare requests                 # list pending tool requests
-iterare requests approve req-abc # approve a tool request
-iterare requests reject req-abc "reason"
+iterare requests approve <req_id>
+iterare requests reject  <req_id> "reason"
 ```
 
 ---
@@ -56,28 +67,35 @@ iterare requests reject req-abc "reason"
 iterare/
 ├── code/           — Finished, working code (organized by project)
 │   └── tools/      — Finished tool implementations
-├── tasks/          — Task trees: state, READMEs, worker outputs
-│   └── task-<id>/
-│       ├── state.yaml
-│       ├── README.md          ← Master summary (written on completion)
-│       ├── manager-000/
-│       │   ├── README.md      ← Manager summary
-│       │   └── worker-000/
-│       │       └── README.md  ← Worker reasoning + results
-│       └── shared/            ← Lateral worker communication
-├── archive/        — Cold-stored sealed task logs
-├── templates/      — Agent prompts (git-versioned, evolve over time)
+├── tasks/          — Task trees + run control plane
+│   └── <task-id>/
+│       ├── run.yaml        ← objective, budgets, stop rules, checkpoint pointer
+│       ├── events.jsonl    ← append-only event log
+│       ├── resume.md       ← session hydration packet
+│       ├── provenance.jsonl ← claim/artifact lineage
+│       ├── state.yaml      ← task metadata
+│       ├── README.md       ← Orchestrator summary (written on completion)
+│       ├── checkpoints/
+│       ├── approvals/
+│       ├── leases/
+│       └── manager-N/
+│           ├── README.md
+│           └── worker-N/
+│               └── README.md
+├── archive/        — Completed tasks: manifest + frozen control plane
+│   └── <task-id>/
+│       ├── manifest.yaml   ← final status, metrics, artifacts
+│       ├── run.yaml, events.jsonl, provenance.jsonl, checkpoints/
+├── templates/      — Agent prompts (git-versioned)
 ├── tools/
-│   ├── built/      — Finished tools (registered here when promoted from code/)
-│   └── requests/   — Tool request queue (YAML, reviewed by Master/Interface)
-├── logs/           — Structured JSONL logs (per-task, sealed on completion)
-├── docs/           — System documentation
-└── src/iterare/    — Python utilities (file tools, logging, task state)
-    ├── tools/      — file_tools.py, tool_request.py
-    └── utils/      — log.py, task.py
+│   ├── built/      — Registered tools (YAML metadata)
+│   └── requests/   — Tool request queue
+├── docs/           — System documentation (structure.md is the full spec)
+└── src/iterare/    — Python utilities
 ```
 
-**Code promotion**: experimental work lives in `tasks/`. Finished code moves to `code/`. Tools also register in `tools/built/`.
+**Code promotion**: experimental work lives in `tasks/`. Finished code moves to `code/`.
+Tools register in `tools/built/`.
 
 ---
 
@@ -111,7 +129,10 @@ submit_tool_request(
 )
 ```
 
-Requests are reviewed by the Master (or Interface Agent). Approved tools get built in `code/tools/` and registered in `tools/built/`.
+Tool lifecycle: `request → prototype → evaluate → approve → promote → deprecate`.
+Approved tools get built in `code/tools/` and registered in `tools/built/`.
+
+Review the queue: `iterare requests`
 
 ---
 
@@ -139,18 +160,8 @@ Architecture: 11-layer GQA transformer, GPTQ int6 quant, AR self-gen calibration
 
 **Status: In progress** | Compute: TIDE (2× NVIDIA A100 80GB)
 
-Goal: engineer discrete token prefixes that reliably steer LLM behavior across many suffix prompts without stating intent. Core challenge: closing the soft→discrete projection gap.
+Goal: engineer discrete token prefixes that reliably steer LLM behavior across many suffix prompts without stating intent.
 
-Current SOTA: **CE = 0.686** (Exp 16 λ=0, float32 sims — preliminary)
+Current SOTA: **CE = 0.59892** (Exp52/53 — tierra swap confirmed)
 
-| Exp | Description | Status |
-|-----|-------------|--------|
-| 1–14 | Baseline through alternating ST+HotFlip | ✅ Complete |
-| 15 | ST + cosine LR annealing + best-prefix tracking | ✅ Complete (HF CE=0.738, worse than Exp11) |
-| 16 | ST + Voronoi margin regularization (3 λ values) | 🔄 Running — GPU 1 |
-| 17 | Multi-seed (5×) ST+anneal+best-prefix, TOPK=50 | 🔄 Running — GPU 0 |
-| 18 | TOPK escalation (50→100→200) from Exp11 best | 📋 Queued — GPU 1 after Exp16 |
-| 19 | ST + cosine annealing + best-prefix, PREFIX_LEN=16 | 📋 Queued — GPU 0 after Exp17 |
-| 20 | Multi-seed (seeds 5-9) fp32-sims ST + TOPK=50 | 📋 Queued — GPU 1 after Exp18 |
-
-Key findings so far: ST estimator is the dominant improvement (CE 1.398→0.762 proj, 0.689 HF). Cosine LR annealing hurts. Basin quality matters more than projection CE. Float32 vs bfloat16 sims reach different Voronoi cells even at the same seed.
+Key findings: ST estimator dominant improvement. tierra token uniquely effective as swap target. HotFlip is a local optimizer; warm restart from SOTA is the only escape.

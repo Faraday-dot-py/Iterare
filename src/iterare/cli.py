@@ -1,12 +1,17 @@
-"""Iterare CLI — task and tool request inspection utility.
+"""Iterare CLI — task, run, approval, and tool request inspection.
 
 This is NOT the agent interface. Agent interaction happens through Claude Code.
-This CLI provides visibility into task state, logs, and tool request queues.
+This CLI provides visibility into task state, runs, approval queues, and tool requests.
 
 Usage:
-    iterare tasks               List all tasks
-    iterare tasks <id>          Show task state and log
-    iterare requests            List pending tool requests
+    iterare tasks                           List all tasks
+    iterare tasks <id>                      Show task state and log
+    iterare runs <task_id>                  Show run control doc + events
+    iterare approvals                       List all pending approvals
+    iterare approvals <task_id>             List approvals for a task
+    iterare approvals approve <task_id> <approval_id> [note]
+    iterare approvals reject  <task_id> <approval_id> [note]
+    iterare requests                        List pending tool requests
     iterare requests approve <id>
     iterare requests reject <id> [reason]
 """
@@ -58,6 +63,68 @@ def cmd_tasks(args: list[str]) -> None:
     console.print(table)
 
 
+def cmd_runs(args: list[str]) -> None:
+    from iterare.utils.run import read_run
+    from iterare.utils.events import summarize_events
+    import yaml
+
+    if not args:
+        console.print("[red]Usage: iterare runs <task_id>[/red]")
+        return
+
+    task_id = args[0]
+    run = read_run(task_id)
+    if not run:
+        console.print(f"[dim]No run.yaml found for task {task_id}[/dim]")
+        return
+
+    console.print(Syntax(yaml.dump(run, sort_keys=False), "yaml"))
+    console.print()
+    console.print(summarize_events(task_id))
+
+
+def cmd_approvals(args: list[str]) -> None:
+    from iterare.utils.approvals import list_all_pending, list_approvals, resolve_approval
+    import yaml
+
+    if args and args[0] in ("approve", "reject"):
+        action = args[0]
+        if len(args) < 3:
+            console.print(f"[red]Usage: iterare approvals {action} <task_id> <approval_id> [note][/red]")
+            return
+        task_id = args[1]
+        approval_id = args[2]
+        note = " ".join(args[3:]) if len(args) > 3 else ""
+        decision = "approved" if action == "approve" else "rejected"
+        try:
+            rec = resolve_approval(task_id, approval_id, decision, note)
+            status_color = "green" if decision == "approved" else "red"
+            console.print(f"[{status_color}]{decision.upper()}[/{status_color}]: {approval_id}")
+        except FileNotFoundError as e:
+            console.print(f"[red]{e}[/red]")
+        return
+
+    if args and args[0] not in ("approve", "reject"):
+        task_id = args[0]
+        pending = list_approvals(task_id, status="pending")
+    else:
+        pending = list_all_pending()
+
+    if not pending:
+        console.print("[dim]No pending approvals.[/dim]")
+        return
+
+    for rec in pending:
+        tier_color = {"low": "dim", "medium": "yellow", "high": "red"}.get(rec.get("risk_tier", ""), "white")
+        console.print(f"\n[bold]{rec['approval_id']}[/bold]  task={rec['task_id']}")
+        console.print(f"  Action:    {rec['action']}")
+        console.print(f"  Risk tier: [{tier_color}]{rec.get('risk_tier', '?')}[/{tier_color}]")
+        console.print(f"  Agent:     {rec.get('agent', '?')}")
+        console.print(f"  Created:   {(rec.get('created_at') or '')[:19]}")
+        if rec.get("payload"):
+            console.print(f"  Payload:   {yaml.dump(rec['payload'], default_flow_style=True).strip()[:120]}")
+
+
 def cmd_requests(args: list[str]) -> None:
     from iterare.tools.tool_request import list_pending_requests, update_request_status
     import yaml
@@ -98,6 +165,10 @@ def main() -> None:
 
     if cmd == "tasks":
         cmd_tasks(rest)
+    elif cmd == "runs":
+        cmd_runs(rest)
+    elif cmd == "approvals":
+        cmd_approvals(rest)
     elif cmd == "requests":
         cmd_requests(rest)
     else:

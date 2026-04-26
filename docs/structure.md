@@ -1,49 +1,102 @@
 # Iterare: Agent-Native Platform Structure
-*Version 1.0*
+*Version 2.0 — 3-role model, file-native control plane*
 
 ---
 
 ## Overview
 
-Iterare is an agent-native public benefit AI-run platform focused on applied AI research and software development. It exists as a vehicle for the lead developer to leverage agentic capabilities to explore ideas, learn, and test theories — with outputs oriented toward measurable human benefit.
+Iterare is an agent-native applied AI research platform. It exists as a vehicle
+for the lead developer to leverage agentic capabilities to explore ideas, learn,
+and test theories — with outputs oriented toward measurable human benefit.
 
 ---
 
 ## Core Tenets
 
-1. **Human-centric research**: Research focuses on improving the lives of as many humans as possible, prioritizing groups over individuals. Success is defined through measurable human-centered flourishing outcomes.
-2. **Agent-centric execution**: Tasks are controlled by master planners that distribute work to agents. Each agent handles one thing at a time.
-3. **Transparency and traceability**: All reasoning and justification is stored as README files, backed by research and cited sources. Every factor in a reasoning chain is documented and traceable.
-4. **Signal over noise**: Agents produce only what is needed to complete the task. No speculative artifacts, no excessive logging, no extraneous comments. Thoroughness is measured by output quality, not output volume.
-5. **Ethical side-constraints**: Hard gates against harm, deception, coercion, privacy abuse, and unfair treatment.
+1. **Human-centric research**: Research focuses on improving the lives of as many
+   humans as possible. Success is defined through measurable, human-centered outcomes.
+2. **Agent-centric execution**: Orchestrators distribute work to workers. Each worker
+   handles one concrete step at a time.
+3. **Transparency and traceability**: All reasoning is stored in README files with
+   evidence grades and citations. Claims are traceable via provenance records.
+4. **Signal over noise**: Agents produce only what is needed. Thoroughness is measured
+   by output quality, not volume.
+5. **Durable work across sessions**: Every significant run leaves a file-based control
+   plane (run.yaml, events.jsonl, resume.md, checkpoints) so sessions can resume
+   without reconstructing intent from conversation history.
+6. **Ethical side-constraints**: Hard gates against harm, deception, coercion, privacy
+   abuse, and unfair treatment.
 
 ---
 
-## Technical Foundation
+## Agent Roles
 
-### Agent Framework: LangGraph (MIT, free)
+Three roles. No more.
 
-LangGraph is the orchestration layer for all agents. Selected for:
-- **Native hierarchical graphs**: Master → Manager → Worker maps directly to directed graph model with sub-graphs and conditional routing
-- **Production checkpointing**: PostgreSQL checkpointer saves complete state at every node execution; overnight tasks survive crashes and resume exactly where they left off
-- **Built-in approval gates**: Interrupt system natively pauses at decision points, awaits human input, then resumes
-- **Durable audit trail**: Every checkpoint is an immutable execution record
-- **MCP support**: Custom tools integrate via Model Context Protocol
+```
+Lead Developer (human)
+│
+Interface Agent     — Sole direct interface for the lead developer. This IS the
+│                     Claude Code session. Handles tasks directly or proposes
+│                     spawning an Orchestrator for multi-manager scope.
+│                     Retains override authority over all spawned agents.
+│
+Orchestrator        — Plans and delegates. Owns the run lifecycle: creates run.yaml,
+│  (Master Agent)     issues checkpoints, submits approvals, archives on completion.
+│                     Sole writer to the system of record (outside tasks/).
+│                     Spawned by Interface Agent for large or overnight tasks.
+│
+Manager Agent       — Breaks orchestrator sub-tasks into atomic worker steps.
+│                     Owns a leased subtree. Logs events, acquires write lease.
+│                     Returns write requests to Orchestrator for out-of-scope writes.
+│
+Worker Agent        — Executes one concrete step. Owns a leased scratch directory.
+                      Records provenance for significant findings and artifacts.
+                      On failure: log, try different approach, escalate.
+```
 
-### Database
-- **PostgreSQL**: LangGraph checkpointer backend; durable task state
-- **LanceDB** (Apache 2.0, local, free): Vector store for agent-native semantic retrieval; indexed from markdown, never written to directly
+**The Interface Agent often acts as Orchestrator directly.** A dedicated Master
+agent is spawned only when task scope warrants it: multi-manager work, overnight
+unsupervised execution, or when isolation from the main session matters.
 
-### Systems of Record: Dual-Store
+---
 
-| Store | Format | Purpose | Who writes |
-|-------|--------|---------|------------|
-| Markdown files | `.md` | Human-readable source of truth | Masters only |
-| LanceDB | Vector embeddings | Agent-native semantic retrieval | Re-indexed from markdown only |
+## File-Native Control Plane
 
-**Rule**: Markdown is authoritative. If the two stores diverge, markdown wins. Re-indexing is triggered after every Master write.
+Every significant execution session runs against a control document and event log.
+These are the files that make long-running work resumable without prompt archaeology.
 
-**Write escalation**: Workers produce outputs → Managers review and request updates → Masters write to markdown → LanceDB re-indexes.
+### Per-task control files
+
+```
+tasks/<task-id>/
+  run.yaml          — objective, status, budgets, stop rules, write scope,
+                      active delegates, checkpoint pointer, open approvals
+  events.jsonl      — append-only event log (decision + side-effect boundaries only)
+  resume.md         — human-readable hydration packet for the next session
+  provenance.jsonl  — PROV-lite: entity → activity → agent → source → grade
+  checkpoints/      — state snapshots at durable boundaries
+  approvals/        — pending and resolved approval records
+  leases/           — active write leases per agent
+  state.yaml        — task-level metadata (created, status, description)
+```
+
+### Checkpoint policy
+
+Checkpoint at **decision and side-effect boundaries**, not every model turn:
+- Plan finalized
+- Delegation issued
+- Tool result accepted
+- Approval requested / resolved
+- Artifact written
+- Evidence updated
+- Stop rule evaluated
+
+### Resume policy
+
+`resume.md` must let the next session reconstruct intent without reading
+conversation history. It contains: objective, last checkpoint, stop rules,
+write scope, and a human-readable summary of progress.
 
 ---
 
@@ -51,146 +104,167 @@ LangGraph is the orchestration layer for all agents. Selected for:
 
 ```
 iterare/
-├── code/           — Finished, working code organized by project
-│   └── tools/      — Finished tool code
-├── tasks/          — Active and completed task trees (README hierarchy + in-progress work)
-├── archive/        — Cold-stored sealed task logs
-├── templates/      — Agent guideline document templates (git-versioned; evolve over time)
+├── code/           — Finished, working code (organized by project)
+│   └── tools/      — Finished tool implementations
+├── tasks/          — Task trees + run control plane
+│   └── <task-id>/
+│       ├── run.yaml
+│       ├── events.jsonl
+│       ├── resume.md
+│       ├── provenance.jsonl
+│       ├── state.yaml
+│       ├── README.md       ← Orchestrator summary (written on completion)
+│       ├── checkpoints/
+│       ├── approvals/
+│       ├── leases/
+│       ├── shared/         ← Lateral worker communication
+│       ├── manager-1/
+│       │   ├── README.md   ← Manager summary
+│       │   └── worker-1/
+│       │       └── README.md  ← Worker reasoning + results
+│       └── manager-2/ ...
+├── archive/        — Completed tasks: manifest + frozen artifacts
+│   └── <task-id>/
+│       ├── manifest.yaml   ← Final status, metrics, artifact list
+│       ├── run.yaml
+│       ├── events.jsonl
+│       ├── provenance.jsonl
+│       └── checkpoints/
+├── templates/      — Agent prompts (git-versioned; evolve over time)
 ├── tools/
-│   ├── built/      — Tool registry; references finished tool code in code/tools/
-│   └── requests/   — Tool request queue (YAML files written by agents, polled by Masters)
-├── logs/           — Structured hot logs (JSON/YAML, per-task, sealed on completion)
-└── docs/           — System documentation
+│   ├── built/      — Registered tools (YAML metadata → code/tools/)
+│   └── requests/   — Tool request queue
+├── logs/           — Legacy JSONL logs (use events.jsonl for new tasks)
+├── docs/           — System documentation
+└── src/iterare/    — Python utilities
+    ├── utils/      — run.py, events.py, approvals.py, provenance.py,
+    │                 leases.py, archive.py, task.py, log.py
+    └── tools/      — file_tools.py, tool_request.py, tide_runner.py, ...
 ```
 
-### Code promotion path
-
-In-progress and experimental code lives in `tasks/`. When code is finished and working, it is promoted:
-- General code → `code/<project>/`
-- Tools → `code/tools/<tool-name>/` and registered in `tools/built/`
-
-Nothing lives in `code/` that isn't finished and functional.
+**Code promotion**: experimental work lives in `tasks/`. Finished code moves to
+`code/`. Tools also register in `tools/built/`.
 
 ---
 
-## Agent Hierarchy
+## Write Authority
+
+Write authority is **role-bounded and lease-tracked**.
+
+| Role | Can write to |
+|------|-------------|
+| Worker | `tasks/<task-id>/manager-N/worker-N/` (own leased directory) |
+| Manager | `tasks/<task-id>/manager-N/` (own leased subtree) |
+| Orchestrator | anywhere within `tasks/<task-id>/`; system-of-record with approval |
+| Interface Agent | full write authority; approvals are for audit, not enforcement |
+
+Workers and Managers that need to write outside their lease submit a write request
+to the Orchestrator in their return payload. The Orchestrator reviews and executes.
+
+Leases are file-backed (`tasks/<task-id>/leases/<agent-id>.yaml`) and tracked for
+audit. Enforcement is by convention; violations are detectable post-hoc.
+
+---
+
+## Approval Queue
+
+Approvals are **risk-tiered**, not omnipresent.
+
+| Tier | When | Examples |
+|------|------|---------|
+| low | Auto-proceed inside write scope | File writes within lease |
+| medium | Pause for human review | System-of-record writes, tool promotions |
+| high | Pause + explicit confirmation | Destructive ops, external APIs, financial |
+
+Approval records live at `tasks/<task-id>/approvals/`. Inspect and resolve via:
+```bash
+iterare approvals                              # list all pending
+iterare approvals <task_id>                    # list for a task
+iterare approvals approve <task_id> <apr_id>   # approve
+iterare approvals reject  <task_id> <apr_id> "reason"
+```
+
+---
+
+## Stop Rules
+
+Every significant run should define explicit stop conditions. Examples:
+- `"CE below target threshold (< 0.55)"`
+- `"Two consecutive loops with no meaningful evidence delta"`
+- `"GPU hours exhausted (> 10h)"`
+
+Stop rules live in `run.yaml` and are checked by the Orchestrator after each
+manager completes. When a rule fires, log the event, close the run, return.
+
+---
+
+## Tool Registry
+
+Tools follow an explicit lifecycle: **request → prototype → evaluate → approve → promote → deprecate**.
 
 ```
-Lead Developer (human)
-│
-Interface Agent     — Sole direct interface for the lead developer. Persistent across sessions;
-│                     can be cleared, saved, or restored. Loads context from LanceDB on session
-│                     start. Has full Manager capabilities but does NOT spin up agents without
-│                     asking first, unless it determines delegation is most efficient.
-│                     Proposes via 1-3 line summary; full spec on request. Can override any
-│                     Master decision with written justification.
-│
-Master Agent(s)     — Plans high-level tasks. Spins up agents via fully-specced guideline docs.
-│                     Can spawn additional Master agents. Receives initial prompt from the lead
-│                     developer. Sole writer to systems of record. Monitors Managers and
-│                     intervenes when correction is needed. Runs recurring cross-task evals
-│                     (cadence defined per project before execution begins).
-│
-├── Manager Agent   — Breaks high-level tasks into concrete steps; spins up Workers. Monitors
-│   │                 Workers and intervenes when correction is needed or a Worker is stuck.
-│   │                 Handles failure triage (retry, reinforce, replace). Writes summary README
-│   │                 on task close. May REQUEST system-of-record updates to the Master.
-│   │
-│   ├── Worker      — Executes one concrete step. May communicate laterally with other Workers
-│   │                 but must notify its Manager. On failure: logs output, notifies Manager,
-│   │                 attempts self-fix. If unable to fix, escalates. Owns its task README.
-│   ├── Worker 2
-│   └── Worker 3
-│
-└── Manager 2 ...
+tools/
+  requests/   — pending YAML tool requests (written by agents)
+  built/      — promoted tools (YAML metadata + reference to code/tools/)
 ```
 
----
+Each tool record in `tools/built/` contains: name, version, status, description,
+code_path, capabilities, iterare_usage, hardware requirements, configuration.
 
-## Control & Override Rules
-
-| Agent | Authority |
-|-------|-----------|
-| Interface Agent | Highest. Can override any Master decision with written justification. |
-| Master | Directs Managers; may spawn peer Masters. Cannot override Interface Agent. |
-| Manager | Directs Workers; handles failure triage. Cannot write to systems of record. |
-| Worker | Single-purpose execution. Lateral communication permitted; must notify Manager. |
-
-### Human Approval Gates
-
-The following pause LangGraph execution and require explicit lead developer approval:
-- Irreversible actions
-- External-impact actions
-- Financial actions
-- Legal actions
-- Security-sensitive actions
+Use `iterare requests` to review the queue.
 
 ---
 
-## Memory & Session Policy
+## Context Hydration
 
-### Interface Agent
-Persistent by default. Lead developer can clear, save, or restore sessions. On start, loads relevant context from LanceDB.
+Session startup should be staged:
 
-### Task-level memory
-Decided per task based on agent/framework strengths:
-- **Fresh context** — when prior state would introduce noise or drift
-- **Persistent** — when historical context meaningfully improves accuracy or continuity
+1. **Boot pack**: task charter (`run.yaml`), latest `resume.md`, active stop rules,
+   open approvals, last checkpoint, latest manager summaries.
+2. **Task-local artifact pack**: relevant READMEs, evidence tables, tool docs,
+   unresolved questions.
+3. **Corpus retrieval** (only if corpus exceeds context): hybrid semantic + keyword
+   search with reranking. Not the default.
 
-Decision and rationale documented in the task README.
-
----
-
-## Task Model
-
-Tasks are long-running; some run overnight without supervision. Before any task tree begins:
-- Stopping conditions must be defined
-- Failure modes and escalation paths must be defined
-- Master-level eval cadence must be defined
-
-LangGraph (PostgreSQL checkpointer) ensures crash recovery and full execution history.
+Start from the resume.md, not from raw conversation history.
 
 ---
 
-## Logging Standard
+## Evaluation Loops
 
-- **Structured**: JSON or YAML — queryable without reading every line
-- **Scoped per task**: no single continuously-growing file
-- **Sealed on completion**: no writes after a task closes
-- **Summarized then archived**: summary stays hot in `logs/`; full log moves to `archive/`
-- **Written at decision and handoff points only** — not continuously
+Workers escalate; they do not self-evaluate. Evals run at Manager and Orchestrator
+levels only.
 
-LangGraph checkpoints are the primary durable audit trail. Application logs supplement; they do not duplicate.
+### Manager-level (per task)
+- Is the Worker repeating steps without progress? (loop detection)
+- Is output converging or diverging?
+- Has the Worker exceeded its step or time budget?
+- Are outputs meeting quality standards?
+
+### Orchestrator-level (recurring, cross-manager)
+- Are Managers producing consistent, high-quality summaries?
+- Are task outcomes matching stated goals?
+- Are systemic failure patterns emerging?
 
 ---
 
 ## Documentation Standard (READMEs)
 
-### Task directory structure
-
 ```
-tasks/
-└── task-001/
-    ├── README.md              ← Master summary; includes Master-level eval results
-    ├── manager-1/
-    │   ├── README.md          ← Manager summary (written on task close); includes eval results; links to Worker READMEs
-    │   ├── worker-1/
-    │   │   └── README.md      ← Worker reasoning, decisions, citations
-    │   └── worker-2/
-    │       └── README.md
-    └── manager-2/
-        └── ...
+tasks/<task-id>/
+  README.md              ← Orchestrator summary; metrics; links to manager READMEs
+  manager-N/
+    README.md            ← Manager summary; worker results with ✓/⚠/✗; eval results
+    worker-N/
+      README.md          ← Worker reasoning, decisions, citations
 ```
 
 ### Ownership
-
-- **Workers** write their README as they execute. The deciding agent documents its own reasoning.
-- **Managers** write a summary README on task close, referencing Worker READMEs. Primary review layer. Includes eval results.
-- **Masters** write a top-level summary for multi-manager task trees. Includes Master eval results.
+- Workers write their README as they execute.
+- Managers write a summary README on close.
+- Orchestrators write the top-level README for the task.
 
 ### Evidence quality levels
-
-All claims in READMEs carry a confidence marker:
 
 | Level | Meaning |
 |-------|---------|
@@ -200,85 +274,32 @@ All claims in READMEs carry a confidence marker:
 
 ---
 
-## Evaluation Loops
+## Archive Lifecycle
 
-Workers escalate; they do not self-evaluate. Evals run at Manager and Master levels only.
+A completed task is not done until archived. Terminal steps:
 
-### Manager-level (per task)
+1. Orchestrator writes `tasks/<task-id>/README.md` (final summary)
+2. `write_manifest(task_id, final_status, summary, metrics, artifacts)`
+3. `archive_task(task_id)` — copies control plane files to `archive/<task-id>/`
+4. `seal_log(task_id)` — makes the log read-only
+5. Return to Interface Agent
 
-Monitors Workers continuously; intervenes only when needed. Checks:
-- Is the Worker repeating steps without progress? (loop detection)
-- Is output converging or diverging?
-- Has the Worker exceeded its step or time budget?
-- Are outputs meeting quality standards?
-
-Monitoring is both **proactive** (watches step counts; intervenes before escalation) and **reactive** (Worker escalates after N failed attempts) — applied based on task criticality.
-
-### Master-level (recurring, cross-task)
-
-Monitors Managers continuously; intervenes when needed. Checks:
-- Are Managers producing consistent, high-quality summaries?
-- Are task outcomes matching stated goals?
-- Are systemic failure patterns emerging?
-
-Cadence defined per project before execution begins.
+The manifest is the permanent record: status, metrics, artifact inventory.
 
 ---
 
-## Tool Usage Policy
+## Logging
 
-1. **Existing free tools**: Manager approves; Master decides if Iterare policy alignment is in question.
-2. **Non-existent or bespoke tools**: Master may assign a Manager to build it.
-3. **Tool request**: A formal tool request is available to all agents — the primary autonomous path for initiating new tool builds.
-4. **Paid tools**: Not available at this time.
-
-### Tool request format
-
-Agents write a YAML file to `tools/requests/`. Masters poll the queue and approve, reject, or assign a build.
-
-```yaml
-tool_request:
-  name:                        # proposed tool name
-  purpose:                     # what it does, one sentence
-  why_existing_insufficient:   # specific gap
-  inputs:                      # what it takes
-  outputs:                     # what it returns
-  scope:                       # narrow | moderate | broad
-  requester:                   # agent id
-  task_context:                # task id this originated from
-```
-
----
-
-## Agent Guideline Document Specification
-
-Every spawned agent receives a guideline document generated from a template in `templates/`. Templates are git-versioned — no duplicate files; history is tracked via git. Masters and Managers update templates when they identify gaps or improvements.
-
-### Required fields
-
-```yaml
-agent:
-  role:                        # what this agent is
-  task:                        # specific work for this instantiation
-  tools_available:             # list; always includes tool-request tool
-  input_schema:                # format and source of inputs
-  output_schema:               # format and destination of outputs
-  stopping_conditions:         # list
-  failure_escalation_path:     # what to do when stuck or producing bad output
-  memory_policy:               # fresh | persistent | hybrid — with rationale
-  readme_requirement:          # what to document and where
-```
-
-### Interface Agent proposal format
-
-- **Initial**: 1-3 lines — what the agent would do and why
-- **Full spec on request**: scope, permissions needed, goals, stopping conditions
+- `tasks/<task-id>/events.jsonl` — primary event log (durable, append-only)
+- `logs/<task-id>.jsonl` — legacy structured log (still supported; use events.jsonl for new tasks)
+- Events written at decision/handoff boundaries only — not continuously
 
 ---
 
 ## Ethical Frame
 
-**Primary objective**: Measurable human-centered flourishing outcomes, prioritizing groups over individuals.
+**Primary objective**: Measurable human-centered flourishing outcomes, prioritizing
+groups over individuals.
 
 **Hard gates**:
 - No harm
@@ -289,12 +310,6 @@ agent:
 
 ---
 
-## Research Domain
-
-Research directions are supplied by the lead developer. Iterare does not set its own agenda independently.
-
----
-
 ## What Iterare Is Not
 
 - A headcount replacement system
@@ -302,3 +317,4 @@ Research directions are supplied by the lead developer. Iterare does not set its
 - A benchmark-maximization engine
 - A human organizational structure applied to agents
 - A system that generates volume to signal effort
+- A framework requiring LangGraph, PostgreSQL, or a heavyweight runtime
