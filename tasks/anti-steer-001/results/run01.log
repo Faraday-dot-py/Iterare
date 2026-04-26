@@ -1,0 +1,36 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading gpt2...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2679.64it/s]
+Model layers: 12, steering at: [8]
+Loading sentence-transformers for diversity scoring...
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 2864.51it/s]
+[1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+  task=0 cond=prompt_only mean_sim=0.6438 max_prior=0.6688 (15.4s)
+  task=0 cond=anti_steer_a0.1 mean_sim=0.3780 max_prior=0.3366 (18.2s)
+  task=0 cond=anti_steer_a0.25 mean_sim=0.2518 max_prior=0.2550 (17.2s)
+  task=0 cond=anti_steer_a0.5 mean_sim=0.5515 max_prior=0.5840 (18.3s)
+  task=1 cond=prompt_only mean_sim=0.6526 max_prior=0.6787 (17.5s)
+  task=1 cond=anti_steer_a0.1 mean_sim=0.4871 max_prior=0.5220 (18.0s)
+  task=1 cond=anti_steer_a0.25 mean_sim=0.5956 max_prior=0.5948 (17.4s)
+  task=1 cond=anti_steer_a0.5 mean_sim=0.2499 max_prior=0.3555 (17.7s)
+  task=2 cond=prompt_only mean_sim=0.2289 max_prior=0.2842 (17.4s)
+  task=2 cond=anti_steer_a0.1 mean_sim=0.0138 max_prior=0.0502 (18.1s)
+  task=2 cond=anti_steer_a0.25 mean_sim=0.1086 max_prior=0.1324 (10.6s)
+  task=2 cond=anti_steer_a0.5 mean_sim=0.3507 max_prior=0.3713 (18.3s)
+  task=3 cond=prompt_only mean_sim=0.2987 max_prior=0.3151 (16.5s)
+  task=3 cond=anti_steer_a0.1 mean_sim=0.4097 max_prior=0.4168 (17.2s)
+  task=3 cond=anti_steer_a0.25 mean_sim=0.3976 max_prior=0.4118 (17.4s)
+  task=3 cond=anti_steer_a0.5 mean_sim=0.2839 max_prior=0.3120 (17.0s)
+  task=4 cond=prompt_only mean_sim=0.6885 max_prior=0.7151 (16.2s)
+  task=4 cond=anti_steer_a0.1 mean_sim=0.5328 max_prior=0.5585 (17.0s)
+  task=4 cond=anti_steer_a0.25 mean_sim=0.1935 max_prior=0.2752 (17.5s)
+  task=4 cond=anti_steer_a0.5 mean_sim=0.2401 max_prior=0.3083 (16.1s)
+
+Done. Results saved to /home/awebb/Research/iterare/tasks/anti-steer-001/results/run01.json
+Total elapsed: 5.7 min
