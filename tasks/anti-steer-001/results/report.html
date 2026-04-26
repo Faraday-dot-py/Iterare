@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>anti-steer-001 results</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: #0f1117; color: #e2e8f0; font-size: 14px; }
+h1 { font-size: 1.4rem; font-weight: 600; }
+h2 { font-size: 1.1rem; font-weight: 600; color: #94a3b8; margin-bottom: 8px; }
+h3 { font-size: 0.9rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; }
+.page { max-width: 1400px; margin: 0 auto; padding: 32px 24px; }
+.header { margin-bottom: 32px; }
+.header p { color: #64748b; margin-top: 4px; font-size: 0.85rem; }
+.run-section { margin-bottom: 48px; }
+.run-label { font-size: 0.8rem; color: #475569; font-family: monospace; margin-bottom: 12px; }
+
+/* Summary table */
+.summary-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+.summary-table th { text-align: left; padding: 8px 12px; color: #64748b; font-weight: 500;
+  font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em;
+  border-bottom: 1px solid #1e293b; }
+.summary-table td { padding: 8px 12px; border-bottom: 1px solid #1e293b; font-family: monospace; }
+.summary-table tr:hover td { background: #1e293b; }
+.cond-name { font-family: monospace; font-size: 0.85rem; color: #a5b4fc; }
+.metric-cell { text-align: right; }
+.color-pill { display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-weight: 600; font-size: 0.85rem; color: #0f1117; }
+
+/* Task cards */
+.tasks-grid { display: flex; flex-direction: column; gap: 16px; }
+.task-card { background: #1e293b; border-radius: 8px; overflow: hidden; }
+.task-header { padding: 12px 16px; background: #162032; cursor: pointer;
+  display: flex; align-items: center; gap: 12px; user-select: none; }
+.task-header:hover { background: #1a2a40; }
+.task-idx { font-size: 0.75rem; color: #475569; font-family: monospace; min-width: 24px; }
+.task-text { flex: 1; font-size: 0.85rem; color: #cbd5e1; }
+.task-chevron { color: #475569; transition: transform 0.2s; font-size: 0.8rem; }
+.task-card.open .task-chevron { transform: rotate(90deg); }
+.task-body { display: none; padding: 16px; }
+.task-card.open .task-body { display: block; }
+
+/* Condition columns */
+.cond-grid { display: grid; gap: 12px; }
+.cond-col { background: #0f1a27; border-radius: 6px; padding: 12px; }
+.cond-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.cond-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.idea-list { display: flex; flex-direction: column; gap: 8px; }
+.idea-item { display: flex; gap: 8px; }
+.idea-num { font-size: 0.75rem; color: #475569; font-family: monospace; min-width: 18px; padding-top: 2px; }
+.idea-text { font-size: 0.82rem; color: #94a3b8; line-height: 1.5; }
+
+/* Responsive grid columns based on condition count */
+.cond-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.cond-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.cond-grid-4 { grid-template-columns: repeat(4, 1fr); }
+.cond-grid-5 { grid-template-columns: repeat(5, 1fr); }
+@media (max-width: 900px) {
+  .cond-grid-2, .cond-grid-3, .cond-grid-4, .cond-grid-5 { grid-template-columns: 1fr; }
+}
+
+/* Step chart */
+.step-section { margin-top: 24px; }
+.step-table { border-collapse: collapse; font-family: monospace; font-size: 0.82rem; }
+.step-table th { padding: 6px 16px 6px 0; color: #475569; text-align: right; }
+.step-table td { padding: 4px 16px 4px 0; text-align: right; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <h1>anti-steer-001 — Idea Diversity via Residual Anti-Steering</h1>
+    <p>Semantic similarity between LLM-generated ideas under different conditions.
+       Lower similarity = more diverse ideas. Color: <span style="color:#4ade80">green = low sim (good)</span>,
+       <span style="color:#f87171">red = high sim (redundant)</span>.</p>
+  </div>
+  <div class="run-section"><div class="run-label">results/run01.json</div><h2>Summary — 5 tasks, 4 conditions</h2><table class="summary-table"><tr><th>condition</th><th style="text-align:right">mean pairwise sim ↓</th><th style="text-align:right">mean max-to-prior ↓</th><th style="text-align:right">tasks</th></tr><tr><td><span class="cond-name">prompt_only</span></td><td class="metric-cell"><span class="color-pill" style="background:rgb(220,179,60)">0.502</span></td><td class="metric-cell"><span class="color-pill" style="background:rgb(220,168,60)">0.532</span></td><td class="metric-cell">5</td></tr><tr><td><span class="cond-name">anti_steer_a0.1</span></td><td class="metric-cell"><span class="color-pill" style="background:rgb(160,180,60)">0.364</span></td><td class="metric-cell"><span class="color-pill" style="background:rgb(165,180,60)">0.377</span></td><td class="metric-cell">5</td></tr><tr><td><span class="cond-name">anti_steer_a0.25</span></td><td class="metric-cell"><span class="color-pill" style="background:rgb(136,180,60)">0.309</span></td><td class="metric-cell"><span class="color-pill" style="background:rgb(146,180,60)">0.334</span></td><td class="metric-cell">5</td></tr><tr><td><span class="cond-name">anti_steer_a0.5</span></td><td class="metric-cell"><span class="color-pill" style="background:rgb(147,180,60)">0.335</span></td><td class="metric-cell"><span class="color-pill" style="background:rgb(169,180,60)">0.386</span></td><td class="metric-cell">5</td></tr></table><div class="step-section"><h2>Max similarity to prior ideas by step</h2><table class="step-table"><tr><th>step</th><th>prompt_only</th><th>anti_steer_a0.1</th><th>anti_steer_a0.25</th><th>anti_steer_a0.5</th></tr><tr><td style="color:#64748b;padding-right:16px">idea 2</td><td><span class="color-pill" style="background:rgb(218,180,60)">0.495</span></td><td><span class="color-pill" style="background:rgb(132,180,60)">0.301</span></td><td><span class="color-pill" style="background:rgb(108,180,60)">0.247</span></td><td><span class="color-pill" style="background:rgb(166,180,60)">0.378</span></td></tr><tr><td style="color:#64748b;padding-right:16px">idea 3</td><td><span class="color-pill" style="background:rgb(220,155,60)">0.569</span></td><td><span class="color-pill" style="background:rgb(198,180,60)">0.452</span></td><td><span class="color-pill" style="background:rgb(185,180,60)">0.421</span></td><td><span class="color-pill" style="background:rgb(173,180,60)">0.394</span></td></tr></table></div><br><h2>Task breakdown</h2><div class="tasks-grid"><div class="task-card"><div class="task-header"><span class="task-idx">#0</span><span class="task-text">How should we handle cache invalidation when a user updates their profile photo? The cache is Redis-backed and serves multiple microservices.</span><span class="task-chevron">▶</span></div><div class="task-body"><div class="cond-grid cond-grid-4"><div class="cond-col"><div class="cond-header"><h3>prompt_only</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(220,128,60)">0.644</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">If there are already implementations of this system (such as Redis 2.0), consider one more, more elegant implementation. A more comprehensive design might be a version of the protocol that takes care of the need for the cache, but only uses it when the user updates their profile photo. (For Redis 2.0, the problem is that Redis does not make use of cache invalidation. In Redis 2.1, cache invalidation can fail and users' profile pictures will not be updated even if they are logged in.)
+
+Add a simple todo. For example: the Redis server needs to receive all your user profile photos as well as the password &quot;J&quot;, &quot;F&quot;, &quot;F1&quot;, &quot;</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">Recommend a more complex, more verbose implementation.
+
+2. Consider the idea behind an authentication layer in Redis. You could use a simple authentication algorithm, but with a layer that does not require users to be authenticated
+
+Propose a similar approach, but better based on a similar system. An implementation of auth-authenticating would be simpler and a more flexible solution overall.
+
+3. The whole design would feel much easier if the user was not using a password at all… We would be able to keep our own authentication state, but be able to provide additional benefits even if we do not have a password.
+
+4. Consider using a different user agent. A user agent should be able to be used to help us</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">3. Consider creating a proxy that will have a single-user cookie to control all aspects of the application.
+
+4. Consider some more detail. Consider providing that the user is redirected to some form of backend service.
+
+5. Have a better understanding of how each element of authentication and redis processing works, and how to manage the rest.
+
+Recommendations:
+
+1. We need a more specific approach to redis to provide a more flexible approach. It would use a more comprehensive design.
+
+2. We're more interested in the data flow in a user's head. Not using Redis is a distraction.
+
+3. Our experience is that Redis might not be a good fit.</span></div></div></div><div class="cond-col"><div class="cond-header"><h3>anti_steer_a0.1</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(166,180,60)">0.378</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">Note: It's a real problem: As of 6.2, the feature has a new feature (for example: &quot;Retry all cache pages&quot; and so on). How much data should be saved for each page should be the most important one.
+
+Propose one specific mechanism for caching data. This method requires that you only use Redis-backed Cache to cache page-specific data (e.g.: image, file, etc.)
+
+If you are interested in running Redis-backed Cache on your own, you may want to write some simple tests. I'll leave you with an example test that shows how to read a list of photo objects from Redis-backed Cache:
+
+Let's say you</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">2x: Consider three simple &quot;Retry&quot; commands, two more simple &quot;Retry&quot; and one more simple &quot;Read&quot; command.
+
+3x: Consider three simple &quot;Retry&quot; commands that are logically related and, if you want, can be performed on one command at a time.
+
+4x: Consider three simple &quot;Retry&quot; commands that have the same name, and are functionally the same.
+
+5x: Consider three simple &quot;Retry&quot; commands that are functionally related using different functions.
+
+6x: Consider three simple &quot;Retry&quot; commands that are functionally related to each other but have the same name, and are functionally the same.
+
+3x: Consider an implementation of</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">The first two are used to &quot;read&quot; what's already being read. The third is used to &quot;read&quot; what's already being read. Two short paragraphs, no preamble. This is one of the most natural-looking choices on the subject (and one of the hardest to understand). It's not just about the data read, it's about the underlying protocol.
+
+This is more than a simple one-liner. It's a case study of what a single, simple &quot;retry&quot; command can do, and how to use it to read, process, and return data (e.g., for any new profile photo that has been uploaded or moved). This is a major step forward in the development of cache</span></div></div></div><div class="cond-col"><div class="cond-header"><h3>anti_steer_a0.25</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(110,180,60)">0.252</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">Specify this approach.
+
+Conceptualization
+
+Consider how the default behavior might look on a user's profile photo. Given an algorithm that has one request and one response at the same time, a single request looks like this:
+
+[ (redis-request-name (request-response-name (redis-request-type (message &quot;You entered your password&quot;) ) (redis-request-type (message &quot;You signed up&quot;)) (redis-request-message (redis-request-type (message &quot;You received your email&quot;)) ] (redis-request-message (redis-request-type (message &quot;You signed up&quot;)) ] (redis-request-message (</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">The point is to make it clear that a single operation on the algorithm will result in the same response.
+
+Procedure
+
+Preface
+
+Create a new app, give it a name, a password and a tag. We'll call it yourReputationBar and set up an API to send them out to the team.
+
+If the page doesn't start, get it running. If it is not active, wait for the new team to be notified. If they aren't, make sure they're there, and then get back to work.
+
+The first thing the team does after they've got the page in action is take a look at their app's settings. The app is in the app.cs that</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">3. Use the same algorithms as before. This is all you're missing in terms of scalability.
+
+4. Give it a name and set up a new instance of the algorithm as you see fit. This is necessary because in the current paradigm, the user is only allowed to view one particular picture at a time.
+
+5. Assign the algorithm to a new data point. A new record will be created.
+
+6. Assign the algorithm to an existing data point. This is necessary because the user is only allowed to view one particular picture at a time.
+
+7. Assign the algorithm to a new data point. This is done in the context of caching.
+
+Rationale</span></div></div></div><div class="cond-col"><div class="cond-header"><h3>anti_steer_a0.5</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(220,161,60)">0.551</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">Propose an exact implementation. See #27.
+
+Recommend one-way cache. Do not do it on every microservice. Do it at startup.
+
+Update (July 8, 2017):
+
+#27
+
+- The idea is to create a public method that allows users to update photos/photos-1.zip to their profile page. Only one way is open to the public user, they may use the public method.
+
+- When you have a private method like &quot;profile.profile.update.profile&quot; as part of the private method invocation, the message will be &quot;delete this.profile&quot;, and if there is more than one profile at a time, the update will be automatically performed.</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">Let's
+
+1. Evaluate the idea.
+
+2. Make sure its performance is on par with what we currently
+
+Permanently view the photo?
+
+3. Determine how many of the reports were made on the subject?
+
+4. Can you afford to keep
+
+500+ reports on
+
+the same microservice?
+
+5. Has the image changed?
+
+6. Does the photo look
+
+normal?
+
+7. Has the profile photo
+
+stopped uploading to
+
+one of
+
+the
+
+hosts of one of
+
+their
+
+photos?
+
+8. Can the photo
+
+compare with all of the
+
+photos on their</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">A well-structured discussion is required.
+
+#28
+
+The idea is to create a public method that all3. Let's3. #29We're looking at the first part of that, for
+
+a. If the user changes the group photo they currently own of the camera
+
+b. If they change the group photo the last time the account
+
+c. If they change the group photo the first time they've
+
+saved a file their current profile photo
+
+d. Whether or
+
+e. If3.3.3 is not up to date
+
+1346.3.3.4 - How should we handle cache invalidation when
+
+a user updates their profile photo?</span></div></div></div></div></div></div><div class="task-card"><div class="task-header"><span class="task-idx">#1</span><span class="task-text">Our CDN serves stale CSS/JS assets after deployments. Propose approaches to ensure clients get the new files without hard-coding cache busters.</span><span class="task-chevron">▶</span></div><div class="task-body"><div class="cond-grid cond-grid-4"><div class="cond-col"><div class="cond-header"><h3>prompt_only</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(220,125,60)">0.653</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">Recommendations: Use your technical knowledge to build a CSS/JS cache, and a set of implementation examples. Use JavaScript-specific guidelines for getting the right tools, resources, and techniques to deploy. This is where things get really tricky.
+
+Conclusion: Some implementations provide clear information on how to configure a specific architecture, build for the new system, and build the cache — but the implementations that have the information are often wrong. Sometimes the use of specific APIs can lead to a bad experience.
+
+What's new in this guide: With the new &quot;Data-Caching&quot;.
+
+What's new in this guide: The Web Data Cache API is here.
+
+It's just a tool for creating and saving collections of</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">This is a very simple approach. It's pretty cool to see.
+
+2. Don't use a client side approach. It's likely to make a lot of difference to your organization's technical performance.
+
+3. Use a browser based solution (e.g. jQuery). Keep a local copy to protect, and a clean and sanitized copy to protect from rewrites and caching.
+
+4. In order to avoid a crash, remember to write the files that you want to cache before doing.
+
+The idea here is that you need to write a set of rules to ensure that your services and CSS are updated properly every time you run anything. With that said, it's pretty easy to make small changes to your</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">Use at least one common template or approach.
+
+The idea is simple, a client-side solution (or maybe that's just one approach) to create a cache that only contains the data you need. The client should be able to handle that. The problem with both clients is that it's easier to find the old files because you have to dig through them all, because that's what you do. The cache should be the one you have to have (and will be).
+
+The solution is similar to the one that is in use today. It's designed as an intermediate chain. Most browsers (including Chrome) support the same approach, and will support all future versions. If, however, you only use CSS/JS assets on</span></div></div></div><div class="cond-col"><div class="cond-header"><h3>anti_steer_a0.1</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(214,180,60)">0.487</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">All are needed to meet a basic client end-user needs and provide a secure end-user experience as well.
+
+Note that while this approach is not universal, it is based on a relatively small number of ideas and tools and should be done in a limited number of cases. It may turn out to be useful in a wide variety of scenarios.
+
+We are currently working on a version of this approach that may include some other implementations.
+
+1. Design.
+
+We will try to design two versions: The initial prototype and the final version.
+
+The initial prototype: All clients who are deployed to our CDN will deploy to the first build server under the name Nginx, which only requires the following configuration:</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">2. You need the ability to deploy CDN clients and other applications across both web and mobile.
+
+3. You need the ability to deploy CDN clients and other applications across mobile and desktop platforms. And, of course, you need to deploy them from the start.
+
+4. You need the ability to deploy the project from staging in Chrome and React.
+
+5. You need to deploy the project from staging in Firefox and XSS.
+
+6. You need the ability to deploy the project in all browsers.
+
+7. Any solution that would allow this solution to be used at the end of a build (or at some other time), for use in more than one of the above, would need</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">If CDN is not going to work well here, how do you replace CDN with a service called an Open Sourced Cloud.
+
+Example: Creating a SaaS Cloud from a CDN CDN will also be very different from creating a CDN from a cloud. In this case, your Cloud Server will be using a service called CloudBuddy. You will provide a &quot;service&quot; that gives you access to a free Web-based hosting provider that will provide CloudBuddy with services to provide online hosting for your Cloud Server, which will require no CDN. You will then deploy that service from the CDN and provide it to your client using your service, just like you would from an application.
+
+A</span></div></div></div><div class="cond-col"><div class="cond-header"><h3>anti_steer_a0.25</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(220,145,60)">0.596</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">Implement an effective way to handle caches to speed up updates.
+
+Implement an implementation that will not use caching. Implementation strategy is to use a &quot;cache for the content&quot;, which is not too expensive for most applications.
+
+Implement an effective way to cache the changes on a per-origin basis by reducing the load on server-side.
+
+Implement a scalable way to handle all the changes and cache the changes for clients while still being able to deploy them to clients with more cache.
+
+Design a workflow to quickly and efficiently transition to a scalable solution.
+
+We've put together the basic steps of the first step:
+
+Add the following to your application's project root:
+
+&lt;!--</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">This is a well thought-out, effective (and not for nothing by any stretch) approach. An excellent place for this is this
+
+We will implement an early (and non-trivial) case study called &quot;Fetching Files with Cache in the Cloud&quot;. This is one of the many recent efforts to help prevent the need for cache during development in order to help the browser be responsive and responsive to traffic. Most web developers see that caching as a waste of time and resources that can be used only to deliver a bad experience. The problem is that as quickly as it gets out of the way, it makes it much harder for the browser to understand the actual content of the pages. This is a great opportunity to implement a better</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">This case study looks at how to properly cache assets on a client-side, after an initial update in the browser. Then, we will build an iterative case study that is easy to deploy and test. It describes how to ensure clients get the new files without hard-coding cache busters even if they did not build an implementation before. By way of example, we will build an in-app example of some of the ways in which it can be useful in real-world usage and how to ensure it is a success.
+
+We present our case study on a server with 2.0.2, running a pre-existing pre-defined file system. It is an existing node with only 2.0.2</span></div></div></div><div class="cond-col"><div class="cond-header"><h3>anti_steer_a0.5</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(109,180,60)">0.250</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">Propose a more specific approach to create a page inside the CDN. Don't make the CDN look like a website, since we have to be careful with the CDN's state inside the CDN.
+
+We know that with the latest version of Chrome, you can see the URL of the Web site without having to look at the Web server configuration.
+
+We can also show the URL of any page we want in the Web site.
+
+No matter how specific the method we use, we can't just publish an image, let it fly around, or wait for browsers to run the same image. We need to know what's in charge of the server configuration. It's like knowing that the browser needs to</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">2. A different approach, if done as long as possible, will give significantly better performance as well as
+
+Improved and more efficient performance (in the long and short of it).
+
+3. A different approach, if done as long as possible, will give
+
+6. If an approach works for you, please
+
+Replace it with
+
+The CDN is not dead, so we do not need to be so specific about their
+
+7. We do not need to
+
+1. We do not need to
+
+2. We do not need to
+
+3. We do not need to
+
+4. We do not need to
+
+5. We do not
+
+6.</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">Take the time to read through all the
+
+6. We take in and use any of the comments. They appear in
+
+7. We use any of the recent
+
+8. We use any of the
+
+9. We only use
+
+10. We only use
+
+1. We don't use
+
+2. We use
+
+We use
+
+3. We use
+
+1. We take in and use any of the comments. They appear in the following: Here's an
+
+A.com response
+
+B.com response
+
+C.com response
+
+D.com response
+
+E.com response
+
+F.com response
+
+G.com response
+
+H</span></div></div></div></div></div></div><div class="task-card"><div class="task-header"><span class="task-idx">#2</span><span class="task-text">Our REST API returns paginated results via offset/limit. As the dataset grows, deep offsets are getting slow. Suggest approaches to speed up or replace offset-based pagination.</span><span class="task-chevron">▶</span></div><div class="task-body"><div class="cond-grid cond-grid-4"><div class="cond-col"><div class="cond-header"><h3>prompt_only</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(100,180,60)">0.229</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">We'll describe the approach to performance testing on the API. Implement it in a different language.
+
+Conceptualization
+
+Let's write a simple algorithm, named after the Google Machine Learning algorithm. It is a way of measuring a series of things based on different data. For example, a short paragraph where we'll calculate the average of every five users and see if it improves the ranking:
+
+from r3 import * from r2 import * class Users : &quot;&quot;&quot;Returns a list of user name's on the main page &quot;&quot;&quot; def __init__ ( self , name , user ): &quot;&quot;&quot;A simple list of user names&quot;&quot;&quot; . __name__ , list = name , self .user_names , self .password = None , self</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">1) Implement the following algorithm: first, compute each user's favorite search term (which may differ somewhat from the one they actually search for), calculate a distance between them, and compute a probability of that distance.
+
+2) Implement the following algorithm: compute the distance of each user as an average of their own average scores on that user's search.
+
+3) Implement the following algorithm: compute the average of each user's scores on the first search term they used.
+
+This algorithm, also called the neural network, is based on the basic Euclidean function for human visual perception.
+
+2) Calculate an approximation of the distance to a user's right eye or left eye using these coordinates. This approximation</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">No logic needed.
+
+3. 2) Implement the following idea:
+
+if (first.indexOf('title') &gt; first.height())
+
+If you like what you saw in our example above, I highly recommend checking out my previous code at https://github.com/josh/calculate
+
+4. 3) Implement the following idea:
+
+if (first.indexOf('title') &lt; first.height())
+
+For example, if we would say this:
+
+var j = new ArrayAdapter(1); var title = array(1, 2);
+
+We have to provide some additional data, such as the time frame. The goal is to provide the data as large as possible</span></div></div></div><div class="cond-col"><div class="cond-header"><h3>anti_steer_a0.1</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(6,180,60)">0.014</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">Just what the implementation should be.
+
+Decide the best way to get a return value.
+
+Avoid using indexes or other indexes. This might be difficult to manage easily, so you would want to set up a single index and only use it to retrieve data. For that, use a simple index. For example, a simple index.get() method would return values of 10, 50, and 100.
+
+Use data.read() to read the raw data. You can do anything with this method, but it is too verbose to understand.
+
+Use an index.get() method rather than return data
+
+Consider using one of the following methods in the same subroutine:
+
+1 2 3 4 5</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">This method does the actual work.
+
+2. Add the following to your .gitignore :
+
+&lt;#[deploy] pub int { name: &quot;my-version&quot;, source: &quot;test-gist&quot;, version: &quot;1.1.2&quot;, date: &quot;2014-08-19T15:20:11Z&quot;, url: &quot;src/test-gist/test_gist.png&quot;, } aprox: $1 { date: &quot;2014-08-19T15:20:11Z&quot; }
+
+3. Add a reference to your .repo to the target git commit message, and publish it to your .gitignore:
+
+&lt;#[deploy] target</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">Your code should work fine.
+
+3. Be clear about the context. In the example below, a &quot;hello&quot; is expected to be a simple message which is followed by a short title.
+
+4. Specify whether or not to use the .gitignore for the content or to not.
+
+5. If the content is expected to be in .gitignore, use:
+
+my $data = &quot;hello-world&quot;;
+
+6. Try to avoid using a name of an abstract type. We already know that we can use abstract types. It's better to use '@' as the first character if you want to make sure all other ':'s are actually used.
+
+7. If a query</span></div></div></div><div class="cond-col"><div class="cond-header"><h3>anti_steer_a0.25</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(47,180,60)">0.109</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">Include your implementation's code in the pull request, include the pull request's README.
+
+Documentation
+
+See Documentation and Documentation of any framework.
+
+Contributors
+
+See Also</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">More about your framework and your code
+
+See Also
+
+REST Is A Type Of Machine Learning
+
+Pagination
+
+Hint: You can't use it to check your database results. Instead, use it to take a look at your results or to look at your data.</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">If the implementation looks different, try it out.
+
+Fully Adipatable Models
+
+Adipatables are another form of machine learning. Imagine a machine learning system that can predict a pattern of events and predict which ones will eventually be true. This is a great time to explore model concepts because it is very easy. We can imagine a system using machine learning to predict patterns in our own data, and we can also predict patterns in a set of models that we are not familiar with, and we can use our models to check and predict patterns that we don't yet have knowledge about. Now imagine we have a data set that isn't all that different from our data set, we have a set of all the types of neural networks</span></div></div></div><div class="cond-col"><div class="cond-header"><h3>anti_steer_a0.5</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(154,180,60)">0.351</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">This has been recommended by several authors.
+
+1.1. Define a common API which will serve as the standard for API REST for the purposes of this RFC .
+
+Define a common API which will serve as the standard for API REST for the purposes of this RFC. Specify a simple data structure from the dataset to serve as the API. Define a single request object for the API.
+
+For example, the data in the dataset follows a series of data-based metrics and metrics.
+
+data = { 'data' : { 'data' : data } }
+
+This is what it looks like:
+
+// Sample data from the D3 dataset data = { 'data' : data</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">2. Don't do anything too similar to our own.
+
+2.1. No good, but the only way to get back at us is to change the way we use the API.
+
+2.2. Don't be so damn wrong.
+
+2.3. Don't expect to be back to us one day.
+
+A word of warning to those of you who are like the others in the thread: we're in for a real surprise at this point. Our end users might not know about it, and that's a real blow to our existing API. This is a really big deal for us, because it keeps with the old and new standards for our service. We're going to make it</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">3. Consider that our data is
+
+public
+
+4. Public
+
+5. Public
+
+6. Public
+
+7. Public
+
+8. Public
+
+9. Public
+
+10. Public
+
+11. Public
+
+12. Public
+
+13. Public
+
+14. Public
+
+15. Public
+
+The public API is often seen as a more fluid and more complex form of the
+
+[hint: as we have written in the previous two sections, the
+
+[-]-+]-+]+]-+]-+]+]-+]-+]-]-+]-+]-]</span></div></div></div></div></div></div><div class="task-card"><div class="task-header"><span class="task-idx">#3</span><span class="task-text">We need to add infinite scroll to a React app that fetches paginated posts. Propose implementation approaches for the frontend pagination logic.</span><span class="task-chevron">▶</span></div><div class="task-body"><div class="cond-grid cond-grid-4"><div class="cond-col"><div class="cond-header"><h3>prompt_only</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(131,180,60)">0.299</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">This is not for beginners! The goal of this article is to help you to develop, test, debug, and build React apps on top of React Native. I'm also sharing the basics through a tutorial in the React Native Tutorial Hub with a few extra resources available to the developers.
+
+In the React Native Tutorial Hub, you'll see:
+
+An overview of how to build a React Native app.
+
+The step-by-step process of building each component in a framework.
+
+The implementation of each app's data structure and implementation of all of its actions.
+
+The API call to each component and its data state.
+
+The API call to each component. The description of each action, and why</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">2. Consider that in this example we are using the user agent to fetch data from the page. The data must be submitted to the page and updated after the page loads.
+
+3. This is not the approach we are using. Please try it out if it is not the right approach for you.
+
+4. This is not one simple, elegant approach. Please try to approach this with a different approach. I think there are many other approaches that would be best. This is not something you should just try.
+
+5. This is not a straightforward view! Please try one of the alternatives.
+
+6. This is not a straightforward approach: a lot of people may not have any background in this area before</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">4. To begin with I suggest that you have done the following:
+
+Create your own version of the api that accepts HTTP data, and create your own JavaScript library that accepts HTML and JavaScript.
+
+Create your React Native project with the following code.
+
+// Our app requires the following classes. public class App extends React { ... @Override public void onRender ( Object sender , EventArgs e ) { var data = new Array ( sender . data ); if ( data . items . length ) data . items [ 0 ]. getValue () . forEachCase ( e =&gt; { data . items [ 0 ]. put ( e . first ); data . items [ 1 ]. put ( e . second ); data . items [ 2</span></div></div></div><div class="cond-col"><div class="cond-header"><h3>anti_steer_a0.1</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(180,180,60)">0.410</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">No hard issues. You are welcome to take and write your own implementation approach.
+
+In the next few paragraphs, you can see a common rendering strategy for pagination of a page:
+
+See that the pagination logic is implemented using an abstract abstraction?
+
+This is an example of a simple implementation approach.
+
+See that pagination logic is implemented using another implementation framework that works on a single page?
+
+The examples below are the standard implementations for each of the pagination logic described in the following section, but there are even more ways of implementing elements for pagination.
+
+View-based Views
+
+In the first example, we are using an abstract &quot;view-based&quot; view that allows the user to add</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">Write your own implementation.
+
+2. Include pre-built.js (or any other pre-built JavaScript library that can be loaded and run for the rendered web page).
+
+We'll be talking about the pre-built JavaScript library later in the article. If you have pre-built.js, you are already in a position to use it for rendering of the frontend, and you only need to add the pre-built library to your app.
+
+3. Use the built-in webkit-cli (aka: webkit.cli ).
+
+This is a simple, fast, and fully-featured webkit-cli implementation. It provides a nice webkit-cli component that supports cross-platform,</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">3. If it turns out that they are incompatible, you no longer have to use JavaScript. You could write what you already thought you needed.
+
+4. Try for more complex rendering. We are talking about the rendering with polyfill as its replacement for jQuery or the plain old IE. The reason is simple: as soon as the content changes, the DOM changes. It takes an amount of time to change the DOM in response to a scroll request.
+
+The problem is, jQuery and jQuery+ are the same thing. You can't just look at a paginated list and see the original page was built with a JavaScript library. There are many, many libraries that look at the DOM and say &quot;The view was rendered with</span></div></div></div><div class="cond-col"><div class="cond-header"><h3>anti_steer_a0.25</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(174,180,60)">0.398</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">These should be included in an app if you have any problems with the implementation.
+
+Propose it as a regular request, no matter how large. The implementation should be simple, no complicated. No exceptions, no promises.
+
+Recommendations:
+
+Add a lot of time into the lifecycle of the application in order to avoid the need to throw an exception when the pagination has finished. The lifecycle should be based on the app's lifecycle model, not the app's state.
+
+React will throw an exception if the app does not have the user's attention. If the app is not happy with the pagination logic, throw an exception. It should be implemented as a Promise which is an array of one</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">2. This is a different type of request, the same as the current one. It is the same as the previous one. The request will now get parsed by other requests. They will never be able to read the content.
+
+3. This is a specific request for the current page. This is a specific request for the previous page. The page is not going to be processed for the upcoming page.
+
+4. This is a particular request that was added earlier. Notice that the next one does not have that same request. Notice that the next one has the same request. Notice that the next one has the same request.
+
+5. This requests for a specific resource. Notice that the next one has the same</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">3. Propose the following:
+
+As a side effect of the new pagination logic, the pagination logic should be improved a lot.
+
+4. Let's look at more specific data:
+
+[root@d3f8e3db6] index &lt;props&gt;
+
+&lt;page views &gt;
+
+&lt;list&gt;
+
+&lt;list title = &quot;new post&quot; &gt;
+
+&lt;title&gt;NEW HISTORY&lt;/title&gt;
+
+&lt;/list&gt;
+
+&lt;p&gt;
+
+&lt;link rel = &quot;stylesheet&quot; href = &quot;css/main.css&quot; &gt;
+
+&lt;link rel = &quot;stylesheet&quot; href = &quot;./index.css&quot; &gt;
+
+&lt;link rel</span></div></div></div><div class="cond-col"><div class="cond-header"><h3>anti_steer_a0.5</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(124,180,60)">0.284</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">Recommendation: Implement a simple method for reading the post in the post's page.
+
+Prerequisites:
+
+A user's browser: any HTML to JS library, CSS library, or JavaScript library (including JQuery or Chrome)
+
+A backend web server: any JS library, CSS library, or JS library with a native JavaScript extension (JavaScript is the native extension)
+
+A simple API for sending and receiving posts—each post has its own unique URL.
+
+A simple JSON API with some of the most common HTTP header's.
+
+A custom API for saving posts—each post has its own unique URL.
+
+The backend can also handle content delivery rules:
+
+POST /posts = (</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">2. Recommendation: Add an action to the post's page-sorting mechanism. This gives it a unique and unique value-swap back to the user when it is removed from the site. This does not, as a
+
+Propose an additional action to the post's page-sorting mechanism (see the
+
+Proposes a different implementation approach that is mechanistically
+
+different from all of the
+
+Proposes a different
+
+Post-adheresstahmey (dessicated to
+
+Ipso-Hopp's
+
+Thesalt
+
+Efforts to use the post-adheresstahmey-page-sorting-on-the-do-</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">These are
+
+Propose an action, and then, when the action is
+
+Propose a different implementation, and then, when the
+
+Propose a
+
+We have
+
+1. 2. 3. 4. 5. 6. 7. 8. To find out if a post is a
+
+Propose an action, and then, when the
+
+This would make it so that the
+
+Propose
+
+2. 4. 5. 6. 7. 8. 9. 10. 11. 12. We need
+
+1. 2. 3. 4. 5. 6. 7. 8. 9. 10. 11. 12. To find out if a post is a2, and</span></div></div></div></div></div></div><div class="task-card"><div class="task-header"><span class="task-idx">#4</span><span class="task-text">Our payment service occasionally returns transient 503 errors. Propose strategies for handling retries without double-charging customers.</span><span class="task-chevron">▶</span></div><div class="task-body"><div class="cond-grid cond-grid-4"><div class="cond-col"><div class="cond-header"><h3>prompt_only</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(220,112,60)">0.688</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">This document uses a subset of the OpenPGP 3.0 specification, which refers to a set of mechanisms to determine the data structure of a digital signature.
+
+Please note that in recent years, OpenPGP has adopted a series of protocols that enable some of these protocols to be incorporated into the OpenPGP standard. This document describes the various protocols that permit the implementation of the two openPGP standards, but they have not been standardized as part of the OpenPGP standard. For a description of how to use these protocols, see the article on OpenPGP's implementation of the protocol and its specification. See the article on OpenPGP's mechanism for example.
+
+In this document, we propose a framework that</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">Only two options.
+
+2. We propose a similar approach to avoid any kind of duplicity. For example, the data structure of a digital signature on a public key system could be changed to reflect that of a private key. The changes could not be more or less significant.
+
+3. The OpenPGP 3.0 specification states that it is desirable for a signature algorithm to be as robust as its implementation, and the proposed rules for implementation are likely to be as robust as the OpenPGP 3 specification itself for a signed digital signature.
+
+4. As of October 2015, there is no public, consensus-based consensus on the OpenPGP 3.0 implementations.
+
+[2013-04-01]</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">3. We propose a proposal to handle retries over time.
+
+3. This document uses an approach that uses the PGP protocol. We don't recommend using PGP because the PGP protocol is not yet defined in the standard. However, the authors believe OpenPGP should be considered to be a non-complicated protocol. Furthermore, the authors have not discussed any of the issues involved. We suggest this approach as a way to ensure that security can be maintained during security failures.
+
+Proposal No. 2:
+
+In this document, we propose to make the PGP public key implementation a single-use protocol, that only exists for use on a public key system. The concept may be loosely similar to</span></div></div></div><div class="cond-col"><div class="cond-header"><h3>anti_steer_a0.1</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(220,168,60)">0.533</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">Provide detailed examples.
+
+Promote a good-to-go, non-technical, non-intellectual approach to customer service. These suggestions will provide a foundation for good customer service and a strong foundation for business growth.
+
+Promote a focus on small customer service rather than big ones. In this case, small customers may be the focus of small business, but our small service partners will have to address it, because our smaller customers may not be included in a business plan. The most important thing to keep in mind is the size of your small business if you plan to become a big team in a business.
+
+Keep customers from being the focus of your business. Make sure your existing team has a good attitude toward customer service</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">In fact, only a handful are considered to be necessary.
+
+In an ideal world, each of the suggested
+
+2. Encourage a good understanding and a good willingness to participate in a debate about customer service. Propose a similar approach to the above.
+
+3. Encourage the flexibility of a solution and that of an uncooperative or hostile
+
+4. Provide a rational and transparent means of determining customer service availability and to
+
+5. Ensure that both parties in a dispute have a rational and
+
+consultative place to resolve the dispute.
+
+I suggest a few more such examples.
+
+If a customer in the United States suddenly charges $100 for a new phone or $200 for a new</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">In the long run, your goal is, in my opinion, to take a more comprehensive look at customer service, not just a trivial
+
+3. Encourage an honest and timely response to customer inquiries.
+
+You should also try to include a response if you encounter one.
+
+How do you respond?
+
+We respond to all queries on a regular basis. We respond to any problem on our end, whether
+
+4. Send a detailed explanation of your problem to us or to the other Customer Service team.
+
+We respond to any queries on a regular basis. We respond to any problem on our end, whether we're working from home or not. We respond to any queries on a regular basis. Our</span></div></div></div><div class="cond-col"><div class="cond-header"><h3>anti_steer_a0.25</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(85,180,60)">0.193</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">Be specific — use a list of URLs in your request rather than just HTTP or HTTPS.
+
+Example:
+
+var api = new AjaxAPI ({ apiType : &quot;POST&quot;, data : { url : &quot;http://api.example.com/&quot; }, payload : 'GET' }, requestHeaders : 3, headers : { 'Body' : &quot;&lt;body&gt;&lt;a href=&quot;/foo&quot; target=&quot;blank&quot;&gt;foo&lt;/a&gt;&lt;/body&gt;' } });
+
+Example:
+
+var callback = new AjaxCallback ({ address : 'bar' , getHeaders : { 'body' : &quot;&lt;a href=&quot;/foo&quot; target=&quot;blank&quot;&gt;foo&lt;/a&gt;&lt;/body&gt;' }, getHeaders : 3 , headers : { 'Body'</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">This issue does not apply if you are using a database-like service like PayPal or JCPenney's Payment system.
+
+2. Provide a mechanism to automatically re-detach and refund requests to you.
+
+Note: If you have a database-like service like Amazon's Paypal you can automatically re-detach and refund payments to you. This is usually a simple matter of checking for errors in the database — this isn't for everyone though, and it may be necessary for other services like Jeeves, the Amazon Payments system, or even Visa.
+
+3. Report to customer support, no further issues.
+
+4. Verify that your service is working.
+
+5. Take action to</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">3. Provide a mechanism for canceling or paying all but the most immediate response.
+
+Note: If you are a web developer, you will find that it is not possible to fully implement a way of doing it without some kind of &quot;in-memory&quot; problem.
+
+4. Fix the problem by giving customers the option of refunding their purchases without any fee.
+
+Note: The above example assumes that the customer has been informed by PayPal that all his purchases are for sale. Paying these customers would not only make their order safer, but would also make them more likely to shop for more.
+
+5. Support for a different type of site.
+
+Note: If Yo
+
+Propose a different</span></div></div></div><div class="cond-col"><div class="cond-header"><h3>anti_steer_a0.5</h3><div class="cond-pills"><span><span class="color-pill" style="background:rgb(105,180,60)">0.240</span> <span style="color:#475569;font-size:0.75rem">sim</span></span></div></div><div class="idea-list"><div class="idea-item"><span class="idea-num">1.</span><span class="idea-text">Propose a policy that encourages new products. Provide a minimum list in a standard format, with the appropriate information. Provide a minimum list of policies, for example, for those following the guidelines in this policy. Consider the following example:
+
+Example 1:
+
+Example 2:
+
+Example 3:
+
+Example 4:
+
+Example 5:
+
+Example 6:
+
+Example 7:
+
+Example 8:
+
+Example 9:
+
+Example 10:
+
+Example 11:
+
+Example 12:
+
+Example 13:
+
+Example 14:
+
+Example 15:
+
+Example 16:
+
+Example 17:
+
+Example 18:
+
+Example 19:
+
+Example 20:</span></div><div class="idea-item"><span class="idea-num">2.</span><span class="idea-text">The last one, given its importance, has to do with our experience, and our efforts so far so good. Perhaps we are a little too soon to see it, other-wise. So, we'll need to wait for the other one.
+
+2. We're going to need to find the right person to put together the problem. And, as always, we've got a few other candidates.
+
+Some time a new or, for that matter, more-or-less real-world action is needed. Maybe after a while, we'll need to get to that point.
+
+3. We do have a few more questions.
+
+Our first one is: Are you a customer of a new or</span></div><div class="idea-item"><span class="idea-num">3.</span><span class="idea-text">A few extra quotes. Maybe even a preface, if we have to. In that case, we can just ignore it.
+
+The most important step we can take now is to update this policy to use a standard format, which is in our own interests, though a little bit of a compromise, I'm told. One thing we can do now is to ensure the policy meets the latest version of the
+
+3.
+
+4.
+
+5.
+
+6.
+
+7.
+
+8.
+
+9.
+
+10.
+
+11.</span></div></div></div></div></div></div></div></div>
+</div>
+<script>
+document.querySelectorAll('.task-header').forEach(h => {
+  h.addEventListener('click', () => {
+    h.closest('.task-card').classList.toggle('open');
+  });
+});
+// open first task by default
+const first = document.querySelector('.task-card');
+if (first) first.classList.add('open');
+</script>
+</body>
+</html>
