@@ -81,6 +81,19 @@ def _judge_claude(task: str, ideas: list[str]) -> list[float]:
     return scores
 
 
+def _judge_claude_cli(task: str, ideas: list[str]) -> list[float]:
+    import subprocess
+    scores = []
+    for idea in ideas:
+        prompt = JUDGE_PROMPT.format(task=task, idea=idea)
+        result = subprocess.run(
+            ["claude", "-p", prompt],
+            capture_output=True, text=True, timeout=30,
+        )
+        scores.append(_parse_score(result.stdout))
+    return scores
+
+
 def _judge_codex(task: str, ideas: list[str]) -> list[float]:
     from code.tools.codex.runner import CodexRunner
     runner = CodexRunner(default_sandbox="read-only", timeout=60)
@@ -94,9 +107,11 @@ def _judge_codex(task: str, ideas: list[str]) -> list[float]:
 def judge_ideas(task: str, ideas: list[str], agent: str) -> list[float]:
     if agent == "claude":
         return _judge_claude(task, ideas)
+    elif agent == "claude-cli":
+        return _judge_claude_cli(task, ideas)
     elif agent == "codex":
         return _judge_codex(task, ideas)
-    raise ValueError(f"Unknown agent: {agent!r}. Use 'claude' or 'codex'.")
+    raise ValueError(f"Unknown agent: {agent!r}. Use 'claude', 'claude-cli', or 'codex'.")
 
 
 def run_judge(results: list[dict], agent: str) -> list[dict]:
@@ -139,8 +154,8 @@ def main():
     parser.add_argument("results", help="Path to results JSON")
     parser.add_argument("--judge", action="store_true",
                         help="Score usefulness via an LLM judge")
-    parser.add_argument("--agent", choices=["claude", "codex"], default="claude",
-                        help="Judge backend: 'claude' (Anthropic API) or 'codex' (OpenAI codex CLI)")
+    parser.add_argument("--agent", choices=["claude", "claude-cli", "codex"], default="claude-cli",
+                        help="Judge backend: 'claude' (Anthropic API), 'claude-cli' (claude CLI), or 'codex'")
     parser.add_argument("--save", action="store_true",
                         help="Save judge scores back to the results file")
     args = parser.parse_args()
