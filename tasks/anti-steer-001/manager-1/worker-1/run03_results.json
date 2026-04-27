@@ -15,7 +15,17 @@
           "mean_pairwise_sim": 0.826412582397461,
           "mean_max_to_prior": 0.8671179860830307
         },
-        "elapsed_s": 10.5
+        "elapsed_s": 10.5,
+        "usefulness": {
+          "scores": [
+            3.0,
+            3.0,
+            4.0,
+            3.0,
+            3.0
+          ],
+          "mean": 3.2
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -29,7 +39,17 @@
           "mean_pairwise_sim": 0.7772401571273804,
           "mean_max_to_prior": 0.8140058517456055
         },
-        "elapsed_s": 21.7
+        "elapsed_s": 21.7,
+        "usefulness": {
+          "scores": [
+            3.0,
+            4.0,
+            3.0,
+            4.0,
+            2.0
+          ],
+          "mean": 3.2
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -43,7 +63,17 @@
           "mean_pairwise_sim": 0.8097293436527252,
           "mean_max_to_prior": 0.8643923550844193
         },
-        "elapsed_s": 9.6
+        "elapsed_s": 9.6,
+        "usefulness": {
+          "scores": [
+            3.0,
+            3.0,
+            4.0,
+            3.0,
+            4.0
+          ],
+          "mean": 3.4
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -57,7 +87,17 @@
           "mean_pairwise_sim": 0.843490618467331,
           "mean_max_to_prior": 0.8881072849035263
         },
-        "elapsed_s": 10.0
+        "elapsed_s": 10.0,
+        "usefulness": {
+          "scores": [
+            3.0,
+            4.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 4.4
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -71,7 +111,17 @@
           "mean_pairwise_sim": 0.820210337638855,
           "mean_max_to_prior": 0.8389057517051697
         },
-        "elapsed_s": 9.5
+        "elapsed_s": 9.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -85,7 +135,17 @@
           "mean_pairwise_sim": 0.4623351216316223,
           "mean_max_to_prior": 0.5790670961141586
         },
-        "elapsed_s": 17.2
+        "elapsed_s": 17.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -99,7 +159,17 @@
           "mean_pairwise_sim": 0.21201799595728515,
           "mean_max_to_prior": 0.29358940571546555
         },
-        "elapsed_s": 15.9
+        "elapsed_s": 15.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -119,7 +189,17 @@
           "mean_pairwise_sim": 0.6923926770687103,
           "mean_max_to_prior": 0.7517986297607422
         },
-        "elapsed_s": 9.1
+        "elapsed_s": 9.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -133,7 +213,17 @@
           "mean_pairwise_sim": 0.6303051948547364,
           "mean_max_to_prior": 0.7115181088447571
         },
-        "elapsed_s": 23.1
+        "elapsed_s": 23.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -147,7 +237,17 @@
           "mean_pairwise_sim": 0.5758617520332336,
           "mean_max_to_prior": 0.6636915802955627
         },
-        "elapsed_s": 9.9
+        "elapsed_s": 9.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -161,7 +261,17 @@
           "mean_pairwise_sim": 0.7172345519065857,
           "mean_max_to_prior": 0.7594926804304123
         },
-        "elapsed_s": 9.9
+        "elapsed_s": 9.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -175,7 +285,17 @@
           "mean_pairwise_sim": 0.6875556170940399,
           "mean_max_to_prior": 0.7234974652528763
         },
-        "elapsed_s": 9.2
+        "elapsed_s": 9.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -189,7 +309,17 @@
           "mean_pairwise_sim": 0.30396277643740177,
           "mean_max_to_prior": 0.37990911584347486
         },
-        "elapsed_s": 19.1
+        "elapsed_s": 19.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -203,7 +333,17 @@
           "mean_pairwise_sim": 0.18955821562558411,
           "mean_max_to_prior": 0.24838972836732864
         },
-        "elapsed_s": 15.8
+        "elapsed_s": 15.8,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -223,7 +363,17 @@
           "mean_pairwise_sim": 0.7775045812129975,
           "mean_max_to_prior": 0.7992960661649704
         },
-        "elapsed_s": 7.7
+        "elapsed_s": 7.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -237,7 +387,17 @@
           "mean_pairwise_sim": 0.5815285384654999,
           "mean_max_to_prior": 0.6524576395750046
         },
-        "elapsed_s": 21.0
+        "elapsed_s": 21.0,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -251,7 +411,17 @@
           "mean_pairwise_sim": 0.7200344264507293,
           "mean_max_to_prior": 0.7801324129104614
         },
-        "elapsed_s": 6.7
+        "elapsed_s": 6.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -265,7 +435,17 @@
           "mean_pairwise_sim": 0.6856213927268981,
           "mean_max_to_prior": 0.7642064839601517
         },
-        "elapsed_s": 8.3
+        "elapsed_s": 8.3,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -279,7 +459,17 @@
           "mean_pairwise_sim": 0.6233400285243988,
           "mean_max_to_prior": 0.6674599200487137
         },
-        "elapsed_s": 8.9
+        "elapsed_s": 8.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -293,7 +483,17 @@
           "mean_pairwise_sim": 0.2994143381714821,
           "mean_max_to_prior": 0.37171752378344536
         },
-        "elapsed_s": 15.9
+        "elapsed_s": 15.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -307,7 +507,17 @@
           "mean_pairwise_sim": 0.19021665547043085,
           "mean_max_to_prior": 0.25156359001994133
         },
-        "elapsed_s": 17.5
+        "elapsed_s": 17.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -327,7 +537,17 @@
           "mean_pairwise_sim": 0.7499382257461548,
           "mean_max_to_prior": 0.7693235278129578
         },
-        "elapsed_s": 9.2
+        "elapsed_s": 9.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -341,7 +561,17 @@
           "mean_pairwise_sim": 0.6659635007381439,
           "mean_max_to_prior": 0.7126887738704681
         },
-        "elapsed_s": 22.6
+        "elapsed_s": 22.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -355,7 +585,17 @@
           "mean_pairwise_sim": 0.7158619821071625,
           "mean_max_to_prior": 0.7710065543651581
         },
-        "elapsed_s": 9.5
+        "elapsed_s": 9.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -369,7 +609,17 @@
           "mean_pairwise_sim": 0.7508137702941895,
           "mean_max_to_prior": 0.7902700155973434
         },
-        "elapsed_s": 9.3
+        "elapsed_s": 9.3,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -383,7 +633,17 @@
           "mean_pairwise_sim": 0.7745898187160491,
           "mean_max_to_prior": 0.8147578686475754
         },
-        "elapsed_s": 10.6
+        "elapsed_s": 10.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -397,7 +657,17 @@
           "mean_pairwise_sim": 0.5896513402462006,
           "mean_max_to_prior": 0.6385058909654617
         },
-        "elapsed_s": 17.2
+        "elapsed_s": 17.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -411,7 +681,17 @@
           "mean_pairwise_sim": 0.17510190084576607,
           "mean_max_to_prior": 0.27551956474781036
         },
-        "elapsed_s": 19.2
+        "elapsed_s": 19.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -431,7 +711,17 @@
           "mean_pairwise_sim": 0.6492128491401672,
           "mean_max_to_prior": 0.7052720636129379
         },
-        "elapsed_s": 10.5
+        "elapsed_s": 10.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -445,7 +735,17 @@
           "mean_pairwise_sim": 0.6080745339393616,
           "mean_max_to_prior": 0.6956437677145004
         },
-        "elapsed_s": 23.8
+        "elapsed_s": 23.8,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -459,7 +759,17 @@
           "mean_pairwise_sim": 0.6081607937812805,
           "mean_max_to_prior": 0.6457412987947464
         },
-        "elapsed_s": 10.0
+        "elapsed_s": 10.0,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -473,7 +783,17 @@
           "mean_pairwise_sim": 0.6709412574768067,
           "mean_max_to_prior": 0.6992268115282059
         },
-        "elapsed_s": 10.1
+        "elapsed_s": 10.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -487,7 +807,17 @@
           "mean_pairwise_sim": 0.5352667063474655,
           "mean_max_to_prior": 0.5784101337194443
         },
-        "elapsed_s": 11.6
+        "elapsed_s": 11.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -501,7 +831,17 @@
           "mean_pairwise_sim": 0.44512769877910613,
           "mean_max_to_prior": 0.5392493763938546
         },
-        "elapsed_s": 18.2
+        "elapsed_s": 18.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -515,7 +855,17 @@
           "mean_pairwise_sim": 0.15320306979119777,
           "mean_max_to_prior": 0.2613689051941037
         },
-        "elapsed_s": 8.8
+        "elapsed_s": 8.8,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -535,7 +885,17 @@
           "mean_pairwise_sim": 0.6780534148216247,
           "mean_max_to_prior": 0.7352779358625412
         },
-        "elapsed_s": 9.1
+        "elapsed_s": 9.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -549,7 +909,17 @@
           "mean_pairwise_sim": 0.6224917769432068,
           "mean_max_to_prior": 0.6956034004688263
         },
-        "elapsed_s": 21.7
+        "elapsed_s": 21.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -563,7 +933,17 @@
           "mean_pairwise_sim": 0.6648257195949554,
           "mean_max_to_prior": 0.6932899206876755
         },
-        "elapsed_s": 10.3
+        "elapsed_s": 10.3,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -577,7 +957,17 @@
           "mean_pairwise_sim": 0.6579106509685516,
           "mean_max_to_prior": 0.7210588753223419
         },
-        "elapsed_s": 9.3
+        "elapsed_s": 9.3,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -591,7 +981,17 @@
           "mean_pairwise_sim": 0.5877626031637192,
           "mean_max_to_prior": 0.6691596359014511
         },
-        "elapsed_s": 11.1
+        "elapsed_s": 11.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -605,7 +1005,17 @@
           "mean_pairwise_sim": 0.26630940064787867,
           "mean_max_to_prior": 0.3922408949583769
         },
-        "elapsed_s": 18.5
+        "elapsed_s": 18.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -619,7 +1029,17 @@
           "mean_pairwise_sim": 0.19718332979828118,
           "mean_max_to_prior": 0.30601381324231625
         },
-        "elapsed_s": 16.7
+        "elapsed_s": 16.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -639,7 +1059,17 @@
           "mean_pairwise_sim": 0.763922107219696,
           "mean_max_to_prior": 0.8089907467365265
         },
-        "elapsed_s": 8.3
+        "elapsed_s": 8.3,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -653,7 +1083,17 @@
           "mean_pairwise_sim": 0.7090412437915802,
           "mean_max_to_prior": 0.7785961925983429
         },
-        "elapsed_s": 22.7
+        "elapsed_s": 22.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -667,7 +1107,17 @@
           "mean_pairwise_sim": 0.7447697639465332,
           "mean_max_to_prior": 0.7923880368471146
         },
-        "elapsed_s": 8.4
+        "elapsed_s": 8.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -681,7 +1131,17 @@
           "mean_pairwise_sim": 0.7298846185207367,
           "mean_max_to_prior": 0.7765809744596481
         },
-        "elapsed_s": 8.2
+        "elapsed_s": 8.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -695,7 +1155,17 @@
           "mean_pairwise_sim": 0.6008844017982483,
           "mean_max_to_prior": 0.6928612440824509
         },
-        "elapsed_s": 8.9
+        "elapsed_s": 8.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -709,7 +1179,17 @@
           "mean_pairwise_sim": 0.20009798873215914,
           "mean_max_to_prior": 0.24815145460888743
         },
-        "elapsed_s": 17.7
+        "elapsed_s": 17.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -723,7 +1203,17 @@
           "mean_pairwise_sim": 0.1977899804711342,
           "mean_max_to_prior": 0.2946239598095417
         },
-        "elapsed_s": 16.9
+        "elapsed_s": 16.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -743,7 +1233,17 @@
           "mean_pairwise_sim": 0.6772645354270935,
           "mean_max_to_prior": 0.7187346667051315
         },
-        "elapsed_s": 7.8
+        "elapsed_s": 7.8,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -757,7 +1257,17 @@
           "mean_pairwise_sim": 0.6242183536291123,
           "mean_max_to_prior": 0.684584453701973
         },
-        "elapsed_s": 20.6
+        "elapsed_s": 20.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -771,7 +1281,17 @@
           "mean_pairwise_sim": 0.631967282295227,
           "mean_max_to_prior": 0.6703716814517975
         },
-        "elapsed_s": 9.4
+        "elapsed_s": 9.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -785,7 +1305,17 @@
           "mean_pairwise_sim": 0.6059102207422257,
           "mean_max_to_prior": 0.6742254495620728
         },
-        "elapsed_s": 8.0
+        "elapsed_s": 8.0,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -799,7 +1329,17 @@
           "mean_pairwise_sim": 0.6388499319553376,
           "mean_max_to_prior": 0.6688656657934189
         },
-        "elapsed_s": 11.3
+        "elapsed_s": 11.3,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -813,7 +1353,17 @@
           "mean_pairwise_sim": 0.3544888362288475,
           "mean_max_to_prior": 0.3973061144351959
         },
-        "elapsed_s": 18.7
+        "elapsed_s": 18.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -827,7 +1377,17 @@
           "mean_pairwise_sim": 0.20608112066984177,
           "mean_max_to_prior": 0.29275694862008095
         },
-        "elapsed_s": 19.2
+        "elapsed_s": 19.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -847,7 +1407,17 @@
           "mean_pairwise_sim": 0.7254925429821014,
           "mean_max_to_prior": 0.7910639941692352
         },
-        "elapsed_s": 10.2
+        "elapsed_s": 10.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -861,7 +1431,17 @@
           "mean_pairwise_sim": 0.6707314670085907,
           "mean_max_to_prior": 0.7268342524766922
         },
-        "elapsed_s": 23.4
+        "elapsed_s": 23.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -875,7 +1455,17 @@
           "mean_pairwise_sim": 0.7854289829730987,
           "mean_max_to_prior": 0.8334942013025284
         },
-        "elapsed_s": 7.9
+        "elapsed_s": 7.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -889,7 +1479,17 @@
           "mean_pairwise_sim": 0.6460978627204895,
           "mean_max_to_prior": 0.6937544196844101
         },
-        "elapsed_s": 9.4
+        "elapsed_s": 9.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -903,7 +1503,17 @@
           "mean_pairwise_sim": 0.7546046495437622,
           "mean_max_to_prior": 0.7982848882675171
         },
-        "elapsed_s": 10.6
+        "elapsed_s": 10.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -917,7 +1527,17 @@
           "mean_pairwise_sim": 0.24335748199373483,
           "mean_max_to_prior": 0.4177653267979622
         },
-        "elapsed_s": 16.6
+        "elapsed_s": 16.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -931,7 +1551,17 @@
           "mean_pairwise_sim": 0.19181100744754076,
           "mean_max_to_prior": 0.2700011245906353
         },
-        "elapsed_s": 15.3
+        "elapsed_s": 15.3,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -951,7 +1581,17 @@
           "mean_pairwise_sim": 0.557998663187027,
           "mean_max_to_prior": 0.630633756518364
         },
-        "elapsed_s": 6.6
+        "elapsed_s": 6.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -965,7 +1605,17 @@
           "mean_pairwise_sim": 0.54694784283638,
           "mean_max_to_prior": 0.6109666004776955
         },
-        "elapsed_s": 17.6
+        "elapsed_s": 17.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -979,7 +1629,17 @@
           "mean_pairwise_sim": 0.599091786146164,
           "mean_max_to_prior": 0.664749026298523
         },
-        "elapsed_s": 8.2
+        "elapsed_s": 8.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -993,7 +1653,17 @@
           "mean_pairwise_sim": 0.5958464205265045,
           "mean_max_to_prior": 0.6995372399687767
         },
-        "elapsed_s": 8.4
+        "elapsed_s": 8.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -1007,7 +1677,17 @@
           "mean_pairwise_sim": 0.5761491537094117,
           "mean_max_to_prior": 0.6217154860496521
         },
-        "elapsed_s": 8.0
+        "elapsed_s": 8.0,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -1021,7 +1701,17 @@
           "mean_pairwise_sim": 0.2848119169473648,
           "mean_max_to_prior": 0.3541382532566786
         },
-        "elapsed_s": 16.9
+        "elapsed_s": 16.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -1035,7 +1725,17 @@
           "mean_pairwise_sim": 0.14513006173074244,
           "mean_max_to_prior": 0.2309708409011364
         },
-        "elapsed_s": 17.3
+        "elapsed_s": 17.3,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -1055,7 +1755,17 @@
           "mean_pairwise_sim": 0.75006063580513,
           "mean_max_to_prior": 0.79783895611763
         },
-        "elapsed_s": 9.2
+        "elapsed_s": 9.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -1069,7 +1779,17 @@
           "mean_pairwise_sim": 0.6655746310949325,
           "mean_max_to_prior": 0.7365100532770157
         },
-        "elapsed_s": 21.6
+        "elapsed_s": 21.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -1083,7 +1803,17 @@
           "mean_pairwise_sim": 0.7701840400695801,
           "mean_max_to_prior": 0.801370844244957
         },
-        "elapsed_s": 9.4
+        "elapsed_s": 9.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -1097,7 +1827,17 @@
           "mean_pairwise_sim": 0.7503933429718017,
           "mean_max_to_prior": 0.7861443310976028
         },
-        "elapsed_s": 9.7
+        "elapsed_s": 9.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -1111,7 +1851,17 @@
           "mean_pairwise_sim": 0.6547984778881073,
           "mean_max_to_prior": 0.7035955339670181
         },
-        "elapsed_s": 10.7
+        "elapsed_s": 10.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -1125,7 +1875,17 @@
           "mean_pairwise_sim": 0.4043216649442911,
           "mean_max_to_prior": 0.505158431828022
         },
-        "elapsed_s": 17.1
+        "elapsed_s": 17.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -1139,7 +1899,17 @@
           "mean_pairwise_sim": 0.20802066288888454,
           "mean_max_to_prior": 0.32881712447851896
         },
-        "elapsed_s": 15.0
+        "elapsed_s": 15.0,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -1159,7 +1929,17 @@
           "mean_pairwise_sim": 0.7788250923156739,
           "mean_max_to_prior": 0.7952683568000793
         },
-        "elapsed_s": 9.0
+        "elapsed_s": 9.0,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -1173,7 +1953,17 @@
           "mean_pairwise_sim": 0.7161682426929474,
           "mean_max_to_prior": 0.8072786927223206
         },
-        "elapsed_s": 19.6
+        "elapsed_s": 19.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -1187,7 +1977,17 @@
           "mean_pairwise_sim": 0.7136885464191437,
           "mean_max_to_prior": 0.7614566385746002
         },
-        "elapsed_s": 9.7
+        "elapsed_s": 9.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -1201,7 +2001,17 @@
           "mean_pairwise_sim": 0.812959486246109,
           "mean_max_to_prior": 0.8238794356584549
         },
-        "elapsed_s": 9.4
+        "elapsed_s": 9.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -1215,7 +2025,17 @@
           "mean_pairwise_sim": 0.6971078813076019,
           "mean_max_to_prior": 0.7406191676855087
         },
-        "elapsed_s": 9.4
+        "elapsed_s": 9.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -1229,7 +2049,17 @@
           "mean_pairwise_sim": 0.25956258121877906,
           "mean_max_to_prior": 0.3161097806878388
         },
-        "elapsed_s": 18.1
+        "elapsed_s": 18.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -1243,7 +2073,17 @@
           "mean_pairwise_sim": 0.1964387402869761,
           "mean_max_to_prior": 0.3201847749296576
         },
-        "elapsed_s": 17.4
+        "elapsed_s": 17.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -1263,7 +2103,17 @@
           "mean_pairwise_sim": 0.6731316834688187,
           "mean_max_to_prior": 0.7742729038000107
         },
-        "elapsed_s": 7.4
+        "elapsed_s": 7.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -1277,7 +2127,17 @@
           "mean_pairwise_sim": 0.543046110868454,
           "mean_max_to_prior": 0.6071932166814804
         },
-        "elapsed_s": 19.2
+        "elapsed_s": 19.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -1291,7 +2151,17 @@
           "mean_pairwise_sim": 0.6449719429016113,
           "mean_max_to_prior": 0.7326300740242004
         },
-        "elapsed_s": 7.9
+        "elapsed_s": 7.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -1305,7 +2175,17 @@
           "mean_pairwise_sim": 0.6347051441669465,
           "mean_max_to_prior": 0.70716692507267
         },
-        "elapsed_s": 8.6
+        "elapsed_s": 8.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -1319,7 +2199,17 @@
           "mean_pairwise_sim": 0.5101069957017899,
           "mean_max_to_prior": 0.5664747655391693
         },
-        "elapsed_s": 8.7
+        "elapsed_s": 8.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -1333,7 +2223,17 @@
           "mean_pairwise_sim": 0.34848746135830877,
           "mean_max_to_prior": 0.4363536983728409
         },
-        "elapsed_s": 16.9
+        "elapsed_s": 16.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -1347,7 +2247,17 @@
           "mean_pairwise_sim": 0.2394918195903301,
           "mean_max_to_prior": 0.33073120936751366
         },
-        "elapsed_s": 18.1
+        "elapsed_s": 18.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -1367,7 +2277,17 @@
           "mean_pairwise_sim": 0.6806457102298736,
           "mean_max_to_prior": 0.7520122677087784
         },
-        "elapsed_s": 8.6
+        "elapsed_s": 8.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -1381,7 +2301,17 @@
           "mean_pairwise_sim": 0.5942257851362228,
           "mean_max_to_prior": 0.6327628195285797
         },
-        "elapsed_s": 21.6
+        "elapsed_s": 21.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -1395,7 +2325,17 @@
           "mean_pairwise_sim": 0.6986145853996277,
           "mean_max_to_prior": 0.7473896443843842
         },
-        "elapsed_s": 9.0
+        "elapsed_s": 9.0,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -1409,7 +2349,17 @@
           "mean_pairwise_sim": 0.6845262706279754,
           "mean_max_to_prior": 0.7317517548799515
         },
-        "elapsed_s": 7.6
+        "elapsed_s": 7.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -1423,7 +2373,17 @@
           "mean_pairwise_sim": 0.6231548190116882,
           "mean_max_to_prior": 0.6728754490613937
         },
-        "elapsed_s": 8.4
+        "elapsed_s": 8.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -1437,7 +2397,17 @@
           "mean_pairwise_sim": 0.1978019941598177,
           "mean_max_to_prior": 0.3359437081962824
         },
-        "elapsed_s": 13.9
+        "elapsed_s": 13.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -1451,7 +2421,17 @@
           "mean_pairwise_sim": 0.19929213542491198,
           "mean_max_to_prior": 0.28205200657248497
         },
-        "elapsed_s": 17.6
+        "elapsed_s": 17.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -1471,7 +2451,17 @@
           "mean_pairwise_sim": 0.7932865023612976,
           "mean_max_to_prior": 0.8229374438524246
         },
-        "elapsed_s": 7.2
+        "elapsed_s": 7.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -1485,7 +2475,17 @@
           "mean_pairwise_sim": 0.6833075702190399,
           "mean_max_to_prior": 0.7536075562238693
         },
-        "elapsed_s": 23.4
+        "elapsed_s": 23.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -1499,7 +2499,17 @@
           "mean_pairwise_sim": 0.653695946931839,
           "mean_max_to_prior": 0.7328392863273621
         },
-        "elapsed_s": 8.7
+        "elapsed_s": 8.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -1513,7 +2523,17 @@
           "mean_pairwise_sim": 0.7804305076599121,
           "mean_max_to_prior": 0.8078611493110657
         },
-        "elapsed_s": 9.3
+        "elapsed_s": 9.3,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -1527,7 +2547,17 @@
           "mean_pairwise_sim": 0.5920843422412873,
           "mean_max_to_prior": 0.6712099686264992
         },
-        "elapsed_s": 9.2
+        "elapsed_s": 9.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -1541,7 +2571,17 @@
           "mean_pairwise_sim": 0.36712135598063467,
           "mean_max_to_prior": 0.5166207812726498
         },
-        "elapsed_s": 17.6
+        "elapsed_s": 17.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -1555,7 +2595,17 @@
           "mean_pairwise_sim": 0.2008881587535143,
           "mean_max_to_prior": 0.27674343902617693
         },
-        "elapsed_s": 11.9
+        "elapsed_s": 11.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -1575,7 +2625,17 @@
           "mean_pairwise_sim": 0.7011930406093597,
           "mean_max_to_prior": 0.735123410820961
         },
-        "elapsed_s": 7.2
+        "elapsed_s": 7.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -1589,7 +2649,17 @@
           "mean_pairwise_sim": 0.5700628608465195,
           "mean_max_to_prior": 0.6570048034191132
         },
-        "elapsed_s": 18.1
+        "elapsed_s": 18.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -1603,7 +2673,17 @@
           "mean_pairwise_sim": 0.5992111295461655,
           "mean_max_to_prior": 0.6538646519184113
         },
-        "elapsed_s": 8.4
+        "elapsed_s": 8.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            4.0,
+            2.0
+          ],
+          "mean": 4.2
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -1617,7 +2697,17 @@
           "mean_pairwise_sim": 0.7383853852748871,
           "mean_max_to_prior": 0.7709899991750717
         },
-        "elapsed_s": 8.9
+        "elapsed_s": 8.9,
+        "usefulness": {
+          "scores": [
+            3.0,
+            1.0,
+            4.0,
+            4.0,
+            4.0
+          ],
+          "mean": 3.2
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -1631,7 +2721,17 @@
           "mean_pairwise_sim": 0.6468171060085297,
           "mean_max_to_prior": 0.7076776474714279
         },
-        "elapsed_s": 9.3
+        "elapsed_s": 9.3,
+        "usefulness": {
+          "scores": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            3.0
+          ],
+          "mean": 3.8
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -1645,7 +2745,17 @@
           "mean_pairwise_sim": 0.3843225821852684,
           "mean_max_to_prior": 0.44233521819114685
         },
-        "elapsed_s": 18.2
+        "elapsed_s": 18.2,
+        "usefulness": {
+          "scores": [
+            4.0,
+            4.0,
+            2.0,
+            2.0,
+            1.0
+          ],
+          "mean": 2.6
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -1659,7 +2769,17 @@
           "mean_pairwise_sim": 0.24829216469079257,
           "mean_max_to_prior": 0.3596832938492298
         },
-        "elapsed_s": 18.6
+        "elapsed_s": 18.6,
+        "usefulness": {
+          "scores": [
+            3.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "mean": 1.4
+        }
       }
     }
   },
@@ -1679,7 +2799,17 @@
           "mean_pairwise_sim": 0.7157484710216522,
           "mean_max_to_prior": 0.7585853189229965
         },
-        "elapsed_s": 11.7
+        "elapsed_s": 11.7,
+        "usefulness": {
+          "scores": [
+            4.0,
+            4.0,
+            4.0,
+            3.0,
+            3.0
+          ],
+          "mean": 3.6
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -1693,7 +2823,17 @@
           "mean_pairwise_sim": 0.7327251851558685,
           "mean_max_to_prior": 0.7862033694982529
         },
-        "elapsed_s": 22.8
+        "elapsed_s": 22.8,
+        "usefulness": {
+          "scores": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ],
+          "mean": 4.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -1707,7 +2847,17 @@
           "mean_pairwise_sim": 0.7956615090370178,
           "mean_max_to_prior": 0.8267954289913177
         },
-        "elapsed_s": 10.3
+        "elapsed_s": 10.3,
+        "usefulness": {
+          "scores": [
+            4.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 4.8
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -1721,7 +2871,17 @@
           "mean_pairwise_sim": 0.7467930555343628,
           "mean_max_to_prior": 0.7802141308784485
         },
-        "elapsed_s": 10.1
+        "elapsed_s": 10.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -1735,7 +2895,17 @@
           "mean_pairwise_sim": 0.5841968864202499,
           "mean_max_to_prior": 0.6541948765516281
         },
-        "elapsed_s": 9.9
+        "elapsed_s": 9.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -1749,7 +2919,17 @@
           "mean_pairwise_sim": 0.41353235244750974,
           "mean_max_to_prior": 0.515031736344099
         },
-        "elapsed_s": 17.6
+        "elapsed_s": 17.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -1763,7 +2943,17 @@
           "mean_pairwise_sim": 0.21878833286464214,
           "mean_max_to_prior": 0.3116926718503237
         },
-        "elapsed_s": 18.5
+        "elapsed_s": 18.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -1783,7 +2973,17 @@
           "mean_pairwise_sim": 0.6847597599029541,
           "mean_max_to_prior": 0.7399365603923798
         },
-        "elapsed_s": 9.6
+        "elapsed_s": 9.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -1797,7 +2997,17 @@
           "mean_pairwise_sim": 0.5809785723686218,
           "mean_max_to_prior": 0.6272375583648682
         },
-        "elapsed_s": 20.9
+        "elapsed_s": 20.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -1811,7 +3021,17 @@
           "mean_pairwise_sim": 0.5435416400432587,
           "mean_max_to_prior": 0.6148158460855484
         },
-        "elapsed_s": 8.4
+        "elapsed_s": 8.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -1825,7 +3045,17 @@
           "mean_pairwise_sim": 0.6117452353239059,
           "mean_max_to_prior": 0.6907685399055481
         },
-        "elapsed_s": 9.4
+        "elapsed_s": 9.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -1839,7 +3069,17 @@
           "mean_pairwise_sim": 0.6543274581432342,
           "mean_max_to_prior": 0.708904504776001
         },
-        "elapsed_s": 11.2
+        "elapsed_s": 11.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -1853,7 +3093,17 @@
           "mean_pairwise_sim": 0.4375591665506363,
           "mean_max_to_prior": 0.5248784273862839
         },
-        "elapsed_s": 16.5
+        "elapsed_s": 16.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -1867,7 +3117,17 @@
           "mean_pairwise_sim": 0.218890081346035,
           "mean_max_to_prior": 0.2844524458050728
         },
-        "elapsed_s": 17.7
+        "elapsed_s": 17.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -1887,7 +3147,17 @@
           "mean_pairwise_sim": 0.6479992747306824,
           "mean_max_to_prior": 0.7174162119626999
         },
-        "elapsed_s": 7.2
+        "elapsed_s": 7.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -1901,7 +3171,17 @@
           "mean_pairwise_sim": 0.583656519651413,
           "mean_max_to_prior": 0.6650553792715073
         },
-        "elapsed_s": 22.7
+        "elapsed_s": 22.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -1915,7 +3195,17 @@
           "mean_pairwise_sim": 0.6092902690172195,
           "mean_max_to_prior": 0.6644759178161621
         },
-        "elapsed_s": 8.9
+        "elapsed_s": 8.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -1929,7 +3219,17 @@
           "mean_pairwise_sim": 0.5890364825725556,
           "mean_max_to_prior": 0.6737729609012604
         },
-        "elapsed_s": 8.5
+        "elapsed_s": 8.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -1943,7 +3243,17 @@
           "mean_pairwise_sim": 0.6202815294265747,
           "mean_max_to_prior": 0.6723792254924774
         },
-        "elapsed_s": 9.4
+        "elapsed_s": 9.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -1957,7 +3267,17 @@
           "mean_pairwise_sim": 0.26525661423802377,
           "mean_max_to_prior": 0.4139852225780487
         },
-        "elapsed_s": 18.5
+        "elapsed_s": 18.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -1971,7 +3291,17 @@
           "mean_pairwise_sim": 0.21733165988698602,
           "mean_max_to_prior": 0.30058903247117996
         },
-        "elapsed_s": 18.4
+        "elapsed_s": 18.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -1991,7 +3321,17 @@
           "mean_pairwise_sim": 0.5976748496294022,
           "mean_max_to_prior": 0.6835805475711823
         },
-        "elapsed_s": 8.9
+        "elapsed_s": 8.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -2005,7 +3345,17 @@
           "mean_pairwise_sim": 0.5356007993221283,
           "mean_max_to_prior": 0.6202526092529297
         },
-        "elapsed_s": 21.8
+        "elapsed_s": 21.8,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -2019,7 +3369,17 @@
           "mean_pairwise_sim": 0.5746632307767868,
           "mean_max_to_prior": 0.702134370803833
         },
-        "elapsed_s": 9.0
+        "elapsed_s": 9.0,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -2033,7 +3393,17 @@
           "mean_pairwise_sim": 0.6717162251472473,
           "mean_max_to_prior": 0.7321418672800064
         },
-        "elapsed_s": 9.5
+        "elapsed_s": 9.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -2047,7 +3417,17 @@
           "mean_pairwise_sim": 0.4403341799974442,
           "mean_max_to_prior": 0.5004953369498253
         },
-        "elapsed_s": 10.1
+        "elapsed_s": 10.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -2061,7 +3441,17 @@
           "mean_pairwise_sim": 0.2888732388615608,
           "mean_max_to_prior": 0.3555639460682869
         },
-        "elapsed_s": 18.4
+        "elapsed_s": 18.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -2075,7 +3465,17 @@
           "mean_pairwise_sim": 0.21422471655532718,
           "mean_max_to_prior": 0.31466597388498485
         },
-        "elapsed_s": 15.8
+        "elapsed_s": 15.8,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -2095,7 +3495,17 @@
           "mean_pairwise_sim": 0.702052241563797,
           "mean_max_to_prior": 0.7222168147563934
         },
-        "elapsed_s": 6.7
+        "elapsed_s": 6.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -2109,7 +3519,17 @@
           "mean_pairwise_sim": 0.5388319224119187,
           "mean_max_to_prior": 0.6133021786808968
         },
-        "elapsed_s": 17.5
+        "elapsed_s": 17.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -2123,7 +3543,17 @@
           "mean_pairwise_sim": 0.6759979546070098,
           "mean_max_to_prior": 0.687817856669426
         },
-        "elapsed_s": 7.5
+        "elapsed_s": 7.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -2137,7 +3567,17 @@
           "mean_pairwise_sim": 0.6228369802236557,
           "mean_max_to_prior": 0.7066039219498634
         },
-        "elapsed_s": 7.8
+        "elapsed_s": 7.8,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -2151,7 +3591,17 @@
           "mean_pairwise_sim": 0.5722783088684082,
           "mean_max_to_prior": 0.6472657918930054
         },
-        "elapsed_s": 6.9
+        "elapsed_s": 6.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -2165,7 +3615,17 @@
           "mean_pairwise_sim": 0.4977760434150696,
           "mean_max_to_prior": 0.5424487516283989
         },
-        "elapsed_s": 13.5
+        "elapsed_s": 13.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -2179,7 +3639,17 @@
           "mean_pairwise_sim": 0.20186124742031097,
           "mean_max_to_prior": 0.26599564403295517
         },
-        "elapsed_s": 17.4
+        "elapsed_s": 17.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -2199,7 +3669,17 @@
           "mean_pairwise_sim": 0.6648187339305878,
           "mean_max_to_prior": 0.7203314453363419
         },
-        "elapsed_s": 7.5
+        "elapsed_s": 7.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -2213,7 +3693,17 @@
           "mean_pairwise_sim": 0.7223763525485992,
           "mean_max_to_prior": 0.7777650952339172
         },
-        "elapsed_s": 18.2
+        "elapsed_s": 18.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -2227,7 +3717,17 @@
           "mean_pairwise_sim": 0.7639465630054474,
           "mean_max_to_prior": 0.7970336228609085
         },
-        "elapsed_s": 8.9
+        "elapsed_s": 8.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -2241,7 +3741,17 @@
           "mean_pairwise_sim": 0.7590696454048157,
           "mean_max_to_prior": 0.7814574390649796
         },
-        "elapsed_s": 8.5
+        "elapsed_s": 8.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -2255,7 +3765,17 @@
           "mean_pairwise_sim": 0.7564315795898438,
           "mean_max_to_prior": 0.795360267162323
         },
-        "elapsed_s": 8.5
+        "elapsed_s": 8.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -2269,7 +3789,17 @@
           "mean_pairwise_sim": 0.21018538177013396,
           "mean_max_to_prior": 0.32065138313919306
         },
-        "elapsed_s": 17.2
+        "elapsed_s": 17.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -2283,7 +3813,17 @@
           "mean_pairwise_sim": 0.15587275102734566,
           "mean_max_to_prior": 0.22368819639086723
         },
-        "elapsed_s": 18.2
+        "elapsed_s": 18.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -2303,7 +3843,17 @@
           "mean_pairwise_sim": 0.6753158807754517,
           "mean_max_to_prior": 0.70339335501194
         },
-        "elapsed_s": 6.9
+        "elapsed_s": 6.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -2317,7 +3867,17 @@
           "mean_pairwise_sim": 0.5696603536605835,
           "mean_max_to_prior": 0.6123902946710587
         },
-        "elapsed_s": 16.2
+        "elapsed_s": 16.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -2331,7 +3891,17 @@
           "mean_pairwise_sim": 0.6333697259426116,
           "mean_max_to_prior": 0.6834951490163803
         },
-        "elapsed_s": 7.1
+        "elapsed_s": 7.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -2345,7 +3915,17 @@
           "mean_pairwise_sim": 0.6238523781299591,
           "mean_max_to_prior": 0.691910445690155
         },
-        "elapsed_s": 7.6
+        "elapsed_s": 7.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -2359,7 +3939,17 @@
           "mean_pairwise_sim": 0.6384617388248444,
           "mean_max_to_prior": 0.6934109479188919
         },
-        "elapsed_s": 9.7
+        "elapsed_s": 9.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -2373,7 +3963,17 @@
           "mean_pairwise_sim": 0.1637176183052361,
           "mean_max_to_prior": 0.198312908411026
         },
-        "elapsed_s": 16.5
+        "elapsed_s": 16.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -2387,7 +3987,17 @@
           "mean_pairwise_sim": 0.18013290427625178,
           "mean_max_to_prior": 0.25870988331735134
         },
-        "elapsed_s": 16.3
+        "elapsed_s": 16.3,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -2407,7 +4017,17 @@
           "mean_pairwise_sim": 0.6154941231012344,
           "mean_max_to_prior": 0.6901063621044159
         },
-        "elapsed_s": 9.4
+        "elapsed_s": 9.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -2421,7 +4041,17 @@
           "mean_pairwise_sim": 0.6099260240793228,
           "mean_max_to_prior": 0.6762843728065491
         },
-        "elapsed_s": 23.1
+        "elapsed_s": 23.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -2435,7 +4065,17 @@
           "mean_pairwise_sim": 0.482218137383461,
           "mean_max_to_prior": 0.5673152357339859
         },
-        "elapsed_s": 9.9
+        "elapsed_s": 9.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -2449,7 +4089,17 @@
           "mean_pairwise_sim": 0.5381369084119797,
           "mean_max_to_prior": 0.5311375334858894
         },
-        "elapsed_s": 10.1
+        "elapsed_s": 10.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -2463,7 +4113,17 @@
           "mean_pairwise_sim": 0.6857629537582397,
           "mean_max_to_prior": 0.7357294261455536
         },
-        "elapsed_s": 8.8
+        "elapsed_s": 8.8,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -2477,7 +4137,17 @@
           "mean_pairwise_sim": 0.24836181923747064,
           "mean_max_to_prior": 0.27381082251667976
         },
-        "elapsed_s": 18.3
+        "elapsed_s": 18.3,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -2491,7 +4161,17 @@
           "mean_pairwise_sim": 0.21090940348803996,
           "mean_max_to_prior": 0.30588665790855885
         },
-        "elapsed_s": 19.2
+        "elapsed_s": 19.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -2511,7 +4191,17 @@
           "mean_pairwise_sim": 0.5678331017494201,
           "mean_max_to_prior": 0.6284209638834
         },
-        "elapsed_s": 8.4
+        "elapsed_s": 8.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -2525,7 +4215,17 @@
           "mean_pairwise_sim": 0.6401576399803162,
           "mean_max_to_prior": 0.6630218923091888
         },
-        "elapsed_s": 23.1
+        "elapsed_s": 23.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -2539,7 +4239,17 @@
           "mean_pairwise_sim": 0.6554516971111297,
           "mean_max_to_prior": 0.7115892469882965
         },
-        "elapsed_s": 7.6
+        "elapsed_s": 7.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -2553,7 +4263,17 @@
           "mean_pairwise_sim": 0.6007524251937866,
           "mean_max_to_prior": 0.6799083948135376
         },
-        "elapsed_s": 9.0
+        "elapsed_s": 9.0,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -2567,7 +4287,17 @@
           "mean_pairwise_sim": 0.6302413403987884,
           "mean_max_to_prior": 0.6575714498758316
         },
-        "elapsed_s": 9.5
+        "elapsed_s": 9.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -2581,7 +4311,17 @@
           "mean_pairwise_sim": 0.42653862833976747,
           "mean_max_to_prior": 0.4735976383090019
         },
-        "elapsed_s": 18.5
+        "elapsed_s": 18.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -2595,7 +4335,17 @@
           "mean_pairwise_sim": 0.24047371558845043,
           "mean_max_to_prior": 0.2888481104746461
         },
-        "elapsed_s": 18.4
+        "elapsed_s": 18.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -2615,7 +4365,17 @@
           "mean_pairwise_sim": 0.6431169927120208,
           "mean_max_to_prior": 0.71585413813591
         },
-        "elapsed_s": 8.5
+        "elapsed_s": 8.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -2629,7 +4389,17 @@
           "mean_pairwise_sim": 0.5905123472213745,
           "mean_max_to_prior": 0.6386055946350098
         },
-        "elapsed_s": 19.3
+        "elapsed_s": 19.3,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -2643,7 +4413,17 @@
           "mean_pairwise_sim": 0.6626016646623611,
           "mean_max_to_prior": 0.7386374026536942
         },
-        "elapsed_s": 7.8
+        "elapsed_s": 7.8,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -2657,7 +4437,17 @@
           "mean_pairwise_sim": 0.7048616051673889,
           "mean_max_to_prior": 0.7693099826574326
         },
-        "elapsed_s": 8.1
+        "elapsed_s": 8.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -2671,7 +4461,17 @@
           "mean_pairwise_sim": 0.6571180939674377,
           "mean_max_to_prior": 0.6965448260307312
         },
-        "elapsed_s": 9.7
+        "elapsed_s": 9.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -2685,7 +4485,17 @@
           "mean_pairwise_sim": 0.36690978743135927,
           "mean_max_to_prior": 0.3867603214457631
         },
-        "elapsed_s": 15.6
+        "elapsed_s": 15.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -2699,7 +4509,17 @@
           "mean_pairwise_sim": 0.24619493037462234,
           "mean_max_to_prior": 0.3398267915472388
         },
-        "elapsed_s": 17.9
+        "elapsed_s": 17.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -2719,7 +4539,17 @@
           "mean_pairwise_sim": 0.6569627702236176,
           "mean_max_to_prior": 0.6804200261831284
         },
-        "elapsed_s": 8.9
+        "elapsed_s": 8.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -2733,7 +4563,17 @@
           "mean_pairwise_sim": 0.6109330177307128,
           "mean_max_to_prior": 0.6613933891057968
         },
-        "elapsed_s": 19.3
+        "elapsed_s": 19.3,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -2747,7 +4587,17 @@
           "mean_pairwise_sim": 0.6797134518623352,
           "mean_max_to_prior": 0.6979481279850006
         },
-        "elapsed_s": 8.3
+        "elapsed_s": 8.3,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -2761,7 +4611,17 @@
           "mean_pairwise_sim": 0.6387211203575134,
           "mean_max_to_prior": 0.6839100122451782
         },
-        "elapsed_s": 9.1
+        "elapsed_s": 9.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -2775,7 +4635,17 @@
           "mean_pairwise_sim": 0.6501684784889221,
           "mean_max_to_prior": 0.6926868557929993
         },
-        "elapsed_s": 9.6
+        "elapsed_s": 9.6,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -2789,7 +4659,17 @@
           "mean_pairwise_sim": 0.4718651339411736,
           "mean_max_to_prior": 0.5425689667463303
         },
-        "elapsed_s": 18.2
+        "elapsed_s": 18.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -2803,7 +4683,17 @@
           "mean_pairwise_sim": 0.24185972269624473,
           "mean_max_to_prior": 0.33566699735820293
         },
-        "elapsed_s": 18.1
+        "elapsed_s": 18.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -2823,7 +4713,17 @@
           "mean_pairwise_sim": 0.6346371114253998,
           "mean_max_to_prior": 0.7115105241537094
         },
-        "elapsed_s": 8.9
+        "elapsed_s": 8.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -2837,7 +4737,17 @@
           "mean_pairwise_sim": 0.6004372656345367,
           "mean_max_to_prior": 0.6786647588014603
         },
-        "elapsed_s": 19.1
+        "elapsed_s": 19.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -2851,7 +4761,17 @@
           "mean_pairwise_sim": 0.6902823030948639,
           "mean_max_to_prior": 0.7149078994989395
         },
-        "elapsed_s": 7.1
+        "elapsed_s": 7.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -2865,7 +4785,17 @@
           "mean_pairwise_sim": 0.640463700890541,
           "mean_max_to_prior": 0.7191765308380127
         },
-        "elapsed_s": 8.5
+        "elapsed_s": 8.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -2879,7 +4809,17 @@
           "mean_pairwise_sim": 0.6809497237205505,
           "mean_max_to_prior": 0.7300544828176498
         },
-        "elapsed_s": 8.8
+        "elapsed_s": 8.8,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -2893,7 +4833,17 @@
           "mean_pairwise_sim": 0.171628001332283,
           "mean_max_to_prior": 0.2257980890572071
         },
-        "elapsed_s": 15.4
+        "elapsed_s": 15.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -2907,7 +4857,17 @@
           "mean_pairwise_sim": 0.19783720560371876,
           "mean_max_to_prior": 0.2928850054740906
         },
-        "elapsed_s": 13.7
+        "elapsed_s": 13.7,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -2927,7 +4887,17 @@
           "mean_pairwise_sim": 0.7266939818859101,
           "mean_max_to_prior": 0.7381390333175659
         },
-        "elapsed_s": 8.1
+        "elapsed_s": 8.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -2941,7 +4911,17 @@
           "mean_pairwise_sim": 0.64289510846138,
           "mean_max_to_prior": 0.7103300243616104
         },
-        "elapsed_s": 18.1
+        "elapsed_s": 18.1,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -2955,7 +4935,17 @@
           "mean_pairwise_sim": 0.6276827454566956,
           "mean_max_to_prior": 0.6644826233386993
         },
-        "elapsed_s": 7.3
+        "elapsed_s": 7.3,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -2969,7 +4959,17 @@
           "mean_pairwise_sim": 0.6502245873212814,
           "mean_max_to_prior": 0.7209580093622208
         },
-        "elapsed_s": 8.8
+        "elapsed_s": 8.8,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -2983,7 +4983,17 @@
           "mean_pairwise_sim": 0.4915487617254257,
           "mean_max_to_prior": 0.5571821630001068
         },
-        "elapsed_s": 7.3
+        "elapsed_s": 7.3,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -2997,7 +5007,17 @@
           "mean_pairwise_sim": 0.40874841064214706,
           "mean_max_to_prior": 0.5641536563634872
         },
-        "elapsed_s": 15.4
+        "elapsed_s": 15.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -3011,7 +5031,17 @@
           "mean_pairwise_sim": 0.19201282523572444,
           "mean_max_to_prior": 0.2985534742474556
         },
-        "elapsed_s": 15.8
+        "elapsed_s": 15.8,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   },
@@ -3031,7 +5061,17 @@
           "mean_pairwise_sim": 0.6869519770145416,
           "mean_max_to_prior": 0.7536383718252182
         },
-        "elapsed_s": 7.8
+        "elapsed_s": 7.8,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "output_rerank": {
         "ideas": [
@@ -3045,7 +5085,17 @@
           "mean_pairwise_sim": 0.7367469966411591,
           "mean_max_to_prior": 0.7962260991334915
         },
-        "elapsed_s": 20.0
+        "elapsed_s": 20.0,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.1": {
         "ideas": [
@@ -3059,7 +5109,17 @@
           "mean_pairwise_sim": 0.759288626909256,
           "mean_max_to_prior": 0.7976440340280533
         },
-        "elapsed_s": 7.4
+        "elapsed_s": 7.4,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.25": {
         "ideas": [
@@ -3073,7 +5133,17 @@
           "mean_pairwise_sim": 0.6880888223648072,
           "mean_max_to_prior": 0.7590209692716599
         },
-        "elapsed_s": 8.2
+        "elapsed_s": 8.2,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a0.5": {
         "ideas": [
@@ -3087,7 +5157,17 @@
           "mean_pairwise_sim": 0.6516508817672729,
           "mean_max_to_prior": 0.7393022328615189
         },
-        "elapsed_s": 10.5
+        "elapsed_s": 10.5,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a1.0": {
         "ideas": [
@@ -3101,7 +5181,17 @@
           "mean_pairwise_sim": 0.16908799204975367,
           "mean_max_to_prior": 0.2646336192265153
         },
-        "elapsed_s": 17.8
+        "elapsed_s": 17.8,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       },
       "anti_steer_a2.0": {
         "ideas": [
@@ -3115,7 +5205,17 @@
           "mean_pairwise_sim": 0.18517655357718468,
           "mean_max_to_prior": 0.2621724046766758
         },
-        "elapsed_s": 17.9
+        "elapsed_s": 17.9,
+        "usefulness": {
+          "scores": [
+            5.0,
+            5.0,
+            5.0,
+            5.0,
+            5.0
+          ],
+          "mean": 5.0
+        }
       }
     }
   }
